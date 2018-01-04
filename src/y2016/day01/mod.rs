@@ -65,6 +65,13 @@ mod tests {
     use super::*;
 
     #[test]
+    fn solution() {
+        let input = pio::fetch_string(Pz::of(2016, 1)).unwrap();
+        assert_eq!(332, part1(&input));
+        assert_eq!(166, part2(&input));
+    }
+
+    #[test]
     fn ex1() {
         assert_eq!(5, part1("R2, L3"));
         assert_eq!(2, part1("R2, R2, R2"));

@@ -12,7 +12,7 @@ type Year = u16;
 
 type Day = u8;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 /// Structure identifying a distinct puzzle solution by year and day.
 pub struct PuzzleSelection {
     year: Year,

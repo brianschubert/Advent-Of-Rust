@@ -1,4 +1,5 @@
-use std::ops::{Add, AddAssign}; // Sub,Mul,Div operators elided until required by a solution
+// Sub,Mul,Div operators elided until required by a solution
+use std::ops::{Add, AddAssign};
 use std::cmp::max;
 
 
@@ -9,8 +10,8 @@ use std::cmp::max;
 /// (@sciyoshi)'s `Pt` structure from his [`advent-of-rust-2017`](https://github.com/sciyoshi/advent-of-rust-2017)
 /// crate.
 pub struct Pt {
-    pub x: isize,
-    pub y: isize,
+    pub x: i64,
+    pub y: i64,
 }
 
 impl Pt {
@@ -74,17 +75,17 @@ impl Pt {
     }
 
     /// Returns this point's manhattan distance from the specified point.
-    pub fn dist_manh(&self, other: &Self) -> isize {
+    pub fn dist_manh(&self, other: &Self) -> i64 {
         (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 
     /// Returns this point's euclidean distance from the specified point.
-    pub fn dist_eucl(&self, other: &Self) -> isize {
-        (((self.x - other.x).pow(2) + (self.y - other.y).pow(2)) as f64).sqrt() as isize
+    pub fn dist_eucl(&self, other: &Self) -> i64 {
+        (((self.x - other.x).pow(2) + (self.y - other.y).pow(2)) as f64).sqrt() as i64
     }
 
     /// Returns this point's tile distance from the specified point.
-    pub fn dist_tile(&self, other: &Self) -> isize {
+    pub fn dist_tile(&self, other: &Self) -> i64 {
         max((self.x - other.x).abs(), (self.y - other.y).abs())
     }
 
@@ -117,7 +118,7 @@ impl Pt {
     }
 
     /// Returns a tuple representing the x- and y-components of this point, respectively.
-    pub fn parts(&self) -> (isize, isize) {
+    pub fn parts(&self) -> (i64, i64) {
         (self.x, self.y)
     }
 }

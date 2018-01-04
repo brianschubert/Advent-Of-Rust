@@ -8,7 +8,7 @@ pub fn solve(puzzle: Pz) {
     println!("Part 2: {}", part2(&input)); // 166
 }
 
-fn part1(input: &str) -> isize {
+fn part1(input: &str) -> i64 {
     let instructions: Vec<String> = input
         .split(", ")
         .map(|s: &str| s.to_owned())
@@ -33,7 +33,7 @@ fn part1(input: &str) -> isize {
     pos.dist_manh(&Pt::origin())
 }
 
-fn part2(input: &str) -> isize {
+fn part2(input: &str) -> i64 {
     let instructions: Vec<String> = input.split(", ").map(|s: &str| s.to_owned()).collect();
 
     let mut pos = Pt::origin();

@@ -40,7 +40,7 @@ fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt<i8>) -> String 
                 _ => panic!(format!("Bad direction: {}", &byte))
             };
             {
-                let (x, y) = next.parts();
+                let Pt { x, y } = next;
                 if (x >= 0 && x <= dim as i8)
                         && (y >= 0 && y <= dim as i8)
                         && keypad[dim - y as usize][x as usize] != 'x' {

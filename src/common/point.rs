@@ -122,11 +122,6 @@ impl<T: Signed + Ord + NumCast + Copy> Pt<T> {
             self + Pt::nw(),
         ]
     }
-
-    /// Returns a tuple representing the x- and y-components of this point, respectively.
-    pub fn parts(&self) -> (T, T) {
-        (self.x, self.y)
-    }
 }
 
 // Heterogeneous point operators

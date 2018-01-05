@@ -6,7 +6,7 @@ const KEYPAD_ONE: [&'static [char]; 3] = [
     &['7', '8', '9'],
 ];
 
-const START_ONE: Pt = Pt { x: 1, y: 1};
+const START_ONE: Pt<i8> = Pt { x: 1, y: 1};
 
 const KEYPAD_TWO: [&'static [char]; 5] = [
     &['x', 'x', '1', 'x', 'x'],
@@ -16,7 +16,7 @@ const KEYPAD_TWO: [&'static [char]; 5] = [
     &['x', 'x', 'D', 'x', 'x'],
 ];
 
-const START_TWO: Pt = Pt { x: 0, y: 2 };
+const START_TWO: Pt<i8> = Pt { x: 0, y: 2 };
 
 pub fn solve(puzzle: Pz) {
     let input = pio::fetch_lines(puzzle).unwrap();
@@ -25,7 +25,7 @@ pub fn solve(puzzle: Pz) {
     println!("Part 2: {}", press_keycode(&KEYPAD_TWO, &input, START_TWO));
 }
 
-fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt) -> String {
+fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt<i8>) -> String {
     // keypad assumed to be a square
     let dim = keypad.len() - 1;
     let mut finger = start.clone();
@@ -33,7 +33,7 @@ fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt) -> String {
     instr.iter().map(|line| {
         for byte in line.as_bytes() {
             let next = finger + match *byte as char {
-                'U' => Pt::n(),
+                'U' => Pt::<i8>::n(),
                 'R' => Pt::e(),
                 'D' => Pt::s(),
                 'L' => Pt::w(),
@@ -41,8 +41,8 @@ fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt) -> String {
             };
             {
                 let (x, y) = next.parts();
-                if (x >= 0 && x <= dim as i64)
-                        && (y >= 0 && y <= dim as i64)
+                if (x >= 0 && x <= dim as i8)
+                        && (y >= 0 && y <= dim as i8)
                         && keypad[dim - y as usize][x as usize] != 'x' {
                     finger = next;
                 }

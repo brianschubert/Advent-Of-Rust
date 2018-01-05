@@ -8,14 +8,14 @@ pub fn solve(puzzle: Pz) {
     println!("Part 2: {}", part2(&input)); // 166
 }
 
-fn part1(input: &str) -> i64 {
+fn part1(input: &str) -> i16 {
     let instructions: Vec<String> = input
         .split(", ")
         .map(|s: &str| s.to_owned())
         .collect();
 
     let mut pos = Pt::origin();
-    let mut dir = Pt::n();
+    let mut dir: Pt<i8> = Pt::n();
 
     for instr in instructions.iter() {
         let (turn, mag) = instr.split_at(1);
@@ -33,11 +33,11 @@ fn part1(input: &str) -> i64 {
     pos.dist_manh(&Pt::origin())
 }
 
-fn part2(input: &str) -> i64 {
+fn part2(input: &str) -> i16 {
     let instructions: Vec<String> = input.split(", ").map(|s: &str| s.to_owned()).collect();
 
     let mut pos = Pt::origin();
-    let mut dir = Pt::n();
+    let mut dir: Pt<i8> = Pt::n();
 
     let mut previous = Vec::new();
 

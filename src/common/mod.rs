@@ -4,8 +4,8 @@ pub mod input;
 pub use self::point::Pt;
 pub use self::input::selector::PuzzleSelection;
 
-pub type BTGrid<T> = ::std::collections::BTreeMap<Pt, T>;
-pub type HGrid<T> = ::std::collections::HashMap<Pt, T>;
+pub type BTGrid<T, U> = ::std::collections::BTreeMap<Pt<T>, U>;
+pub type HGrid<T, U> = ::std::collections::HashMap<Pt<T>, U>;
 
 #[macro_export]
 macro_rules! route_days {

@@ -1,4 +1,4 @@
-// For `Pt`
+// For implementation of `Pt`
 extern crate num_traits;
 
 #[macro_use]

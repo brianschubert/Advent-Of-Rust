@@ -133,7 +133,7 @@ impl<T: Signed + Ord + NumCast + Copy> Pt<T> {
 
 // Add Pt<T> + Pt<U>
 //
-// For now, we'll require explicit differencing when two
+// For now, we'll require explicit dereferencing when two
 // different flavors of points are used.
 impl<T, U> Add<Pt<U>> for Pt<T>
     where T: Signed + Ord + NumCast + Copy,

@@ -32,11 +32,11 @@ fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt<i8>) -> String 
 
     instr.iter().map(|line| {
         for byte in line.as_bytes() {
-            let next = finger + match *byte as char {
-                'U' => Pt::<i8>::n(),
-                'R' => Pt::e(),
-                'D' => Pt::s(),
-                'L' => Pt::w(),
+            let next = finger + match *byte {
+                b'U' => Pt::<i8>::n(),
+                b'R' => Pt::e(),
+                b'D' => Pt::s(),
+                b'L' => Pt::w(),
                 _ => panic!(format!("Bad direction: {}", &byte))
             };
             {

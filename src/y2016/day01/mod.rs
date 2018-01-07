@@ -4,13 +4,15 @@ pub fn solve(puzzle: Pz) -> Solution {
     let input = pio::fetch_string(puzzle).unwrap();
 
     solve_parts! {
-        1 => part1(&input),
-        2 => part2(&input)
+        both => {
+            let (end, intersect) = walk_blocks(&input);
+            (end, intersect.expect("Instructions never intersect"))
+        }
     }
 }
 
-fn part1(input: &str) -> i16 {
-    let instructions: Vec<String> = input
+fn walk_blocks(instr: &str) -> (i16, Option<i16>) {
+    let instructions: Vec<String> = instr
         .split(", ")
         .map(|s: &str| s.to_owned())
         .collect();
@@ -18,29 +20,8 @@ fn part1(input: &str) -> i16 {
     let mut pos = Pt::origin();
     let mut dir: Pt<i8> = Pt::n();
 
-    for instr in instructions.iter() {
-        let (turn, mag) = instr.split_at(1);
-        dir = match turn {
-            "R" => dir.rot90r(),
-            "L" => dir.rot90l(),
-            _ => panic!("Bad turn token")
-        };
-
-        for _ in 0..mag.parse().unwrap() {
-            pos += dir;
-        }
-    }
-
-    pos.dist_manh(&Pt::origin())
-}
-
-fn part2(input: &str) -> i16 {
-    let instructions: Vec<String> = input.split(", ").map(|s: &str| s.to_owned()).collect();
-
-    let mut pos = Pt::origin();
-    let mut dir: Pt<i8> = Pt::n();
-
     let mut previous = Vec::new();
+    let mut intersect: Option<Pt<i16>> = None;
 
     for instr in instructions.iter() {
         let (turn, mag) = instr.split_at(1);
@@ -52,13 +33,20 @@ fn part2(input: &str) -> i16 {
 
         for _ in 0..mag.parse().unwrap() {
             pos += dir;
-            if previous.contains(&pos) {
-                return pos.dist_manh(&Pt::origin());
+            if intersect.is_none() {
+                if previous.contains(&pos) {
+                    intersect = Some(pos);
+                } else {
+                    previous.push(pos);
+                }
             }
-            previous.push(pos)
         }
     }
-    panic!("No recreated location found")
+
+    (
+        pos.dist_manh(&Pt::origin()),
+        intersect.and_then(|p| Some(p.dist_manh(&Pt::origin())))
+    )
 }
 
 #[cfg(test)]
@@ -76,13 +64,13 @@ mod tests {
 
     #[test]
     fn ex1() {
-        assert_eq!(5, part1("R2, L3"));
-        assert_eq!(2, part1("R2, R2, R2"));
-        assert_eq!(12, part1("R5, L5, R5, R3"));
+        assert_eq!(5, walk_blocks("R2, L3").0);
+        assert_eq!(2, walk_blocks("R2, R2, R2").0);
+        assert_eq!(12, walk_blocks("R5, L5, R5, R3").0);
     }
 
     #[test]
     fn ex2() {
-        assert_eq!(4, part2("R8, R4, R4, R8"))
+        assert_eq!(4, walk_blocks("R8, R4, R4, R8").1.unwrap())
     }
 }

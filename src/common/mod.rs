@@ -56,6 +56,7 @@ macro_rules! solve_parts {
    }}
 }
 
+#[cfg(test)]
 macro_rules! assert_solution {
     ( $part_one:expr, $puzzle:expr) => {{
         use common::{Solution, Answer};

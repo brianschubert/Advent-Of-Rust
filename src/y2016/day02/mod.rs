@@ -1,4 +1,4 @@
-use common::{input as pio, PuzzleSelection as Pz, Pt};
+use common::{input as pio, PuzzleSelection as Pz, Pt, Solution};
 
 const KEYPAD_ONE: [&'static [char]; 3] = [
     &['1', '2', '3'],
@@ -18,11 +18,13 @@ const KEYPAD_TWO: [&'static [char]; 5] = [
 
 const START_TWO: Pt<i8> = Pt { x: 0, y: 2 };
 
-pub fn solve(puzzle: Pz) {
+pub fn solve(puzzle: Pz) -> Solution {
     let input = pio::fetch_lines(puzzle).unwrap();
 
-    println!("Part 1: {}", press_keycode(&KEYPAD_ONE, &input, START_ONE));
-    println!("Part 2: {}", press_keycode(&KEYPAD_TWO, &input, START_TWO));
+    solve_parts! {
+        1 => press_keycode(&KEYPAD_ONE, &input, START_ONE),
+        2 => press_keycode(&KEYPAD_TWO, &input, START_TWO)
+    }
 }
 
 fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt<i8>) -> String {
@@ -58,9 +60,11 @@ mod tests {
 
     #[test]
     fn solution() {
-        let instr = pio::fetch_lines(Pz::of(2016, 2)).unwrap();
-        assert_eq!("99332", press_keycode(&KEYPAD_ONE, &instr, START_ONE));
-        assert_eq!("DD483", press_keycode(&KEYPAD_TWO, &instr, START_TWO));
+        assert_solution!(
+            "99332",
+            "DD483",
+            Pz::of(2016, 2)
+        )
     }
 
     #[test]

@@ -1,11 +1,12 @@
-use common::{input as pio, Pt, PuzzleSelection as Pz};
+use common::{input as pio, Pt, PuzzleSelection as Pz, Solution};
 
-pub fn solve(puzzle: Pz) {
+pub fn solve(puzzle: Pz) -> Solution {
     let input = pio::fetch_string(puzzle).unwrap();
 
-    println!("Part 1: {}", part1(&input)); // 332
-
-    println!("Part 2: {}", part2(&input)); // 166
+    solve_parts! {
+        1 => part1(&input),
+        2 => part2(&input)
+    }
 }
 
 fn part1(input: &str) -> i16 {
@@ -66,9 +67,11 @@ mod tests {
 
     #[test]
     fn solution() {
-        let input = pio::fetch_string(Pz::of(2016, 1)).unwrap();
-        assert_eq!(332, part1(&input));
-        assert_eq!(166, part2(&input));
+        assert_solution! {
+            332,
+            166,
+            Pz::of(2016,1)
+        }
     }
 
     #[test]

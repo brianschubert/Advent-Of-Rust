@@ -2,7 +2,7 @@
 
 My solutions to the puzzles presented during the [Advent of Code][adventofcode] 2016 event, written in [Rust][rust].
 
-As with my [previous attempt][aoc-kotlin] at solving the AoC 2017 puzzles in Kotlin, these soltuiosn represent my first endeavors with the Rust language. 
+As with my [previous attempt][aoc-kotlin] at solving the AoC 2017 puzzles in Kotlin, these solutions represent my first endeavors with the Rust language. 
 
 All solutions were compiled with the standard rust compiler, `rustc`, inside the community edition of [IntelliJ IDEA][intellij] with the Rust plugin,   
 

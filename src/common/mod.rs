@@ -33,12 +33,27 @@ macro_rules! bench_ans {
 
 macro_rules! solve_parts {
     ( 1 => $part_one:expr ) => { Solution(Some(bench_ans!($part_one)), None) };
+
     ( 1 => $part_one:expr, 2 => $part_two:expr ) => {
         Solution(
             Some(bench_ans!($part_one)),
             Some(bench_ans!($part_two))
         )
     };
+
+   ( both => $part_producer:expr ) => {{
+        use common::Answer;
+        use std::time::Instant;
+
+        let start = Instant::now();
+        let (part_one, part_two) = $part_producer;
+        let bench = start.elapsed();
+
+        Solution(
+            Some(Answer::new(part_one, Some(bench))),
+            Some(Answer::new(part_two, Some(bench)))
+        )
+   }}
 }
 
 macro_rules! assert_solution {

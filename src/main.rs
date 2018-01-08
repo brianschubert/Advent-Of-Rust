@@ -24,10 +24,10 @@ fn print_part(part: u8, ans: Option<Answer>) {
     debug_assert!(part == 1 || part == 2, "Bad puzzle part; must be either 1 or 2");
 
     let out = ans.map_or("Not implemented".to_owned(), |part| {
-        part.bench.map_or(format!("`{}` [x]", part.ans), |bench| {
+        part.bench().map_or(format!("`{}` [x]", part.ans()), |bench| {
             format!(
                 "`{}` [{}.{:09}s]",
-                part.ans,
+                part.ans(),
                 bench.as_secs(),
                 bench.subsec_nanos()
             )

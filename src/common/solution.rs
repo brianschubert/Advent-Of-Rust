@@ -4,8 +4,8 @@ use std::time::Duration;
 #[derive(Debug, Eq)]
 /// A solution to one part of a day's puzzle with an optional execution time.
 pub struct Answer {
-    pub ans: String,
-    pub bench: Option<Duration>,
+    ans: String,
+    bench: Option<Duration>,
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -17,7 +17,17 @@ impl Answer {
     pub fn new<S>(ans: S, bench: Option<Duration>) -> Self
         where S: ToString
     {
-        Answer { ans: ans.to_string(), bench, }
+        Answer { ans: ans.to_string(), bench }
+    }
+
+    /// Returns a slice to this puzzle part's answer string.
+    pub fn ans(&self) -> &str {
+        &self.ans[..]
+    }
+
+    /// Returns a reference to this puzzle part's optional benchmark.
+    pub fn bench(&self) -> &Option<Duration> {
+        &self.bench
     }
 }
 
@@ -31,7 +41,7 @@ impl<T> From<T> for Answer
     where T: ToString
 {
     fn from(other: T) -> Self {
-        Answer { ans: other.to_string(), bench: None, }
+        Answer { ans: other.to_string(), bench: None }
     }
 }
 

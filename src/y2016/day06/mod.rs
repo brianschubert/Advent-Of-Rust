@@ -23,10 +23,10 @@ fn repetition_correct(transmissions: &[String]) -> (String, String) {
             *freq_buf.entry(letter).or_insert(0u16) += 1
         }
         let mut elems: Vec<(u8, u16)> = freq_buf.drain().collect();
-        elems.sort_by(|a, b| b.1.cmp(&a.1));
+        elems.sort_by_key(|e| e.1);
 
-        msg_one.push(elems.first().unwrap().0);
-        msg_two.push(elems.last().unwrap().0);
+        msg_one.push(elems.last().unwrap().0);
+        msg_two.push(elems.first().unwrap().0);
     }
     (
         String::from_utf8(msg_one).expect("message contains invalid uft8"),

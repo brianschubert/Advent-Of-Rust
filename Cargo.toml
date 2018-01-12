@@ -2,6 +2,9 @@
 name = "advent-of-rust"
 version = "0.1.0"
 authors = ["Brian Schubert <brianm.schubert@gmail.com>"]
+repository = "https://github.com/blueschu/Advent-Of-Rust"
+readme = "readme.md"
+license = "MIT"
 
 [dependencies]
 num-traits = "0.1.41"

@@ -5,6 +5,7 @@ authors = ["Brian Schubert <brianm.schubert@gmail.com>"]
 repository = "https://github.com/blueschu/Advent-Of-Rust"
 readme = "readme.md"
 license = "MIT"
+publish = false
 
 [dependencies]
 num-traits = "0.1.41"

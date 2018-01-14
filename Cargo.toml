@@ -9,3 +9,4 @@ license = "MIT"
 [dependencies]
 num-traits = "0.1.41"
 rust-crypto = "^0.2"
+regex = "^0.2"

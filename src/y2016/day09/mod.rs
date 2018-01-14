@@ -84,12 +84,7 @@ fn decompressed_len(input: &str) -> usize {
 
             let payload = &remaining[marker_e + 1..marker_e + 1 + payload_range];
 
-
-            out_len += if payload.as_bytes().iter().any(|&b| b == b'(') {
-                 decompressed_len(payload) * rep_count as usize
-            } else {
-                payload_range * rep_count as usize
-            };
+            out_len += decompressed_len(payload) * rep_count as usize;
 
             pos += marker_e + payload_range + 1;
         } else {

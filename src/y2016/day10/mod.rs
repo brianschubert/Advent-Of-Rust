@@ -92,7 +92,7 @@ pub fn solve(puzzle: Pz) -> Solution {
     );
 
     solve_parts! {
-        both => pass_chips(&pass_instr, &mut bots, WATCHED_BOT)
+        both => pass_chips(&pass_instr, &mut bots, WATCHED_CHIPS)
     }
 }
 
@@ -147,9 +147,9 @@ fn parse_input<T>(lines: &[T]) -> (Vec<PassDirective>, HashMap<u8, Bot>)
 fn pass_chips(
     pass_instr: &[PassDirective],
     bots: &mut HashMap<u8, Bot>,
-    watch_for: (ChipValue, ChipValue)
+    watch_for: (ChipValue, ChipValue),
 ) -> (u8, u32) {
-    let mut watched_bot : Option<u8> = None;
+    let mut watched_bot: Option<u8> = None;
     let mut outputs = BTreeMap::new();
 
     loop {
@@ -197,12 +197,12 @@ fn pass_chips(
 
     (
         watched_bot.expect(
-        &format!("No bot found comparing chips {:?}", &watch_for)[..]
+            &format!("No bot found comparing chips {:?}", &watch_for)[..]
         ),
         outputs
             .range(0..3)
             .map(|(_, out)| *out.first().unwrap() as u32)
-            .fold(1, |acc, chip| chip * acc)
+            .product()
     )
 }
 
@@ -238,5 +238,4 @@ mod tests {
         assert_eq!(2, watched_bot);
         assert_eq!(30, output_product);
     }
-
 }

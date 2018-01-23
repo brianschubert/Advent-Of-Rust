@@ -111,7 +111,7 @@ impl FromStr for Instr {
             5 => match assem {
                 "inc" => Ok(Instr::Inc(instr[4..5].parse()?)),
                 "dec" => Ok(Instr::Dec(instr[4..5].parse()?)),
-                _ => Err("bad length for inc/dec instr; must be 5 chars")
+                _ => Err("unknown instruction; expected inc/dec from length")
             },
             7 ... 11 => match assem {
                 "cpy" => Ok(Instr::Copy(
@@ -123,7 +123,7 @@ impl FromStr for Instr {
                     instr[6..len].trim_left().parse()
                         .map_err(|_| "could not parse integer")?,
                 )),
-                _ => Err("bad length for cpy/jnz instr; must between 7 and 11 chars")
+                _ => Err("unknown instruction; expected cpy/jnz from length")
             },
             _ => Err("unknown instruction")
         }
@@ -257,9 +257,9 @@ mod tests {
     fn parse_instruction() {
         match "jnz b -2".parse() {
             Ok(Instr::Jnz(ValueToken::Register(cond), ref offset)) => {
-                 assert_eq!(b'b', cond.key());
-                 assert_eq!(-2, offset.value());
-            },
+                assert_eq!(b'b', cond.key());
+                assert_eq!(-2, offset.value());
+            }
             _ => panic!("failed to parse jnz instr")
         }
 
@@ -267,21 +267,21 @@ mod tests {
             Ok(Instr::Copy(ValueToken::Literal(val), ref reg)) => {
                 assert_eq!(26, val.value());
                 assert_eq!(b'd', reg.key());
-            },
+            }
             _ => panic!("failed to parse cpy instr")
         }
 
         match "inc c".parse() {
             Ok(Instr::Inc(ref reg)) => {
                 assert_eq!(b'c', reg.key());
-            },
+            }
             _ => panic!("failed to parse inc instr")
         }
 
         match "dec c".parse() {
             Ok(Instr::Dec(ref reg)) => {
                 assert_eq!(b'c', reg.key());
-            },
+            }
             _ => panic!("failed to parse dec instr")
         }
     }

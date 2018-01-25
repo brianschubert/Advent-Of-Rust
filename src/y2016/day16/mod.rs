@@ -4,7 +4,7 @@
 const DATA_LENGTH_ONE: usize = 272;
 
 /// Length of data to generate for part two.
-const DATA_LENGTH_TWO: usize =  35651584;
+const DATA_LENGTH_TWO: usize = 35651584;
 
 use common::{input as pio, PuzzleSelection as Pz, Solution};
 
@@ -38,7 +38,6 @@ pub fn solve(puzzle: Pz) -> Solution {
         }
 
     }
-
 }
 
 mod diskfiller {
@@ -65,7 +64,7 @@ mod diskfiller {
         /// Generates data of at least the specified length based
         /// the data previously provided.
         pub fn generate_to_length(&mut self, length: usize) {
-            if length <= self.data.len() { return }
+            if length <= self.data.len() { return; }
 
             self.cut = length;
 
@@ -89,23 +88,16 @@ mod diskfiller {
 
         /// Computes the checksum of this filler's data.
         pub fn checksum(&self) -> String {
-            let mut result= Vec::from(&self.data[..self.cut]);
+            let mut result = Vec::from(&self.data[..self.cut]);
 
             while {
                 let len = result.len();
                 len == self.cut || len & 1 == 0
             } {
-                let mut round = Vec::new();
-
-                for pair in result.chunks(2) {
-                    if pair[0] == pair[1] {
-                        round.push(true);
-                    } else {
-                        round.push(false);
-                    }
-                }
-
-                result = round;
+                result = result
+                    .chunks(2)
+                    .map(|pair| pair[0] == pair[1])
+                    .collect();
             }
 
             stringify_bool_slice(&result[..])
@@ -116,8 +108,6 @@ mod diskfiller {
             self.data.clear();
             self.cut = 0;
         }
-
-
     }
 
     /// Converts a slice of bools into a binary string.
@@ -136,7 +126,7 @@ mod diskfiller {
             let test_cases: [(&'static [bool], &'static str); 4] = [
                 (&[true], "100"),
                 (&[false], "001"),
-                (&[true, true, true, true, true,], "11111000000"),
+                (&[true, true, true, true, true, ], "11111000000"),
                 (
                     &[
                         true, true, true, true,
@@ -172,9 +162,8 @@ mod diskfiller {
             assert_eq!("100", filler.checksum());
         }
     }
-
-
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -12,6 +12,7 @@ pub mod day12;
 pub mod day14;
 pub mod day15;
 pub mod day16;
+pub mod day17;
 
 route_days! {
     1 => day01,
@@ -27,5 +28,6 @@ route_days! {
     12 => day12,
     14 => day14,
     15 => day15,
-    16 => day16
+    16 => day16,
+    17 => day17
 }

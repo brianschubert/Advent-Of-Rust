@@ -45,7 +45,7 @@ fn walk_blocks(instr: &str) -> (i16, Option<i16>) {
 
     (
         pos.dist_manh(&Pt::origin()),
-        intersect.and_then(|p| Some(p.dist_manh(&Pt::origin())))
+        intersect.map(|p| p.dist_manh(&Pt::origin()))
     )
 }
 

@@ -63,7 +63,7 @@ impl Solution {
     /// Returns the optional answer for both parts of this solution.
     ///
     /// Deprecated in favor of comparing answers directly.
-    pub fn extract_ans(self) -> (Option<String>, Option<String>) {
-        (self.0.and_then(|a| Some(a.ans)), self.1.and_then(|a| Some(a.ans)))
+    pub fn into_ans(self) -> (Option<String>, Option<String>) {
+        (self.0.map(|part| part.ans), self.1.map(|part| part.ans))
     }
 }

@@ -1,6 +1,7 @@
 pub mod point;
 pub mod input;
 pub mod solution;
+pub mod util;
 
 pub use self::point::Pt;
 pub use self::solution::{Solution, Answer};

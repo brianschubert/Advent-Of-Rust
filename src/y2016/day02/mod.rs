@@ -6,7 +6,7 @@ const KEYPAD_ONE: [&'static [char]; 3] = [
     &['7', '8', '9'],
 ];
 
-const START_ONE: Pt<i8> = Pt { x: 1, y: 1};
+const START_ONE: Pt<i8> = Pt { x: 1, y: 1 };
 
 const KEYPAD_TWO: [&'static [char]; 5] = [
     &['x', 'x', '1', 'x', 'x'],
@@ -44,8 +44,8 @@ fn press_keycode(keypad: &[&[char]], instr: &[String], start: Pt<i8>) -> String 
             {
                 let Pt { x, y } = next;
                 if (x >= 0 && x <= dim as i8)
-                        && (y >= 0 && y <= dim as i8)
-                        && keypad[dim - y as usize][x as usize] != 'x' {
+                    && (y >= 0 && y <= dim as i8)
+                    && keypad[dim - y as usize][x as usize] != 'x' {
                     finger = next;
                 }
             }

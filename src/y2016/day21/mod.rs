@@ -53,7 +53,7 @@ mod scrambler {
 
     impl fmt::Display for ScrambleRuleParseError {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-           writeln!(f, "Failed to parse rule: {}", self.reason)
+            writeln!(f, "Failed to parse rule: {}", self.reason)
         }
     }
 
@@ -108,8 +108,7 @@ mod scrambler {
                                 rule: s.to_owned(),
                                 reason: "malformed move dest",
                             })?,
-                        },
-
+                    },
                     _ => return Err(ScrambleRuleParseError {
                         rule: s.to_owned(),
                         reason: "unknown scramble rule",
@@ -168,7 +167,7 @@ mod scrambler {
         /// rule.
         pub fn apply_rule(
             &mut self,
-            rule: &ScrambleRule
+            rule: &ScrambleRule,
         ) -> Result<(), &'static str> {
             match *rule {
                 ScrambleRule::SwapPos(one, two) => self.swap_pos(one, two),
@@ -178,14 +177,14 @@ mod scrambler {
                     let two = self.index_of(let_two)
                         .ok_or("no such letter in word")?;
                     self.swap_pos(one, two);
-                },
+                }
                 ScrambleRule::RotByPos { mag } => self.rotate(mag),
                 ScrambleRule::RotByLet { det } => {
                     let mut mag = self.index_of(det)
                         .ok_or("no such letter in word")? as isize;
                     mag += if mag >= 4 { 2 } else { 1 };
                     self.rotate(mag);
-                },
+                }
                 ScrambleRule::RevRange { start, end } =>
                     self.word_bytes[start..end + 1].reverse(),
                 ScrambleRule::Move { target, dest } => {
@@ -200,7 +199,7 @@ mod scrambler {
         /// according to the specified rule.
         pub fn reverse_rule(
             &mut self,
-            rule: &ScrambleRule
+            rule: &ScrambleRule,
         ) -> Result<(), &'static str> {
             if rule.is_own_reverse() {
                 self.apply_rule(rule)?;
@@ -212,7 +211,7 @@ mod scrambler {
                             .ok_or("no such letter in word")?;
                         let mag = self.find_prior_let_rot(pos);
                         self.rotate(mag)
-                    },
+                    }
                     ScrambleRule::Move { target, dest } => {
                         let payload = self.word_bytes.remove(dest);
                         self.word_bytes.insert(target, payload);
@@ -226,7 +225,7 @@ mod scrambler {
         #[cfg(test)]
         /// Returns a reference to this scrambler's word's bytes.
         pub fn word_bytes(&self) -> &[u8] {
-           &self.word_bytes
+            &self.word_bytes
         }
 
         /// Converts this scrambler into a string of its underlying

@@ -20,7 +20,7 @@ pub fn solve(puzzle: Pz) -> Solution {
 }
 
 /// A Disc from the puzzle's input
-struct Disc{
+struct Disc {
     /// This Disc's start position at time=0
     pos: u8,
     /// The number of possible position for this Disc.
@@ -36,11 +36,11 @@ impl FromStr for Disc {
             pos: s[54..s.len() - 1]
                 .trim_left()
                 .parse()
-                .map_err(|_|"malformed disc starting position")?,
+                .map_err(|_| "malformed disc starting position")?,
             range: s[12..14]
                 .trim_right()
                 .parse()
-                .map_err(|_|"malformed disc depth")?,
+                .map_err(|_| "malformed disc depth")?,
         })
     }
 }
@@ -53,10 +53,9 @@ fn required_delay(discs: &[Disc]) -> u32 {
         if !discs
             .iter()
             .enumerate()
-            .any(|(depth, ref disc)|{
+            .any(|(depth, ref disc)| {
                 (1 + delay + depth as u32 + disc.pos as u32) % disc.range as u32 != 0
             }) {
-
             break delay;
         }
 
@@ -100,6 +99,5 @@ mod tests {
         let disc: Disc = "Disc #1 has 50 positions; at time=0, it is at position 48.".parse().unwrap();
         assert_eq!(50, disc.range);
         assert_eq!(48, disc.pos);
-
     }
 }

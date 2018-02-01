@@ -43,7 +43,7 @@ impl<'a> RoomListing<'a> {
     /// Returns this room's decrypted name. Calculated on each call.
     fn decrypted_name(&self) -> String {
         self.name.bytes().map(|l| {
-            if l == b'-'{ return ' '}
+            if l == b'-' { return ' '; }
             (((((l - b'a') as u16) + self.sector) % 26) as u8 + b'a') as char
         }).collect()
     }

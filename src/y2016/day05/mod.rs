@@ -53,7 +53,7 @@ fn generate_passwords(door_id: &[u8]) -> (String, String) {
                     // Insert 7th hex char at the designated position
                     output_two += ((result[3] >> 4) as u32) << pos_offset;
                     two_filled |= 1 << result[2];
-                   // Drop a print statement here for the "cinematic experience"
+                    // Drop a print statement here for the "cinematic experience"
                 }
             }
         }

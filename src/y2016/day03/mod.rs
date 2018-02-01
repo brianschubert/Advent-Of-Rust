@@ -47,7 +47,7 @@ fn triangles_by_col(tri_desc: &[Vec<u16>]) -> Vec<Triangle> {
             .map(|col| {
                 let ((a, b), c) = col;
                 Triangle(*a, *b, *c)
-        })
+            })
     }).collect()
 }
 

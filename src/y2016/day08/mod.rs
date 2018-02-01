@@ -246,7 +246,6 @@ mod tests {
             "\n\" #  # #\"\n\"# #    \"\n\" #     \"\n",
             format!("{}", screen)
         );
-
     }
 
     #[test]

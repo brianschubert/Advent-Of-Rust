@@ -2,7 +2,7 @@
 
 use common::{input as pio, PuzzleSelection as Pz, Solution};
 
-mod assembunny;
+pub mod assembunny;
 
 pub fn solve(puzzle: Pz) -> Solution {
     let input = parse_instructions(

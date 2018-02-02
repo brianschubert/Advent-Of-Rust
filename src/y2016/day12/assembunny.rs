@@ -256,7 +256,7 @@ mod tests {
     #[test]
     fn parse_instruction() {
         match "jnz b -2".parse() {
-            Ok(Instr::Jnz(ValueToken::Register(cond), ValukeToken::Literal(offset))) => {
+            Ok(Instr::Jnz(ValueToken::Register(cond), ValueToken::Literal(offset))) => {
                 assert_eq!(b'b', cond.key());
                 assert_eq!(-2, offset.value());
             }

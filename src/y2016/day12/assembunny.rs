@@ -15,7 +15,7 @@ mod token {
     /// A integral literal from an instruction
     pub struct Literal(i8);
 
-    #[derive(Debug)]
+    #[derive(Debug, Copy, Clone)]
     /// A value token from an instruction; either a register key or a literal.
     pub enum ValueToken {
         Register(RegisterKey),
@@ -70,7 +70,7 @@ mod token {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 /// An assembly-esk assembunny instruction
 pub enum Instr {
     Copy(ValueToken, RegisterKey),
@@ -80,7 +80,7 @@ pub enum Instr {
 }
 
 /// Value held by a register
-type Register = i32;
+pub type Register = i32;
 
 #[derive(Debug)]
 /// Set of registers used by an assembunny interpreter

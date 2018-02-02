@@ -74,7 +74,7 @@ mod token {
 /// An assembly-esk assembunny instruction
 pub enum Instr {
     Copy(ValueToken, RegisterKey),
-    Jnz(ValueToken, Literal),
+    Jnz(ValueToken, ValueToken),
     Inc(RegisterKey),
     Dec(RegisterKey),
 }
@@ -181,7 +181,7 @@ impl<'a> Interpreter<'a> {
             Instr::Dec(ref reg) => self.reg[reg] -= 1,
             Instr::Copy(ref val, ref reg) => self.reg[reg] = self.token_value(val),
             Instr::Jnz(ref cond, ref mag) => if self.token_value(cond) != 0 {
-                step = mag.value() as isize
+                step = self.token_value(mag) as isize
             }
         }
 
@@ -256,9 +256,17 @@ mod tests {
     #[test]
     fn parse_instruction() {
         match "jnz b -2".parse() {
-            Ok(Instr::Jnz(ValueToken::Register(cond), ref offset)) => {
+            Ok(Instr::Jnz(ValueToken::Register(cond), ValukeToken::Literal(offset))) => {
                 assert_eq!(b'b', cond.key());
                 assert_eq!(-2, offset.value());
+            }
+            _ => panic!("failed to parse jnz instr")
+        }
+
+        match "jnz b a".parse() {
+            Ok(Instr::Jnz(ValueToken::Register(cond), ValueToken::Register(offset))) => {
+                assert_eq!(b'b', cond.key());
+                assert_eq!(b'a', offset.key());
             }
             _ => panic!("failed to parse jnz instr")
         }

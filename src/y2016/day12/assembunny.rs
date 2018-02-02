@@ -103,27 +103,27 @@ impl FromStr for Instr {
     type Err = &'static str;
 
     fn from_str(instr: &str) -> Result<Self, Self::Err> {
-        let len = instr.len();
-        let assem = &instr[0..3];
+        let (assem, args) = instr.split_at(3);
 
-        // Expects a maximum of two chars per value token
-        match len {
-            5 => match assem {
-                "inc" => Ok(Instr::Inc(instr[4..5].parse()?)),
-                "dec" => Ok(Instr::Dec(instr[4..5].parse()?)),
-                _ => Err("unknown instruction; expected inc/dec from length")
+        let args: Vec<&str> = args.trim_left().split_whitespace().collect();
+
+        match args.len() {
+            1 => match assem {
+                "inc" => Ok(Instr::Inc(args[0].parse()?)),
+                "dec" => Ok(Instr::Dec(args[0].parse()?)),
+                _ => Err("unknown instruction; expected inc/dec from arg count")
             },
-            7 ... 11 => match assem {
+            2 => match assem {
                 "cpy" => Ok(Instr::Copy(
-                    instr[4..6].trim_right().parse()?,
-                    instr[6..len].trim_left().parse()?,
+                    args[0].parse()?,
+                    args[1].parse()?,
                 )),
                 "jnz" => Ok(Instr::Jnz(
-                    instr[4..6].trim_right().parse()?,
-                    instr[6..len].trim_left().parse()
+                    args[0].parse()?,
+                    args[1].parse()
                         .map_err(|_| "could not parse integer")?,
                 )),
-                _ => Err("unknown instruction; expected cpy/jnz from length")
+                _ => Err("unknown instruction; expected cpy/jnz from arg count")
             },
             _ => Err("unknown instruction")
         }

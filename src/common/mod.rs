@@ -1,14 +1,10 @@
-pub mod point;
-pub mod input;
-pub mod solution;
+pub mod puzzle;
 pub mod util;
+pub mod prelude;
 
-pub use self::point::Pt;
-pub use self::solution::{Solution, Answer};
-pub use self::input::selector::PuzzleSelection;
-
-pub type BTGrid<T, U> = ::std::collections::BTreeMap<Pt<T>, U>;
-pub type HGrid<T, U> = ::std::collections::HashMap<Pt<T>, U>;
+// Temporary re-exports prior to api cleanup
+pub use self::puzzle::{PuzzleSelection, input, Solution, Answer};
+pub use self::util::{Pt, RotateSigned};
 
 macro_rules! route_days {
     ( $( $day:expr => $sol:ident ),+ ) => {
@@ -24,7 +20,7 @@ macro_rules! route_days {
 
 macro_rules! bench_ans {
     ( $ans:expr ) => {{
-        use common::Answer;
+        use common::puzzle::Answer;
         use std::time::Instant;
 
         let start = Instant::now();
@@ -43,7 +39,7 @@ macro_rules! solve_parts {
     };
 
    ( both => $part_producer:expr ) => {{
-        use common::Answer;
+        use common::puzzle::Answer;
         use std::time::Instant;
 
         let start = Instant::now();
@@ -60,7 +56,7 @@ macro_rules! solve_parts {
 #[cfg(test)]
 macro_rules! assert_solution {
     ( $part_one:expr, $puzzle:expr) => {{
-        use common::{Solution, Answer};
+        use common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Answer::from($part_one), None),
             solve($puzzle)
@@ -68,7 +64,7 @@ macro_rules! assert_solution {
     }};
 
     ( $part_one:expr, $part_two:expr, $puzzle:expr) => {{
-        use common::{Solution, Answer};
+        use common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Answer::from($part_one), Answer::from($part_two)),
             solve($puzzle)

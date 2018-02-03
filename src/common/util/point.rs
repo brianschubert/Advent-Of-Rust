@@ -1,3 +1,5 @@
+//! Handling of two-dimensional points
+
 // Sub,Mul,Div operators elided until required by a solution
 use std::ops::{Add, AddAssign};
 use std::cmp::max;
@@ -8,11 +10,11 @@ use num_traits as nt;
 #[derive(Debug, Eq, PartialEq, Copy, Clone, Hash)]
 /// A cartesian point on a two-dimensional plane.
 ///
-/// This implementation represents a simplified and expanded rendition of Samuel Cormier-Iijima
-/// (@sciyoshi)'s `Pt` structure from his [`advent-of-rust-2017`](https://github.com/sciyoshi/advent-of-rust-2017)
+/// This implementation represents an expanded adpaptation of Samuel
+/// Cormier-Iijima (@sciyoshi)'s `Pt` structure from his [`advent-of-rust-2017`](https://github.com/sciyoshi/advent-of-rust-2017)
 /// crate.
 pub struct Pt<T>
-    where T: Signed + Ord + NumCast + Copy 
+    where T: Signed + Ord + NumCast + Copy
 {
     pub x: T,
     pub y: T,
@@ -159,7 +161,7 @@ impl<T, U> AddAssign<Pt<U>> for Pt<T>
 
 // Add for Pt + &Pt
 impl<'a, T> Add<&'a Pt<T>> for Pt<T>
-    where T: Signed + Ord + NumCast + Copy 
+    where T: Signed + Ord + NumCast + Copy
 {
     type Output = Pt<T>;
 
@@ -173,7 +175,7 @@ impl<'a, T> Add<&'a Pt<T>> for Pt<T>
 
 // Add &Pt + Pt
 impl<'a, T> Add<Pt<T>> for &'a Pt<T>
-    where T: Signed + Ord + NumCast + Copy 
+    where T: Signed + Ord + NumCast + Copy
 {
     type Output = Pt<T>;
 
@@ -187,7 +189,7 @@ impl<'a, T> Add<Pt<T>> for &'a Pt<T>
 
 // Add for &Pt + &Pt
 impl<'a, T> Add for &'a Pt<T>
-    where T: Signed + Ord + NumCast + Copy 
+    where T: Signed + Ord + NumCast + Copy
 {
     type Output = Pt<T>;
 

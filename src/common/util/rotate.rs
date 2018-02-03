@@ -1,5 +1,5 @@
-//! Utility functions with common application in puzzle solutions.
-
+/// Utility trait for the bidirectional rotation of elements in a
+/// collection.
 pub trait RotateSigned<T> {
     /// Rotates a collection by `mag` units.
     ///

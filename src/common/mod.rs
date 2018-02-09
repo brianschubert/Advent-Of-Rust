@@ -2,17 +2,13 @@ pub mod puzzle;
 pub mod util;
 pub mod prelude;
 
-// Temporary re-exports prior to api cleanup
-pub use self::puzzle::{PuzzleSelection, input, Solution, Answer};
-pub use self::util::{Pt, RotateSigned};
-
 macro_rules! route_days {
     ( $( $day:expr => $sol:ident ),+ ) => {
-        use common::{Solution, PuzzleSelection as Pz};
-        pub fn route(puzzle: Pz) -> Solution {
+        use common::puzzle::{PuzzleSelection as Pz, PuzzleResult, SelectionError};
+        pub fn route(puzzle: &Pz) -> PuzzleResult {
             match puzzle.day() {
                 $( $day => $sol::solve(puzzle), )*
-                _ => Solution::empty()
+                _ => Err(Box::new(SelectionError::UnimplementedDay))
             }
         }
     };
@@ -24,18 +20,18 @@ macro_rules! bench_ans {
         use std::time::Instant;
 
         let start = Instant::now();
-        Answer::new($ans, Some(Instant::now().duration_since(start)))
+        Answer::with_bench($ans, Some(Instant::now().duration_since(start)))
     }};
 }
 
 macro_rules! solve_parts {
-    ( 1 => $part_one:expr ) => { Solution(Some(bench_ans!($part_one)), None) };
+    ( 1 => $part_one:expr ) => { Ok(Solution(Some(bench_ans!($part_one)), None)) };
 
     ( 1 => $part_one:expr, 2 => $part_two:expr ) => {
-        Solution(
+        Ok(Solution(
             Some(bench_ans!($part_one)),
             Some(bench_ans!($part_two))
-        )
+        ))
     };
 
    ( both => $part_producer:expr ) => {{
@@ -46,10 +42,10 @@ macro_rules! solve_parts {
         let (part_one, part_two) = $part_producer;
         let bench = start.elapsed();
 
-        Solution(
-            Some(Answer::new(part_one, Some(bench))),
-            Some(Answer::new(part_two, Some(bench)))
-        )
+        Ok(Solution(
+            Some(Answer::with_bench(part_one, Some(bench))),
+            Some(Answer::with_bench(part_two, None))
+        ))
    }}
 }
 
@@ -58,16 +54,16 @@ macro_rules! assert_solution {
     ( $part_one:expr, $puzzle:expr) => {{
         use common::puzzle::{Solution, Answer};
         assert_eq! {
-            Solution::new(Answer::from($part_one), None),
-            solve($puzzle)
+            Solution::new(Some(Answer::new($part_one)), None),
+            solve($puzzle.as_ref()).unwrap()
         }
     }};
 
     ( $part_one:expr, $part_two:expr, $puzzle:expr) => {{
         use common::puzzle::{Solution, Answer};
         assert_eq! {
-            Solution::new(Answer::from($part_one), Answer::from($part_two)),
-            solve($puzzle)
+            Solution::new(Some(Answer::new($part_one)), Some(Answer::new($part_two))),
+            solve($puzzle.as_ref()).unwrap()
         }
     }};
 }

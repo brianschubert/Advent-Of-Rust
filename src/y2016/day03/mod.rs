@@ -1,4 +1,6 @@
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 03.
+
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 #[derive(Debug)]
 struct Triangle(u16, u16, u16);
@@ -16,7 +18,7 @@ impl Triangle {
     }
 }
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let tri_desc: Vec<Vec<u16>> = pio::fetch_lines(puzzle)
         .expect("File could not be read")
         .into_iter()
@@ -60,7 +62,7 @@ mod tests {
         assert_solution!(
             983,
             1836,
-            Pz::of(2016,3)
+            Pz::new(2016,3)
         );
     }
 }

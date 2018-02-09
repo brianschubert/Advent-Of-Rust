@@ -1,10 +1,10 @@
-//! # Solution for 2016 Day 12
+//! Solution for 2016 Day 12
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub mod assembunny;
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = parse_instructions(
         &pio::fetch_lines(puzzle).expect("input file could not be parsed")
     );
@@ -48,7 +48,7 @@ mod tests {
         assert_solution!(
             318009,
             9227663,
-            Pz::of(2016, 12)
+            Pz::new(2016, 12)
         )
     }
 

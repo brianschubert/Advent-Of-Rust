@@ -1,6 +1,6 @@
-//! # Solution for 2016 Day 10
+//! Solution for 2016 Day 10
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use regex::Regex;
 
@@ -85,7 +85,7 @@ pub struct PassDirective {
     high: ChipDest,
 }
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let (pass_instr, mut bots) = parse_input(
         &mut pio::fetch_lines(puzzle)
             .expect("input file could not be read")
@@ -215,7 +215,7 @@ mod tests {
         assert_solution! {
             141,
             1209,
-            Pz::of(2016, 10)
+            Pz::new(2016, 10)
         }
     }
 

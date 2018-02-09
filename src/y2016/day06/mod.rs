@@ -1,7 +1,9 @@
-use std::collections::HashMap;
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 06.
 
-pub fn solve(puzzle: Pz) -> Solution {
+use std::collections::HashMap;
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<_> = pio::fetch_lines(puzzle)
         .expect("input file could not be read");
 
@@ -43,7 +45,7 @@ mod tests {
         assert_solution!(
             "afwlyyyq",
             "bhkzekao",
-            Pz::of(2016, 6)
+            Pz::new(2016, 6)
         )
     }
 

@@ -1,4 +1,7 @@
-use common::{input as pio, PuzzleSelection as Pz, Pt, Solution};
+//! Solution for 2016 Day 02.
+
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use common::util::Pt;
 
 const KEYPAD_ONE: [&'static [char]; 3] = [
     &['1', '2', '3'],
@@ -18,7 +21,7 @@ const KEYPAD_TWO: [&'static [char]; 5] = [
 
 const START_TWO: Pt<i8> = Pt { x: 0, y: 2 };
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_lines(puzzle).unwrap();
 
     solve_parts! {
@@ -63,7 +66,7 @@ mod tests {
         assert_solution!(
             "99332",
             "DD483",
-            Pz::of(2016, 2)
+            Pz::new(2016, 2)
         )
     }
 

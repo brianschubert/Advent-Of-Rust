@@ -1,6 +1,6 @@
-//! # Solution for 2016 Day 21
+//! Solution for 2016 Day 21
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Bytes to be scrambled according to the input during part one.
 const BYTES_TO_SCRAMBLE: &'static [u8; 8] = b"abcdefgh";
@@ -8,7 +8,7 @@ const BYTES_TO_SCRAMBLE: &'static [u8; 8] = b"abcdefgh";
 /// Bytes to be unscrambled according to the input during part two.
 const BYTES_TO_UNSCRAMBLE: &'static [u8; 8] = b"fbgdceah";
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<scrambler::ScrambleRule> = pio::fetch_lines(puzzle)
         .expect("input file could not be read")
         .into_iter()
@@ -345,7 +345,7 @@ mod tests {
         assert_solution!(
             "fdhbcgea",
             "egfbcadh",
-            Pz::of(2016, 21)
+            Pz::new(2016, 21)
         );
     }
 

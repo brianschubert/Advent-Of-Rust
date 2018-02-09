@@ -1,4 +1,6 @@
-//! # Solution for 2016 Day 16
+//! Solution for 2016 Day 16
+
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Length of data to generate for part one.
 const DATA_LENGTH_ONE: usize = 272;
@@ -6,9 +8,7 @@ const DATA_LENGTH_ONE: usize = 272;
 /// Length of data to generate for part two.
 const DATA_LENGTH_TWO: usize = 35651584;
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
-
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_bytes(puzzle)
         .expect("input file could not be read");
 
@@ -173,7 +173,7 @@ mod tests {
         assert_solution!(
             "11111000111110000",
             "10111100110110100",
-            Pz::of(2016, 16)
+            Pz::new(2016, 16)
         )
     }
 

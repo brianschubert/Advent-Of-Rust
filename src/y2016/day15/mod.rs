@@ -1,9 +1,9 @@
-//! # Solution for 2016 Day 15
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 15
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use std::str::FromStr;
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let mut input: Vec<Disc> = pio::fetch_lines(puzzle)
         .expect("input file could not be read")
         .into_iter()
@@ -72,7 +72,7 @@ mod tests {
         assert_solution!(
             122318,
             3208583,
-            Pz::of(2016, 15)
+            Pz::new(2016, 15)
         )
     }
 

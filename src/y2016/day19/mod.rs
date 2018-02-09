@@ -1,4 +1,4 @@
-//! # Solution for 2016 Day 19
+//! Solution for 2016 Day 19
 //!
 //! I spent a few hours (unsuccessfully) trying to solve part one with
 //! pure math. I eventually stumbled across a [very similar problem](josephus)
@@ -15,9 +15,9 @@
 //!
 //! [josephus]: https://en.wikipedia.org/wiki/Josephus_problem
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)
         .expect("input file could not be read")
         .parse()
@@ -143,7 +143,7 @@ mod tests {
         assert_solution!(
             1808357,
             1407007,
-            Pz::of(2016, 19)
+            Pz::new(2016, 19)
         )
     }
 

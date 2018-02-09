@@ -1,4 +1,4 @@
-//! # Solution for 2016 Day 17
+//! Solution for 2016 Day 17
 //!
 //! While capable of determining the shortest route to
 //! a vault destination (part one), this solution evidently
@@ -9,7 +9,8 @@
 //! I am pushing the solution to part one with the part two
 //! boilerplate commented out.
 
-use common::{input as pio, PuzzleSelection as Pz, Solution, Pt};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use common::util::Pt;
 
 /// The final destination in the vault
 const VAULT_DEST: Pt<i8> = Pt { x: 3, y: 0 };
@@ -17,7 +18,7 @@ const VAULT_DEST: Pt<i8> = Pt { x: 3, y: 0 };
 /// The starting location in the vault
 const VAULT_START: Pt<i8> = Pt { x: 0, y: 3 };
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)
         .expect("input file could not be read");
 
@@ -33,7 +34,7 @@ pub fn solve(puzzle: Pz) -> Solution {
 }
 
 mod vault {
-    use common::Pt;
+    use common::util::Pt;
     use crypto::md5::Md5;
     use crypto::digest::Digest;
 
@@ -226,7 +227,7 @@ mod tests {
     fn solution() {
         assert_solution!(
             "DDRRULRDRD",
-            Pz::of(2016, 17)
+            Pz::new(2016, 17)
         )
     }
 

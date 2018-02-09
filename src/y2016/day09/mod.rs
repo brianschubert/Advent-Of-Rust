@@ -1,6 +1,8 @@
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 09.
 
-pub fn solve(puzzle: Pz) -> Solution {
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)
         .expect("input file could not be read");
 
@@ -104,7 +106,7 @@ mod tests {
         assert_solution!(
             74_532_usize,
             11_558_231_665_usize,
-            Pz::of(2016, 9)
+            Pz::new(2016, 9)
         )
     }
 

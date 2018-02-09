@@ -5,7 +5,7 @@ use std::io::{Result as IOResult, Read, BufReader, BufRead};
 
 use super::selector::PuzzleSelection as Pz;
 
-pub fn fetch_string(puzzle: Pz) -> IOResult<String> {
+pub fn fetch_string(puzzle: &Pz) -> IOResult<String> {
     let f = File::open(puzzle.path())?;
     let mut buf = BufReader::new(f);
 
@@ -16,7 +16,7 @@ pub fn fetch_string(puzzle: Pz) -> IOResult<String> {
     Ok(input.trim_right().to_owned())
 }
 
-pub fn fetch_bytes(puzzle: Pz) -> IOResult<Vec<u8>> {
+pub fn fetch_bytes(puzzle: &Pz) -> IOResult<Vec<u8>> {
     let f = File::open(puzzle.path())?;
     let mut buf = BufReader::new(f);
 
@@ -26,7 +26,7 @@ pub fn fetch_bytes(puzzle: Pz) -> IOResult<Vec<u8>> {
     Ok(input)
 }
 
-pub fn fetch_lines(puzzle: Pz) -> IOResult<Vec<String>> {
+pub fn fetch_lines(puzzle: &Pz) -> IOResult<Vec<String>> {
     let f = File::open(puzzle.path())?;
     let buf = BufReader::new(f);
 

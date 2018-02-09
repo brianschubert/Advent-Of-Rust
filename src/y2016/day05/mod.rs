@@ -1,4 +1,6 @@
-use common::{PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 05.
+
+use common::puzzle::{PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use crypto::md5::Md5;
 use crypto::digest::Digest;
@@ -6,7 +8,7 @@ use crypto::digest::Digest;
 // Puzzle input
 const PUZZLE_DOOR_ID: &'static [u8] = b"abbhdwsy";
 
-pub fn solve(_puzzle: Pz) -> Solution {
+pub fn solve(_puzzle: &Pz) -> PuzzleResult {
     solve_parts! {
         both => generate_passwords(&PUZZLE_DOOR_ID)
     }
@@ -79,7 +81,7 @@ mod tests {
         assert_solution!(
             "801b56a7",
             "424a0197",
-            Pz::of(2016, 5)
+            Pz::new(2016, 5)
         )
     }
 

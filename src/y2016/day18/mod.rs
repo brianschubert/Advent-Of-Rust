@@ -1,6 +1,6 @@
-//! # Solution for 2016 Day 18
+//! Solution for 2016 Day 18
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The number of rows to generate for part one.
 const ROWS_ONE: usize = 40;
@@ -8,7 +8,7 @@ const ROWS_ONE: usize = 40;
 /// The number of rows to generate for part two.
 const ROWS_TWO: usize = 400_000;
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)
         .expect("input file could not be read");
 
@@ -139,7 +139,7 @@ mod tests {
         assert_solution!(
             1978,
             20003246,
-            Pz::of(2016, 18)
+            Pz::new(2016, 18)
         )
     }
 

@@ -1,9 +1,9 @@
-//! # Solution for 2016 Day 23
+//! Solution for 2016 Day 23
 //!
 //! Part two take a good two-three minute to run due to my reluctance
 //! to optimize out the addition loops in the assembunny input.
 
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Initial value of register `a` in part one.
 const EGG_COUNT_ONE: i32 = 7;
@@ -13,7 +13,7 @@ const EGG_COUNT_TWO: i32 = 12;
 
 pub mod assembunny_toggle;
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = parse_instructions(
         &pio::fetch_lines(puzzle).expect("input file could not be read")
     );
@@ -64,7 +64,7 @@ mod tests {
         assert_solution!(
             11004,
             479007564,
-            Pz::of(2016, 23)
+            Pz::new(2016, 23)
         )
     }
 

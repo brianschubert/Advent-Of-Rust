@@ -1,12 +1,12 @@
-//! # Solution for 2016 Day 14
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 14
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use crypto::md5::Md5;
 use crypto::digest::Digest;
 
 use std::collections::HashMap;
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_bytes(puzzle)
         .expect("input file could not be read");
     let input = &input[..input.len() - 1];
@@ -118,7 +118,7 @@ mod tests {
         assert_solution! {
             23890,
             22696,
-            Pz::of(2016, 14)
+            Pz::new(2016, 14)
         }
     }
 

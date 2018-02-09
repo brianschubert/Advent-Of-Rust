@@ -1,6 +1,9 @@
-use common::{input as pio, Pt, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 01.
 
-pub fn solve(puzzle: Pz) -> Solution {
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use common::util::Pt;
+
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle).unwrap();
 
     solve_parts! {
@@ -58,7 +61,7 @@ mod tests {
         assert_solution! {
             332,
             166,
-            Pz::of(2016,1)
+            Pz::new(2016,1)
         }
     }
 

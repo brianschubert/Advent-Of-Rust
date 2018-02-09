@@ -1,5 +1,7 @@
-use common::{input as pio, PuzzleSelection as Pz, Solution};
+//! Solution for 2016 Day 04.
+
 use std::collections::BTreeMap; // Orders chars alphabetically
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 const PART_TWO_NEEDLE: &'static str = "northpole object storage";
 
@@ -49,7 +51,7 @@ impl<'a> RoomListing<'a> {
     }
 }
 
-pub fn solve(puzzle: Pz) -> Solution {
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_lines(puzzle).expect("input file could not be read");
 
     let rooms = parse_input(&input[..]);
@@ -93,7 +95,7 @@ mod tests {
         assert_solution!(
             409147,
             991,
-            Pz::of(2016, 4)
+            Pz::new(2016, 4)
         )
     }
 

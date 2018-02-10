@@ -4,8 +4,7 @@ use std::collections::HashMap;
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input: Vec<_> = pio::fetch_lines(puzzle)
-        .expect("input file could not be read");
+    let input: Vec<_> = pio::fetch_lines(puzzle)?;
 
     solve_parts! {
         both => repetition_correct(&input[..])

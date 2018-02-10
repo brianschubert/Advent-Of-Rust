@@ -18,10 +18,8 @@
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_string(puzzle)
-        .expect("input file could not be read")
-        .parse()
-        .expect("malformed puzzle input");
+    let input = pio::fetch_string(puzzle)?;
+    let input = input.trim_right().parse()?;
 
     solve_parts! {
         1 => part_one(input),

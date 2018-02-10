@@ -3,8 +3,7 @@
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_lines(puzzle)
-        .expect("input file could not be read");
+    let input = pio::fetch_lines(puzzle)?;
 
     solve_parts! {
         1 => input.iter().filter(supports_snooping).count(),

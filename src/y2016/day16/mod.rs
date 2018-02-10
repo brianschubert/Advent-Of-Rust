@@ -9,12 +9,12 @@ const DATA_LENGTH_ONE: usize = 272;
 const DATA_LENGTH_TWO: usize = 35651584;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_bytes(puzzle)
-        .expect("input file could not be read");
+    let input = pio::fetch_string(puzzle)?;
 
-    let input: Vec<bool> = input[..input.len() - 1]
-        .iter()
-        .map(|&b| b == b'1')
+    let input: Vec<bool> = input
+        .trim_right()
+        .bytes()
+        .map(|b| b == b'1')
         .collect();
 
     let mut filler = diskfiller::DiskFiller::new();

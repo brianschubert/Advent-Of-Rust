@@ -19,14 +19,13 @@ const VAULT_DEST: Pt<i8> = Pt { x: 3, y: 0 };
 const VAULT_START: Pt<i8> = Pt { x: 0, y: 3 };
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_string(puzzle)
-        .expect("input file could not be read");
+    let input = pio::fetch_string(puzzle)?;
 
     let mut nav = vault::VaultNavigator::new(VAULT_DEST);
 
     solve_parts! {
         1 => {
-            nav.find_routes(VAULT_START, &input);
+            nav.find_routes(VAULT_START, input.trim_right());
             nav.shortest_route().unwrap()
         }
         //, 2 => nav.longest_route().unwrap().len()

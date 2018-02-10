@@ -9,8 +9,7 @@ const BYTES_TO_SCRAMBLE: &'static [u8; 8] = b"abcdefgh";
 const BYTES_TO_UNSCRAMBLE: &'static [u8; 8] = b"fbgdceah";
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input: Vec<scrambler::ScrambleRule> = pio::fetch_lines(puzzle)
-        .expect("input file could not be read")
+    let input: Vec<scrambler::ScrambleRule> = pio::fetch_lines(puzzle)?
         .into_iter()
         .map(|line| line.parse().unwrap())
         .collect();

@@ -19,8 +19,7 @@ impl Triangle {
 }
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let tri_desc: Vec<Vec<u16>> = pio::fetch_lines(puzzle)
-        .expect("File could not be read")
+    let tri_desc: Vec<Vec<u16>> = pio::fetch_lines(puzzle)?
         .into_iter()
         .map(|line| {
             line.split_whitespace()

@@ -4,12 +4,12 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 use common::util::Pt;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_string(puzzle).unwrap();
+    let input = pio::fetch_string(puzzle)?;
 
     solve_parts! {
         both => {
-            let (end, intersect) = walk_blocks(&input);
-            (end, intersect.expect("Instructions never intersect"))
+            let (end, intersect) = walk_blocks(input.trim_right());
+            (end, intersect.ok_or("Instructions never intersect")?)
         }
     }
 }

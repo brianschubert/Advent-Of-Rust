@@ -4,8 +4,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 use std::str::FromStr;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let mut input: Vec<Disc> = pio::fetch_lines(puzzle)
-        .expect("input file could not be read")
+    let mut input: Vec<Disc> = pio::fetch_lines(puzzle)?
         .into_iter()
         .map(|line| line.parse().expect("malformed input line"))
         .collect();

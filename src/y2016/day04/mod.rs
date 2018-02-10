@@ -52,7 +52,7 @@ impl<'a> RoomListing<'a> {
 }
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_lines(puzzle).expect("input file could not be read");
+    let input = pio::fetch_lines(puzzle)?;
 
     let rooms = parse_input(&input[..]);
 

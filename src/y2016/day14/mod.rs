@@ -7,9 +7,8 @@ use crypto::digest::Digest;
 use std::collections::HashMap;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_bytes(puzzle)
-        .expect("input file could not be read");
-    let input = &input[..input.len() - 1];
+    let input = pio::fetch_string(puzzle)?;
+    let input = input.trim_right().as_bytes();
 
     solve_parts! {
         1 => generate_pad_keys(&input, 1).get(63).unwrap(),

@@ -5,9 +5,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 pub mod assembunny;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = parse_instructions(
-        &pio::fetch_lines(puzzle).expect("input file could not be parsed")
-    );
+    let input = parse_instructions(&pio::fetch_lines(puzzle)?);
 
     solve_parts! {
         1 => {

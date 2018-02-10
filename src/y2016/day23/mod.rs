@@ -14,9 +14,7 @@ const EGG_COUNT_TWO: i32 = 12;
 pub mod assembunny_toggle;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = parse_instructions(
-        &pio::fetch_lines(puzzle).expect("input file could not be read")
-    );
+    let input = parse_instructions(&pio::fetch_lines(puzzle)?);
 
     solve_parts! {
         1 => {

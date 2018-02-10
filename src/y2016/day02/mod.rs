@@ -22,7 +22,7 @@ const KEYPAD_TWO: [&'static [char]; 5] = [
 const START_TWO: Pt<i8> = Pt { x: 0, y: 2 };
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_lines(puzzle).unwrap();
+    let input = pio::fetch_lines(puzzle)?;
 
     solve_parts! {
         1 => press_keycode(&KEYPAD_ONE, &input, START_ONE),

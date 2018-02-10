@@ -187,8 +187,7 @@ mod screen {
 use self::screen::*;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input: Vec<_> = pio::fetch_lines(puzzle)
-        .expect("input file could not be read")
+    let input: Vec<_> = pio::fetch_lines(puzzle)?
         .into_iter()
         .map(ScreenInstruction::parse_unstable)
         .collect();

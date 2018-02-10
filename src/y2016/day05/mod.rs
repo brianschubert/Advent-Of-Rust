@@ -1,16 +1,15 @@
 //! Solution for 2016 Day 05.
 
-use common::puzzle::{PuzzleSelection as Pz, Solution, PuzzleResult};
+use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use crypto::md5::Md5;
 use crypto::digest::Digest;
 
-// Puzzle input
-const PUZZLE_DOOR_ID: &'static [u8] = b"abbhdwsy";
+pub fn solve(puzzle: &Pz) -> PuzzleResult {
+    let input = pio::fetch_string(puzzle)?;
 
-pub fn solve(_puzzle: &Pz) -> PuzzleResult {
     solve_parts! {
-        both => generate_passwords(&PUZZLE_DOOR_ID)
+        both => generate_passwords(input.trim_right().as_bytes())
     }
 }
 

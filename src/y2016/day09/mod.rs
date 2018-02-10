@@ -3,8 +3,8 @@
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_string(puzzle)
-        .expect("input file could not be read");
+    let input = pio::fetch_string(puzzle)?;
+    let input = input.trim_right();
 
     solve_parts! {
         1 => decompress(&input[..]).len(),

@@ -9,10 +9,9 @@ const ROWS_ONE: usize = 40;
 const ROWS_TWO: usize = 400_000;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = pio::fetch_string(puzzle)
-        .expect("input file could not be read");
+    let input = pio::fetch_string(puzzle)?;
 
-    let mut floor: floor::Floor = input.parse().expect("malformed input");
+    let mut floor: floor::Floor = input.trim_right().parse().unwrap(); // parse cannot fail
 
     solve_parts! {
         1 => {
@@ -87,10 +86,8 @@ mod floor {
         type Err = ();
 
         fn from_str(s: &str) -> Result<Self, Self::Err> {
-            Ok(TileRow(s
-                .as_bytes()
-                .iter()
-                .map(|&b| b == b'^')
+            Ok(TileRow(s.bytes()
+                .map(|b| b == b'^')
                 .collect::<Vec<bool>>()
                 .into()
             ))

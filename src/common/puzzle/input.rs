@@ -33,10 +33,7 @@ pub fn fetch_lines(puzzle: &Pz) -> IOResult<Vec<String>> {
     let f = File::open(puzzle.path())?;
     let buf = BufReader::new(f);
 
-    let lines: Vec<_> = buf
-        .lines()
-        .map(|line| line.unwrap())
-        .collect();
+    let lines: Result<Vec<_>, _> = buf.lines().collect();
 
-    Ok(lines)
+    Ok(lines?)
 }

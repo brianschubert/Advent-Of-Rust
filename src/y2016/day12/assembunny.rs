@@ -13,7 +13,7 @@ mod token {
 
     #[derive(Debug, Copy, Clone)]
     /// A integral literal from an instruction
-    pub struct Literal(i8);
+    pub struct Literal(i16);
 
     #[derive(Debug, Copy, Clone)]
     /// A value token from an instruction; either a register key or a literal.
@@ -45,7 +45,7 @@ mod token {
 
     impl Literal {
         #[inline]
-        pub fn value(&self) -> i8 { self.0 }
+        pub fn value(&self) -> i16 { self.0 }
     }
 
     impl FromStr for Literal {

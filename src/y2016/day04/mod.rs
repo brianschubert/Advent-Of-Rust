@@ -3,6 +3,7 @@
 use std::collections::BTreeMap; // Orders chars alphabetically
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
+/// The decrypted room name to be searched for during part two.
 const PART_TWO_NEEDLE: &'static str = "northpole object storage";
 
 #[derive(Debug)]
@@ -23,9 +24,7 @@ impl<'a> RoomListing<'a> {
     }
 
     /// Builds a room from a string slice.
-    ///
-    /// Panics if the room string contains a malformed sector.
-    fn parse_unstable(line: &'a str) -> Self {
+    fn parse_str(line: &'a str) -> Result<Self, &'static str> {
         let (name, sec_and_check) = line.split_at(line.len() - 11);
         let mut name_freq = BTreeMap::new();
 
@@ -34,12 +33,12 @@ impl<'a> RoomListing<'a> {
             *name_freq.entry(letter).or_insert(0u8) += 1
         }
 
-        RoomListing {
+        Ok(RoomListing {
             name,
             expected_checksum: &sec_and_check[5..10],
-            sector: sec_and_check[1..4].parse().expect("malformed sector"),
+            sector: sec_and_check[1..4].parse().map_err(|_|"malformed sector")?,
             name_freq,
-        }
+        })
     }
 
     /// Returns this room's decrypted name. Calculated on each call.
@@ -54,36 +53,45 @@ impl<'a> RoomListing<'a> {
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_lines(puzzle)?;
 
-    let rooms = parse_input(&input[..]);
+    let rooms = parse_input(&input[..])?;
 
     solve_parts! {
         1 => part_one(&rooms),
-        2 => part_two(&rooms)
+        2 => part_two(&rooms, PART_TWO_NEEDLE)
+            .ok_or(format!("no room found with name `{}`", PART_TWO_NEEDLE))?
     }
 }
 
-fn parse_input<'a>(lines: &'a [String]) -> Vec<RoomListing<'a>> {
+fn parse_input<'a, S: AsRef<str>>(
+    lines: &'a [S]
+) -> Result<Vec<RoomListing<'a>>, &'static str> {
     lines
         .iter()
-        .map(|line| RoomListing::parse_unstable(&line[..]))
-        .filter(|room| room.is_real())
+        .map(|line| RoomListing::parse_str(line.as_ref()))
         .collect()
 }
 
+/// Returns the sum of the sector ids of the specified rooms that are
+/// real.
 fn part_one(rooms: &[RoomListing]) -> u32 {
-    rooms.iter().map(|room| room.sector as u32).sum()
+    rooms
+        .iter()
+        .filter(|&r| r.is_real())
+        .map(|room| room.sector as u32)
+        .sum()
 }
 
-fn part_two(rooms: &[RoomListing]) -> u16 {
+/// Returns the sector id of the room whose decrypted name matches the
+/// specified needle or None if no such room is found.
+fn part_two(rooms: &[RoomListing], needle: &str) -> Option<u16> {
     let decrypted: Vec<(String, u16)> = rooms.iter().map(|room| {
         (room.decrypted_name(), room.sector)
     }).collect();
 
     decrypted
         .iter()
-        .find(|n| n.0 == PART_TWO_NEEDLE)
-        .unwrap()
-        .1
+        .find(|n| n.0 == needle)
+        .map(|pair| pair.1)
 }
 
 #[cfg(test)]
@@ -102,26 +110,27 @@ mod tests {
     #[test]
     fn ex1() {
         let rooms = [
-            "aaaaa-bbb-z-y-x-123[abxyz]".to_owned(),
-            "a-b-c-d-e-f-g-h-987[abcde]".to_owned(),
-            "not-a-real-room-404[oarel]".to_owned(),
-            "totally-real-room-200[decoy]".to_owned()
+            "aaaaa-bbb-z-y-x-123[abxyz]",
+            "a-b-c-d-e-f-g-h-987[abcde]",
+            "not-a-real-room-404[oarel]",
+            "totally-real-room-200[decoy]",
         ];
 
-        let sol = part_one(&parse_input(&rooms[..]));
+        let sol = part_one(&parse_input(&rooms[..]).unwrap());
 
         assert_eq!(1514, sol);
     }
 
     #[test]
     fn ex2() {
-        let room = RoomListing::parse_unstable("qzmt-zixmtkozy-ivhz-343[abcde]");
+        let room = RoomListing::parse_str("qzmt-zixmtkozy-ivhz-343[abcde]").unwrap();
         assert_eq!("very encrypted name", room.decrypted_name());
     }
 
     #[test]
     fn parse_room_listing() {
-        let room = RoomListing::parse_unstable("aaaaa-bbb-z-y-x-123[abxyz]");
+        let room = RoomListing::parse_str("aaaaa-bbb-z-y-x-123[abxyz]")
+            .expect("failed to parse room listing");
         assert_eq!(123, room.sector);
         assert_eq!("aaaaa-bbb-z-y-x", room.name);
         assert_eq!("abxyz", room.expected_checksum);
@@ -135,10 +144,10 @@ mod tests {
 
     #[test]
     fn room_is_real() {
-        let real =
-            RoomListing::parse_unstable("aaaaa-bbb-z-y-x-123[abxyz]");
-        let decoy =
-            RoomListing::parse_unstable("totally-real-room-200[decoy]");
+        let real = RoomListing::parse_str("aaaaa-bbb-z-y-x-123[abxyz]")
+            .expect("failed to parse real room");
+        let decoy = RoomListing::parse_str("totally-real-room-200[decoy]")
+            .expect("failed to parse decoy room");
 
         assert!(real.is_real());
         assert!(!decoy.is_real());

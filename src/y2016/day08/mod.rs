@@ -3,6 +3,8 @@
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 mod screen {
+    use std::str::FromStr;
+
     use std::{fmt, str};
 
     #[derive(Debug)]
@@ -23,58 +25,56 @@ mod screen {
         pixels: Vec<u64>,
     }
 
-    impl ScreenInstruction {
-        /// Builds a screen instruction from a string, but may uncontrollably
-        /// panic on malformed input.
-        ///
-        /// Instructions parsed by hand because using regexps would be too easy.
-        pub fn parse_unstable<S: AsRef<str>>(line: S) -> ScreenInstruction {
-            let bytes = line.as_ref().as_bytes();
+    impl FromStr for ScreenInstruction {
+        type Err = &'static str;
+
+        fn from_str(line: &str) ->  Result<Self, Self::Err> {
+            let bytes = line.as_bytes();
             match bytes.len() {
                 len @ 8 ... 10 => { // We caught a rectangle instruction!
                     let div = bytes.iter().enumerate()
                         .find(|&(_, &b)| b == b'x')
-                        .expect("malformed rect instr")
-                        .0;
+                        .map(|pair| pair.0)
+                        .ok_or("malformed rect instr")?;
                     let row: usize = str::from_utf8(&bytes[div - 2..div])
                         .unwrap()
                         .trim_left()
                         .parse()
-                        .expect("invalid rect row");
+                        .map_err(|_| "invalid rect row")?;
                     let col: usize = str::from_utf8(&bytes[div + 1..len])
                         .unwrap()
                         .trim_left()
                         .parse()
-                        .expect("invalid rect col");
-                    ScreenInstruction::Rect { x: row, y: col }
+                        .map_err(|_| "invalid rect col")?;
+                    Ok(ScreenInstruction::Rect { x: row, y: col })
                 }
                 len if bytes[7] == b'c' => { // Smells like a column rotation
                     let col: usize = str::from_utf8(&bytes[16..18])
                         .unwrap()
                         .trim_right()
                         .parse()
-                        .expect("invalid col");
+                        .map_err(|_|"invalid col")?;
                     let offset: RotOffset = str::from_utf8(&bytes[21..len])
                         .unwrap()
                         .trim_left()
                         .parse()
-                        .expect("invalid col rot offset");
-                    ScreenInstruction::RotCol { col, offset }
+                        .map_err(|_| "invalid col rot offset")?;
+                    Ok(ScreenInstruction::RotCol { col, offset })
                 }
                 len if bytes[7] == b'r' => { // Row rot? Row rot.
                     let row: usize = str::from_utf8(&bytes[13..15])
                         .unwrap()
                         .trim_right()
                         .parse()
-                        .expect("invalid shift row");
+                        .map_err(|_| "invalid shift row")?;
                     let offset: RotOffset = str::from_utf8(&bytes[18..len])
                         .unwrap()
                         .trim_left()
                         .parse()
-                        .expect("invalid row rot offset");
-                    ScreenInstruction::RotRow { row, offset }
+                        .map_err(|_| "invalid row rot offset")?;
+                    Ok(ScreenInstruction::RotRow { row, offset })
                 }
-                _ => panic!("Fishy screen instruction!")
+                _ => Err("Fishy screen instruction!")
             }
         }
     }
@@ -189,8 +189,8 @@ use self::screen::*;
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<_> = pio::fetch_lines(puzzle)?
         .into_iter()
-        .map(ScreenInstruction::parse_unstable)
-        .collect();
+        .map(|line| line.parse())
+        .collect::<Result<_, _>>()?;
 
     let mut screen = MiniScreen::new(50, 6);
 
@@ -238,7 +238,7 @@ mod tests {
 
         let mut screen = MiniScreen::new(7, 3);
 
-        for instr in input.iter().map(ScreenInstruction::parse_unstable) {
+        for instr in input.iter().map(|l| l.parse().unwrap()) {
             screen.process_instr(&instr);
         }
 
@@ -253,19 +253,19 @@ mod tests {
     fn parse_screen_instr() {
         use self::ScreenInstruction as SI;
 
-        if let SI::Rect { x, y } = SI::parse_unstable("rect 50x11") {
+        if let Ok(SI::Rect { x, y }) = "rect 50x11".parse() {
             assert_eq!(50, x);
             assert_eq!(11, y);
         } else {
             panic!("Wrong instruction: expected Rect")
         }
-        if let SI::RotCol { col, offset } = SI::parse_unstable("rotate column x=1 by 30") {
+        if let Ok(SI::RotCol { col, offset }) = "rotate column x=1 by 30".parse() {
             assert_eq!(1, col);
             assert_eq!(30, offset);
         } else {
             panic!("Wrong instruction: expected RotCol")
         }
-        if let SI::RotRow { row, offset } = SI::parse_unstable("rotate row y=40 by 42") {
+        if let Ok(SI::RotRow { row, offset }) = "rotate row y=40 by 42".parse() {
             assert_eq!(40, row);
             assert_eq!(42, offset);
         } else {

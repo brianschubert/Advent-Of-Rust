@@ -6,8 +6,8 @@ use std::str::FromStr;
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let mut input: Vec<Disc> = pio::fetch_lines(puzzle)?
         .into_iter()
-        .map(|line| line.parse().expect("malformed input line"))
-        .collect();
+        .map(|line| line.parse())
+        .collect::<Result<_, _>>()?;
 
     solve_parts! {
         1 => required_delay(&input),

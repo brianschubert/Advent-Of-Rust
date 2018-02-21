@@ -23,9 +23,9 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
         .into_iter()
         .map(|line| {
             line.split_whitespace()
-                .map(|token| token.parse().expect("failed to parse side"))
+                .map(|token| token.parse())
                 .collect()
-        }).collect();
+        }).collect::<Result<_, _>>()?;
 
     solve_parts! {
         1 => triangles_by_row(&tri_desc).into_iter().filter(|tri| tri.is_valid()).count(),

@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 21
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
 
 /// Bytes to be scrambled according to the input during part one.
 const BYTES_TO_SCRAMBLE: &'static [u8; 8] = b"abcdefgh";
@@ -11,8 +11,8 @@ const BYTES_TO_UNSCRAMBLE: &'static [u8; 8] = b"fbgdceah";
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<scrambler::ScrambleRule> = pio::fetch_lines(puzzle)?
         .into_iter()
-        .map(|line| line.parse().unwrap())
-        .collect();
+        .map(|line| line.parse())
+        .collect::<Result<_, _>>()?;
 
     solve_parts! {
         1 => {
@@ -33,9 +33,9 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 }
 
 mod scrambler {
-    use std::error::Error;
-    use std::{fmt, str};
     use common::util::RotateSigned;
+    use std::{fmt, str};
+    use std::error::Error;
 
     #[derive(Debug)]
     /// An error that occurs while parsing a scramble rule.

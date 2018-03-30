@@ -5,7 +5,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 pub mod assembunny;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input = parse_instructions(&pio::fetch_lines(puzzle)?);
+    let input = parse_instructions(&pio::fetch_lines(puzzle)?)?;
 
     solve_parts! {
         1 => {
@@ -31,10 +31,10 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 /// Parses the specified lines into assembunny instructions.
 ///
 /// Panics on underlying parse errors.
-fn parse_instructions<T>(lines: &[T]) -> Vec<assembunny::Instr>
-    where T: AsRef<str> + ::std::fmt::Debug
+fn parse_instructions<T>(lines: &[T]) -> Result<Vec<assembunny::Instr>, &'static str>
+    where T: AsRef<str>
 {
-    lines.iter().map(|l| l.as_ref().parse().unwrap()).collect()
+    lines.iter().map(|l| l.as_ref().parse()).collect()
 }
 
 #[cfg(test)]
@@ -63,7 +63,7 @@ mod tests {
             "dec a",
         ];
 
-        let assem_instr = parse_instructions(&instr);
+        let assem_instr = parse_instructions(&instr).unwrap();
 
         let mut interp = Interpreter::new(&assem_instr);
 

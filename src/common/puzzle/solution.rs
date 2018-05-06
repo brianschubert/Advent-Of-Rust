@@ -36,8 +36,8 @@ impl Answer {
     }
 
     /// Returns a reference to this puzzle part's optional benchmark.
-    pub fn bench(&self) -> &Option<Duration> {
-        &self.bench
+    pub fn bench(&self) -> Option<&Duration> {
+        self.bench.as_ref()
     }
 }
 

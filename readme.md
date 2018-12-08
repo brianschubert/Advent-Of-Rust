@@ -5,40 +5,23 @@ My solutions to the puzzles presented during the [Advent of Code][adventofcode]
 
 As with my [previous attempt][aoc-kotlin] at solving the AoC 2017 
 puzzles in Kotlin, these solutions represent my first endeavors with 
-the Rust language. 
+the Rust programming language. 
 
 All solutions were compiled with the standard rust compiler, `rustc` 
-(`v1.23.0`), inside the community edition of [IntelliJ IDEA][intellij] 
-with the Rust plugin.
+(`v1.23.0`).
 
-## Goals
-
-Quite simply, I am using these puzzles learn Rust. 
-
-This repository presents neither the most concise nor the most 
-efficient solution to the AoC puzzles. I have tried to write
-these solutions to be as idiomatic as possible. Doubtlessly, however,
-they are littered with flawed designs and misapplications of 
-language or library features.
-
-As I become aware of better practices, I will judiciously refactor
-previous solutions. In the majority of cases, however, toiling over
-the entire repository simply is not feasible. As such, most "code 
-stink" is simply left as-is, serving as a record of my gradual growth
-with the Rust language.
 
 ## A Word on Stability
 
-Stability takes on a double meaning here. In terms of _rust_ stability, 
-these solutions are absolutely stable. That is, all solutions may be 
-compiled with a toolchain from the stable release channel 
-([more on this][release-channels]), meaning that they are not subject 
-to break with time. However, in terms of business logic,
-no such guarantee can been made. Numerous solutions take advantage of 
-shortcuts that may only be applicable to some puzzle inputs. Moreover, 
-many solutions have a nasty habit of panicing rather than returning 
-errors values whenever something goes wrong - especially the early 
-2016 solutions.
+All solutions in this repository can be compiled with using the stable release
+channel of Rust and as such are not liable to become dysfunctional with time
+([more on this][release-channels]).
+
+It is worth noting, however, that some of these solutions take advantage of
+patterns in my puzzle inputs that may not be present in all valid inputs.
+Since I cannot guarantee that these shortcuts are universally applicable,
+my solutions _might_ be liable to panic when given input different from
+theones that they were designed against.
 
 ## Running a Solution
 
@@ -79,8 +62,8 @@ following (the precise format is subject to change):
 
 Blimey, you really are interested.
 
-Anywho, nearly all modules come fully equipped with unit tests. Most 
-solutions are packaged with unit tests for both the examples given in 
+Nearly all modules in this repsoitory come fully equipped with unit tests.
+Most solutions are packaged with unit tests for both the examples given in 
 the puzzle descriptions as well as for the actual solutions given the 
 default input. If you would like to run these, simply run `cargo test` 
 on a pattern matching the desired module. For example, in order run all 

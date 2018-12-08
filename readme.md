@@ -21,7 +21,7 @@ It is worth noting, however, that some of these solutions take advantage of
 patterns in my puzzle inputs that may not be present in all valid inputs.
 Since I cannot guarantee that these shortcuts are universally applicable,
 my solutions _might_ be liable to panic when given input different from
-theones that they were designed against.
+the ones that they were designed against.
 
 ## Running a Solution
 

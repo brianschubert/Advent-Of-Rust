@@ -22,8 +22,8 @@ pub enum SelectionError {
 
 impl SelectionError {
     /// Returns a brief description of the setup error for display.
-    pub fn as_str(&self) -> &'static str {
-        match *self {
+    pub fn as_str(self) -> &'static str {
+        match self {
             SelectionError::NoSelection => "insufficient arguments to select a puzzle",
             SelectionError::UnimplementedYear => "no solutions exist for the provided year",
             SelectionError::UnimplementedDay => "no solution exists for the provided day",

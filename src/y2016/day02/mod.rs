@@ -45,7 +45,7 @@ fn press_keycode<S: AsRef<str>>(
 ) -> Result<String, String> {
     // keypad assumed to be a square
     let dim = keypad.len() - 1;
-    let mut finger = start.clone();
+    let mut finger = start; // copy point
 
     instr.iter().map(|line| {
         for byte in line.as_ref().as_bytes() {

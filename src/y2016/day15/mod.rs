@@ -49,15 +49,12 @@ impl FromStr for Disc {
 fn required_delay(discs: &[Disc]) -> u32 {
     let mut delay = 0_u32;
     loop {
-        if !discs
-            .iter()
-            .enumerate()
-            .any(|(depth, ref disc)| {
-                (1 + delay + depth as u32 + u32::from(disc.pos)) % u32::from(disc.range) != 0
-            }) {
+        let check = |(depth, disc): (usize, &Disc)| {
+            (1 + delay + depth as u32 + u32::from(disc.pos)) % u32::from(disc.range) != 0
+        };
+        if !discs.iter().enumerate().any(check) {
             break delay;
         }
-
         delay += 1;
     }
 }

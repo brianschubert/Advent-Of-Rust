@@ -58,7 +58,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
     solve_parts! {
         1 => part_one(&rooms),
         2 => part_two(&rooms, PART_TWO_NEEDLE)
-            .ok_or(format!("no room found with name `{}`", PART_TWO_NEEDLE))?
+            .ok_or_else(|| format!("no room found with name `{}`", PART_TWO_NEEDLE))?
     }
 }
 

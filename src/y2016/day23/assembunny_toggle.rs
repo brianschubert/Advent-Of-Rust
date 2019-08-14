@@ -90,8 +90,8 @@ impl Interpreter {
                 match *instr {
                     Instr::Inc(ref reg) => self.reg[reg] += 1,
                     Instr::Dec(ref reg) => self.reg[reg] -= 1,
-                    Instr::Copy(ref val, ref reg) => self.reg[reg] = self.token_value(val),
-                    Instr::Jnz(ref cond, ref mag) => if self.token_value(cond) != 0 {
+                    Instr::Copy(val, ref reg) => self.reg[reg] = self.token_value(val),
+                    Instr::Jnz(cond, mag) => if self.token_value(cond) != 0 {
                         step = self.token_value(mag) as isize
                     }
                 }
@@ -129,8 +129,8 @@ impl Interpreter {
     /// - If the token is a literal, its value is returned.
     /// - If the token is a register key, the value its respective
     ///   register is returned
-    fn token_value(&self, token: &ValueToken) -> Register {
-        match *token {
+    fn token_value(&self, token: ValueToken) -> Register {
+        match token {
             ValueToken::Literal(lit) => i32::from(lit.value()),
             ValueToken::Register(ref key) => self.reg[key],
         }

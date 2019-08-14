@@ -169,13 +169,13 @@ mod scrambler {
             rule: &ScrambleRule,
         ) -> Result<(), &'static str> {
             match *rule {
-                ScrambleRule::SwapPos(one, two) => self.swap_pos(one, two),
+                ScrambleRule::SwapPos(one, two) => self.word_bytes.swap(one, two),
                 ScrambleRule::SwapLet(let_one, let_two) => {
                     let one = self.index_of(let_one)
                         .ok_or("no such letter in word")?;
                     let two = self.index_of(let_two)
                         .ok_or("no such letter in word")?;
-                    self.swap_pos(one, two);
+                    self.word_bytes.swap(one, two);
                 }
                 ScrambleRule::RotByPos { mag } => self.rotate(mag),
                 ScrambleRule::RotByLet { det } => {
@@ -238,14 +238,6 @@ mod scrambler {
         /// scrambler's word.
         fn index_of(&self, byte: u8) -> Option<usize> {
             self.word_bytes.iter().position(|&b| b == byte)
-        }
-
-        /// Swaps the bytes at the specified indexes in this
-        /// scrambler's word.
-        fn swap_pos(&mut self, one: usize, two: usize) {
-            let buf = self.word_bytes[one];
-            self.word_bytes[one] = self.word_bytes[two];
-            self.word_bytes[two] = buf;
         }
 
         /// Rotates the bytes in this scramblers word byte the

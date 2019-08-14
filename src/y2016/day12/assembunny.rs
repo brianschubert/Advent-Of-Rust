@@ -24,7 +24,7 @@ mod token {
 
     impl RegisterKey {
         #[inline]
-        pub fn key(&self) -> u8 { self.0 }
+        pub fn key(self) -> u8 { self.0 }
     }
 
     impl Into<RegisterKey> for u8 {
@@ -45,7 +45,7 @@ mod token {
 
     impl Literal {
         #[inline]
-        pub fn value(&self) -> i16 { self.0 }
+        pub fn value(self) -> i16 { self.0 }
     }
 
     impl FromStr for Literal {
@@ -179,8 +179,8 @@ impl<'a> Interpreter<'a> {
         match self.prog[self.pos] {
             Instr::Inc(ref reg) => self.reg[reg] += 1,
             Instr::Dec(ref reg) => self.reg[reg] -= 1,
-            Instr::Copy(ref val, ref reg) => self.reg[reg] = self.token_value(val),
-            Instr::Jnz(ref cond, ref mag) => if self.token_value(cond) != 0 {
+            Instr::Copy(val, ref reg) => self.reg[reg] = self.token_value(val),
+            Instr::Jnz(cond, mag) => if self.token_value(cond) != 0 {
                 step = self.token_value(mag) as isize
             }
         }
@@ -209,8 +209,8 @@ impl<'a> Interpreter<'a> {
     /// - If the token is a literal, its value is returned.
     /// - If the token is a register key, the value its respective
     ///   register is returned
-    fn token_value(&self, token: &ValueToken) -> Register {
-        match *token {
+    fn token_value(&self, token: ValueToken) -> Register {
+        match token {
             ValueToken::Literal(lit) => i32::from(lit.value()),
             ValueToken::Register(ref key) => self.reg[key],
         }

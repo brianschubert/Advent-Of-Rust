@@ -4,7 +4,7 @@ pub mod prelude;
 
 macro_rules! route_days {
     ( $( $day:expr => $sol:ident ),+ ) => {
-        use common::puzzle::{PuzzleSelection as Pz, PuzzleResult, SelectionError};
+        use crate::common::puzzle::{PuzzleSelection as Pz, PuzzleResult, SelectionError};
         pub fn route(puzzle: &Pz) -> PuzzleResult {
             match puzzle.day() {
                 $( $day => $sol::solve(puzzle), )*
@@ -16,7 +16,7 @@ macro_rules! route_days {
 
 macro_rules! bench_ans {
     ( $ans:expr ) => {{
-        use common::puzzle::Answer;
+        use crate::common::puzzle::Answer;
         use std::time::Instant;
 
         let start = Instant::now();
@@ -35,7 +35,7 @@ macro_rules! solve_parts {
     };
 
    ( both => $part_producer:expr ) => {{
-        use common::puzzle::Answer;
+        use crate::common::puzzle::Answer;
         use std::time::Instant;
 
         let start = Instant::now();
@@ -52,7 +52,7 @@ macro_rules! solve_parts {
 #[cfg(test)]
 macro_rules! assert_solution {
     ( $part_one:expr, $puzzle:expr) => {{
-        use common::puzzle::{Solution, Answer};
+        use crate::common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), None),
             solve($puzzle.as_ref()).unwrap()
@@ -60,7 +60,7 @@ macro_rules! assert_solution {
     }};
 
     ( $part_one:expr, $part_two:expr, $puzzle:expr) => {{
-        use common::puzzle::{Solution, Answer};
+        use crate::common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), Some(Answer::new($part_two))),
             solve($puzzle.as_ref()).unwrap()

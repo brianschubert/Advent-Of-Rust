@@ -1,5 +1,5 @@
 //! Solution for 2016 Day 14
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use crypto::md5::Md5;
 use crypto::digest::Digest;

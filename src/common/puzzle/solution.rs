@@ -48,7 +48,7 @@ impl PartialEq for Answer {
 }
 
 impl fmt::Display for Answer {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "`{}` ", self.ans)?;
         match self.bench {
             Some(bench) => write!(
@@ -99,7 +99,7 @@ impl Solution {
 }
 
 impl fmt::Display for Solution {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Part 1: {}", match self.0 {
             Some(ref part) => part.to_string(),
             None => "No implemented".to_owned()

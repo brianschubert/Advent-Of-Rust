@@ -1,6 +1,6 @@
 //! Solution for 2015 Day 02
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<present::Present> = pio::fetch_lines(puzzle)?

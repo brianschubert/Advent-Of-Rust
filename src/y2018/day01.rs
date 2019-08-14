@@ -1,6 +1,6 @@
 //! Solution for Advent of Code [2018 Day 01](https://adventofcode.com/2018/day/1).
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 use std::collections::HashSet;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
@@ -53,7 +53,7 @@ mod tests {
             (&[7, 7, -2, -7, -4], 14),
         ];
 
-        for (input, expected) in test_cases.into_iter() {
+        for (input, expected) in test_cases.iter() {
             assert_eq!(
                 find_first_repeated_frequency(&input),
                 *expected,

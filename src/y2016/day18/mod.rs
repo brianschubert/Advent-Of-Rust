@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 18
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The number of rows to generate for part one.
 const ROWS_ONE: usize = 40;

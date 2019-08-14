@@ -1,8 +1,8 @@
 //! Solution for 2015 Day 03
 
 use std::collections::HashSet;
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
-use common::util::Pt;
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::util::Pt;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = parse_input(&pio::fetch_string(puzzle)?)?;

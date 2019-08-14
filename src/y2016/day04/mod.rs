@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 04.
 
 use std::collections::BTreeMap; // Orders chars alphabetically
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The decrypted room name to be searched for during part two.
 const PART_TWO_NEEDLE: &str = "northpole object storage";
@@ -73,7 +73,7 @@ fn parse_input<'a, S: AsRef<str>>(
 
 /// Returns the sum of the sector ids of the specified rooms that are
 /// real.
-fn part_one(rooms: &[RoomListing]) -> u32 {
+fn part_one(rooms: &[RoomListing<'_>]) -> u32 {
     rooms
         .iter()
         .filter(|&r| r.is_real())
@@ -83,7 +83,7 @@ fn part_one(rooms: &[RoomListing]) -> u32 {
 
 /// Returns the sector id of the room whose decrypted name matches the
 /// specified needle or None if no such room is found.
-fn part_two(rooms: &[RoomListing], needle: &str) -> Option<u16> {
+fn part_two(rooms: &[RoomListing<'_>], needle: &str) -> Option<u16> {
     let decrypted: Vec<(String, u16)> = rooms.iter().map(|room| {
         (room.decrypted_name(), room.sector)
     }).collect();

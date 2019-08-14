@@ -1,5 +1,5 @@
 //! Solution for 2016 Day 15
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 use std::str::FromStr;
 

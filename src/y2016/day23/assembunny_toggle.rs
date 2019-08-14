@@ -4,7 +4,7 @@
 //! forms of instructions.
 
 use std::str::FromStr;
-use y2016::day12::assembunny::{
+use crate::y2016::day12::assembunny::{
     Instr,
     ValueToken,
     RegisterKey,

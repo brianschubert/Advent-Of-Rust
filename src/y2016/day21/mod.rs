@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 21
 
-use common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
+use crate::common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
 
 /// Bytes to be scrambled according to the input during part one.
 const BYTES_TO_SCRAMBLE: &[u8; 8] = b"abcdefgh";
@@ -33,7 +33,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 }
 
 mod scrambler {
-    use common::util::RotateSigned;
+    use crate::common::util::RotateSigned;
     use std::{fmt, str};
     use std::error::Error;
 
@@ -51,7 +51,7 @@ mod scrambler {
     }
 
     impl fmt::Display for ScrambleRuleParseError {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             writeln!(f, "Failed to parse rule: {}", self.reason)
         }
     }

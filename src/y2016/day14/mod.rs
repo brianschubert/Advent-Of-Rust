@@ -56,7 +56,7 @@ fn generate_pad_keys(seed: &[u8], stretch_factor: u16) -> Vec<KeyIndex> {
             possible_keys = possible_keys
                 .into_iter()
                 .filter(|&(gen_index, rep)| {
-                    !(rep == rep_byte) && gen_index >= age_limit
+                    rep != rep_byte && gen_index >= age_limit
                 })
                 .collect()
         }

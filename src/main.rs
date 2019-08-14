@@ -27,6 +27,7 @@ fn run_solution(puzzle: PuzzleSelection) -> Summary {
     let solution: PuzzleResult = match puzzle.year() {
         2015 => advent_of_rust::y2015::route(&puzzle),
         2016 => advent_of_rust::y2016::route(&puzzle),
+        2018 => advent_of_rust::y2018::route(&puzzle),
         _ => Err(Box::new(SelectionError::UnimplementedYear))
     };
 

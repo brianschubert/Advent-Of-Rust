@@ -128,7 +128,7 @@ fn parse_input<T>(lines: &[T]) -> (Vec<PassDirective>, HashMap<u8, Bot>)
             pass_instr.push(PassDirective { bot, low, high });
         } else if let Some(init) = re_init.captures(line) {
             bots.entry(init.get(2).unwrap().as_str().parse().unwrap())
-                .or_insert(Bot::new())
+                .or_insert_with(Bot::new)
                 .give_chip(init.get(1).unwrap().as_str().parse().unwrap());
         } else {
             panic!(format!("Malformed line: {}", line))
@@ -176,19 +176,19 @@ fn pass_chips(
 
             match directive.low {
                 ChipDest::Bot(id) => bots.entry(id)
-                    .or_insert(Bot::new())
+                    .or_insert_with(Bot::new)
                     .give_chip(chips.0),
                 ChipDest::Output(id) => outputs.entry(id)
-                    .or_insert(Vec::new())
+                    .or_insert_with(Vec::new)
                     .push(chips.0)
             }
 
             match directive.high {
                 ChipDest::Bot(id) => bots.entry(id)
-                    .or_insert(Bot::new())
+                    .or_insert_with(Bot::new)
                     .give_chip(chips.1),
                 ChipDest::Output(id) => outputs.entry(id)
-                    .or_insert(Vec::new())
+                    .or_insert_with(Vec::new)
                     .push(chips.1)
             }
         }

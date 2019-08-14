@@ -165,7 +165,7 @@ mod screen {
 
     impl fmt::Display for MiniScreen {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-            writeln!(f, "")?;
+            writeln!(f)?;
             for row in self.pixels.iter() {
                 writeln!(
                     f, "\"{}\"",
@@ -209,7 +209,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 mod tests {
     use super::*;
 
-    const PART_TWO_SOLUTION: &'static str = r######"
+    const PART_TWO_SOLUTION: &str = r######"
 " ##  #### ###  #  # ###  #### ###    ## ###   ### "
 "#  # #    #  # #  # #  #    # #  #    # #  # #    "
 "#  # ###  ###  #  # #  #   #  ###     # #  # #    "

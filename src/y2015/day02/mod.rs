@@ -26,15 +26,15 @@ mod present {
         /// Returns the amount of wrapping paper required to wrap this
         /// present.
         pub fn wrapping_paper(&self) -> u32 {
-            (3 * self.sides[0] as u32 * self.sides[1] as u32)
-                + (2 * self.sides[1] as u32 * self.sides[2] as u32)
-                + (2 * self.sides[2] as u32 * self.sides[0] as u32)
+            (3 * u32::from(self.sides[0]) * u32::from(self.sides[1]))
+                + (2 * u32::from(self.sides[1]) * u32::from(self.sides[2]))
+                + (2 * u32::from(self.sides[2]) * u32::from(self.sides[0]))
         }
 
         /// Returns the amount of ribbon required to wrap this present.
         pub fn ribbon(&self) -> u32 {
-            (2 * (self.sides[0] + self.sides[1])) as u32
-                + (self.sides[0] as u32 * self.sides[1] as u32 * self.sides[2] as u32)
+            u32::from(2 * (self.sides[0] + self.sides[1]))
+                + (u32::from(self.sides[0]) * u32::from(self.sides[1]) * u32::from(self.sides[2]))
         }
     }
 
@@ -65,8 +65,8 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            1588178,
-            3783758,
+            1_588_178,
+            3_783_758,
             Pz::new(2015, 2)
         );
     }
@@ -78,10 +78,10 @@ mod tests {
             (43, 14, "1x1x10"),
         ];
 
-        for &(paper, ribbon, input) in test_cases.into_iter() {
+        for &(paper, ribbon, input) in test_cases.iter() {
             let present: present::Present = input.parse().unwrap();
-            assert_eq!(paper as u32, present.wrapping_paper());
-            assert_eq!(ribbon as u32, present.ribbon());
+            assert_eq!(u32::from(paper), present.wrapping_paper());
+            assert_eq!(u32::from(ribbon), present.ribbon());
         }
     }
 }

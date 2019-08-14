@@ -37,9 +37,9 @@ fn generate_passwords(door_id: &[u8]) -> (String, String) {
         hasher.result(&mut result);
 
         // Check if first 5 chars in hex representation would be 0
-        if result[0] as u16 + result[1] as u16 + (result[2] >> 4) as u16 == 0 {
+        if u16::from(result[0]) + u16::from(result[1]) + u16::from(result[2] >> 4) == 0 {
             if !one_finished {
-                output_one = (output_one << 4) + (result[2]) as u32;
+                output_one = (output_one << 4) + u32::from(result[2]);
                 if output_one >> 28 != 0 {
                     one_finished = true;
                 }
@@ -52,7 +52,7 @@ fn generate_passwords(door_id: &[u8]) -> (String, String) {
                 // Check that the position hasn't occurred before
                 if two_filled & (1 << result[2]) == 0 {
                     // Insert 7th hex char at the designated position
-                    output_two += ((result[3] >> 4) as u32) << pos_offset;
+                    output_two += u32::from(result[3] >> 4) << pos_offset;
                     two_filled |= 1 << result[2];
                     // Drop a print statement here for the "cinematic experience"
                 }

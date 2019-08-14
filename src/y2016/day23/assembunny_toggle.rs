@@ -131,7 +131,7 @@ impl Interpreter {
     ///   register is returned
     fn token_value(&self, token: &ValueToken) -> Register {
         match *token {
-            ValueToken::Literal(lit) => lit.value() as Register,
+            ValueToken::Literal(lit) => i32::from(lit.value()),
             ValueToken::Register(ref key) => self.reg[key],
         }
     }

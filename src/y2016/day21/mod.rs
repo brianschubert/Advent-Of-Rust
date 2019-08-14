@@ -3,10 +3,10 @@
 use common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
 
 /// Bytes to be scrambled according to the input during part one.
-const BYTES_TO_SCRAMBLE: &'static [u8; 8] = b"abcdefgh";
+const BYTES_TO_SCRAMBLE: &[u8; 8] = b"abcdefgh";
 
 /// Bytes to be unscrambled according to the input during part two.
-const BYTES_TO_UNSCRAMBLE: &'static [u8; 8] = b"fbgdceah";
+const BYTES_TO_UNSCRAMBLE: &[u8; 8] = b"fbgdceah";
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<scrambler::ScrambleRule> = pio::fetch_lines(puzzle)?
@@ -185,7 +185,7 @@ mod scrambler {
                     self.rotate(mag);
                 }
                 ScrambleRule::RevRange { start, end } =>
-                    self.word_bytes[start..end + 1].reverse(),
+                    self.word_bytes[start..=end].reverse(),
                 ScrambleRule::Move { target, dest } => {
                     let payload = self.word_bytes.remove(target);
                     self.word_bytes.insert(dest, payload);
@@ -363,7 +363,7 @@ mod tests {
 
         let mut word = scrambler::WordScrambler::new(b"abcde");
 
-        for &(rule, result) in rules.into_iter() {
+        for &(rule, result) in rules.iter() {
             word.apply_rule(&rule.parse().unwrap()).unwrap();
             assert_eq!(result, word.word_bytes());
         }
@@ -388,12 +388,12 @@ mod tests {
             "rotate based on position of letter h",
         ];
 
-        const WORD: &'static [u8] = b"abcdefgh";
+        const WORD: &[u8] = b"abcdefgh";
 
         let mut scrambler = scrambler::WordScrambler::new(WORD);
 
         // Ensure that each rule can reverse itself
-        for rule in rules.into_iter() {
+        for rule in rules.iter() {
             let rule = rule.parse().unwrap();
             scrambler.apply_rule(&rule).unwrap();
             scrambler.reverse_rule(&rule).unwrap();

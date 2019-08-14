@@ -4,7 +4,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 use common::util::Pt;
 
 /// The keypad used to determine the passcode during part one.
-const KEYPAD_ONE: [&'static [char]; 3] = [
+const KEYPAD_ONE: [&[char]; 3] = [
     &['1', '2', '3'],
     &['4', '5', '6'],
     &['7', '8', '9'],
@@ -14,7 +14,7 @@ const KEYPAD_ONE: [&'static [char]; 3] = [
 const START_ONE: Pt<i8> = Pt { x: 1, y: 1 };
 
 /// The keypad used to determine the passcode during part two.
-const KEYPAD_TWO: [&'static [char]; 5] = [
+const KEYPAD_TWO: [&[char]; 5] = [
     &['x', 'x', '1', 'x', 'x'],
     &['x', '2', '3', '4', 'x'],
     &['5', '6', '7', '8', '9'],
@@ -54,7 +54,7 @@ fn press_keycode<S: AsRef<str>>(
                 b'R' => Pt::e(),
                 b'D' => Pt::s(),
                 b'L' => Pt::w(),
-                b => Err(format!("Bad direction: {}", b as char))?
+                b => return Err(format!("Bad direction: {}", b as char))
             };
             {
                 let Pt { x, y } = next;

@@ -241,7 +241,7 @@ mod tests {
             ("ulqzkmiv", Some("DRURDRUDDLLDLUURRDULRLDUUDDDRR"), Some(830)),
         ];
 
-        for &(input, expected_one, _expected_two) in test_cases.into_iter() {
+        for &(input, expected_one, _expected_two) in test_cases.iter() {
             nav.find_routes(VAULT_START, input);
 
             assert_eq!(expected_one, nav.shortest_route().map(String::as_ref));

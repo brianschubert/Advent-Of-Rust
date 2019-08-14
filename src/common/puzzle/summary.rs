@@ -7,10 +7,10 @@ use super::selector::PuzzleSelection;
 use super::error::SelectionError;
 
 /// Text preceding selection error message.
-const SELECTION_ERROR_START: &'static str = "Error selecting puzzle";
+const SELECTION_ERROR_START: &str = "Error selecting puzzle";
 
 /// Text preceding solution error message.
-const SOLUTION_ERROR_START: &'static str = "Failed to execute solution";
+const SOLUTION_ERROR_START: &str = "Failed to execute solution";
 
 #[derive(Debug)]
 /// A summary of the execution of a puzzle's solution.

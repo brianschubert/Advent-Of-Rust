@@ -4,7 +4,7 @@ use std::collections::BTreeMap; // Orders chars alphabetically
 use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The decrypted room name to be searched for during part two.
-const PART_TWO_NEEDLE: &'static str = "northpole object storage";
+const PART_TWO_NEEDLE: &str = "northpole object storage";
 
 #[derive(Debug)]
 struct RoomListing<'a> {
@@ -45,7 +45,7 @@ impl<'a> RoomListing<'a> {
     fn decrypted_name(&self) -> String {
         self.name.bytes().map(|l| {
             if l == b'-' { return ' '; }
-            (((((l - b'a') as u16) + self.sector) % 26) as u8 + b'a') as char
+            (((u16::from(l - b'a') + self.sector) % 26) as u8 + b'a') as char
         }).collect()
     }
 }
@@ -77,7 +77,7 @@ fn part_one(rooms: &[RoomListing]) -> u32 {
     rooms
         .iter()
         .filter(|&r| r.is_real())
-        .map(|room| room.sector as u32)
+        .map(|room| u32::from(room.sector))
         .sum()
 }
 
@@ -101,7 +101,7 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            409147,
+            409_147,
             991,
             Pz::new(2016, 4)
         )

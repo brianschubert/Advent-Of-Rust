@@ -89,7 +89,6 @@ mod floor {
             Ok(TileRow(s.bytes()
                 .map(|b| b == b'^')
                 .collect::<Vec<bool>>()
-                .into()
             ))
         }
     }
@@ -135,7 +134,7 @@ mod tests {
     fn solution() {
         assert_solution!(
             1978,
-            20003246,
+            20_003_246,
             Pz::new(2016, 18)
         )
     }

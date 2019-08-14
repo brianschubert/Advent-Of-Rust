@@ -64,7 +64,7 @@ mod token {
             match token.parse::<Literal>() {
                 Ok(lit) => Ok(ValueToken::Literal(lit)),
                 Err(_) => token.parse()
-                    .map(|reg| ValueToken::Register(reg)),
+                    .map(ValueToken::Register),
             }
         }
     }
@@ -211,7 +211,7 @@ impl<'a> Interpreter<'a> {
     ///   register is returned
     fn token_value(&self, token: &ValueToken) -> Register {
         match *token {
-            ValueToken::Literal(lit) => lit.value() as Register,
+            ValueToken::Literal(lit) => i32::from(lit.value()),
             ValueToken::Register(ref key) => self.reg[key],
         }
     }

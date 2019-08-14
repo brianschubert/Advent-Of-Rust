@@ -33,7 +33,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
         dir = match turn {
             "R" => dir.rot90r(),
             "L" => dir.rot90l(),
-            _ => Err("Malformed turn direction")?
+            _ => return Err("Malformed turn direction")
         };
 
         for _ in 0..mag.parse().map_err(|_| "malformed move magnitude")? {

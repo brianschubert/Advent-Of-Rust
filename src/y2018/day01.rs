@@ -53,7 +53,7 @@ mod tests {
             (&[7, 7, -2, -7, -4], 14),
         ];
 
-        for (input, expected) in test_cases.into_iter() {
+        for (input, expected) in test_cases.iter() {
             assert_eq!(
                 find_first_repeated_frequency(&input),
                 *expected,

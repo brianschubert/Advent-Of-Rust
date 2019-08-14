@@ -82,13 +82,13 @@ mod tests {
 
         let out = format!("{}", &summary);
         assert!(out.starts_with(SELECTION_ERROR_START));
-        assert!(out.trim_right().ends_with(error.description()));
+        assert!(out.trim_end().ends_with(error.description()));
     }
 
     #[test]
     fn displays_error_on_solution_failure() {
         let err_msg = "some error";
-        let error: Box<Error + Send + Sync> = From::from(err_msg);
+        let error: Box<dyn Error + Send + Sync> = From::from(err_msg);
 
         let summary = Summary::new(
             PuzzleSelection::new(2016, 1),
@@ -98,7 +98,7 @@ mod tests {
 
         let out = format!("{}", &summary);
         assert!(out.starts_with(SOLUTION_ERROR_START));
-        assert!(out.trim_right().ends_with(err_msg));
+        assert!(out.trim_end().ends_with(err_msg));
     }
 
     #[test]

@@ -9,7 +9,7 @@ pub use self::solution::{Solution, Answer};
 pub use self::summary::Summary;
 
 /// Specialized result type for puzzle processing.
-pub type PuzzleResult = Result<Solution, Box<Error + Send + Sync + 'static>>;
+pub type PuzzleResult = Result<Solution, Box<dyn Error + Send + Sync + 'static>>;
 
 pub mod input;
 mod error;

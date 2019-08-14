@@ -8,7 +8,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
     solve_parts! {
         both => {
-            let (end, intersect) = walk_blocks(input.trim_right())?;
+            let (end, intersect) = walk_blocks(input.trim_end())?;
             (end, intersect.ok_or("Instructions never intersect")?)
         }
     }

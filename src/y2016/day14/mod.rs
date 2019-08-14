@@ -8,7 +8,7 @@ use std::collections::HashMap;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
-    let input = input.trim_right().as_bytes();
+    let input = input.trim_end().as_bytes();
 
     solve_parts! {
         1 => generate_pad_keys(&input, 1).get(63).unwrap(),

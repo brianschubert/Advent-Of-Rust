@@ -33,11 +33,11 @@ impl FromStr for Disc {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(Disc {
             pos: s[54..s.len() - 1]
-                .trim_left()
+                .trim_start()
                 .parse()
                 .map_err(|_| "malformed disc starting position")?,
             range: s[12..14]
-                .trim_right()
+                .trim_end()
                 .parse()
                 .map_err(|_| "malformed disc depth")?,
         })

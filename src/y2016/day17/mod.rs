@@ -25,7 +25,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
     solve_parts! {
         1 => {
-            nav.find_routes(VAULT_START, input.trim_right());
+            nav.find_routes(VAULT_START, input.trim_end());
             nav.shortest_route().unwrap()
         }
         //, 2 => nav.longest_route().unwrap().len()

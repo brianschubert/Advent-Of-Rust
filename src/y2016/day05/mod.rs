@@ -9,7 +9,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
 
     solve_parts! {
-        both => generate_passwords(input.trim_right().as_bytes())
+        both => generate_passwords(input.trim_end().as_bytes())
     }
 }
 

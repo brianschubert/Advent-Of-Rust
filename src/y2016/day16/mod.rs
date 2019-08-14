@@ -12,7 +12,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
 
     let input: Vec<bool> = input
-        .trim_right()
+        .trim_end()
         .bytes()
         .map(|b| b == b'1')
         .collect();

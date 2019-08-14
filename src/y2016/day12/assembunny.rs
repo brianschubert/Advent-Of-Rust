@@ -37,7 +37,7 @@ mod token {
         fn from_str(token: &str) -> Result<Self, Self::Err> {
             if token.len() != 1 {
                 Err("register key must be composed of a single character")
-            } else if let key @ b'a' ... b'd' = *token.as_bytes().first().unwrap() {
+            } else if let key @ b'a' ..= b'd' = *token.as_bytes().first().unwrap() {
                 Ok(RegisterKey(key))
             } else { Err("register key must be (a | b | c | d)") }
         }
@@ -105,7 +105,7 @@ impl FromStr for Instr {
     fn from_str(instr: &str) -> Result<Self, Self::Err> {
         let (assem, args) = instr.split_at(3);
 
-        let args: Vec<&str> = args.trim_left().split_whitespace().collect();
+        let args: Vec<&str> = args.trim_start().split_whitespace().collect();
 
         match args.len() {
             1 => match assem {

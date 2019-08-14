@@ -1,7 +1,8 @@
 //! Solution for Advent of Code [2018 Day 01](https://adventofcode.com/2018/day/1).
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 use std::collections::HashSet;
+
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<i32> = pio::fetch_lines(puzzle)?
@@ -9,13 +10,15 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
         .map(|line| line.parse())
         .collect::<Result<_, _>>()?;
 
-
     solve_parts!(
         1 => input.iter().sum::<i32>(),
         2 => find_first_repeated_frequency(&input)
     )
 }
 
+
+/// Returns the first frequency that is repeated while applying each of the
+/// freq_changes in sequence.
 fn find_first_repeated_frequency(freq_changes: &[i32]) -> i32 {
     let mut history = HashSet::new();
     let mut current_freq = 0;

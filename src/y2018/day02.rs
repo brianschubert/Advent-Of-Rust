@@ -65,7 +65,7 @@ impl ToString for BoxId {
 }
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let input: Vec<_> = pio::fetch_lines(puzzle)?.into_iter().map(|line| BoxId(line)).collect();
+    let input: Vec<_> = pio::fetch_lines(puzzle)?.into_iter().map(BoxId).collect();
     solve_parts!(
         1 => compute_box_list_checksum(&input),
         2 => {

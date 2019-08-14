@@ -7,7 +7,10 @@ As with my [previous attempt][aoc-kotlin] at solving the AoC 2017
 puzzles in Kotlin, these solutions represent my first endeavors with 
 the Rust programming language. 
 
-All solutions were compiled with Rust v1.23.0.
+Solutions for the 2015 and 2016 events were initially compiled with Rust
+v1.23.0 (2015 edition) and have since been migrated to support Rust 
+v.136.0 (2018 edition). All solutions for the 2018 event were compiled 
+with Rust v1.36.0 (2018 edition) from the start.
 
 ## Running a Solution
 

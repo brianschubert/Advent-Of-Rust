@@ -87,7 +87,7 @@ pub struct PassDirective {
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let (pass_instr, mut bots) = parse_input(
-        &mut pio::fetch_lines(puzzle)?
+        &pio::fetch_lines(puzzle)?
     );
 
     solve_parts! {

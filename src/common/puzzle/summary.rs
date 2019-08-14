@@ -47,7 +47,7 @@ impl Summary {
 }
 
 impl fmt::Display for Summary {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self.result {
             Err(ref e) => match e.downcast_ref::<SelectionError>() {
                 Some(pe) => writeln!(f, "{}: {}", SELECTION_ERROR_START, pe),

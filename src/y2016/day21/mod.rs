@@ -51,7 +51,7 @@ mod scrambler {
     }
 
     impl fmt::Display for ScrambleRuleParseError {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             writeln!(f, "Failed to parse rule: {}", self.reason)
         }
     }

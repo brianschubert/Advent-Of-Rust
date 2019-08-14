@@ -1,4 +1,4 @@
-extern crate advent_of_rust;
+use advent_of_rust;
 
 use std::{env, io, process, time};
 use std::error::Error;

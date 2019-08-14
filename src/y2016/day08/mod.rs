@@ -152,7 +152,7 @@ mod screen {
     }
 
     impl fmt::Debug for MiniScreen {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             f.debug_struct("MiniScreen")
                 .field("dim_x", &self.dim_x)
                 .field("dim_y", &self.dim_y)
@@ -164,7 +164,7 @@ mod screen {
     }
 
     impl fmt::Display for MiniScreen {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             writeln!(f)?;
             for row in self.pixels.iter() {
                 writeln!(

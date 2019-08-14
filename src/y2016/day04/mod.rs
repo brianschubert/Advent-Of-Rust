@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 04.
 
 use std::collections::BTreeMap; // Orders chars alphabetically
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The decrypted room name to be searched for during part two.
 const PART_TWO_NEEDLE: &str = "northpole object storage";

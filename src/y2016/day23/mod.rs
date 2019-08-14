@@ -3,7 +3,7 @@
 //! Part two take a good two-three minute to run due to my reluctance
 //! to optimize out the addition loops in the assembunny input.
 
-use common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
+use crate::common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
 
 /// Initial value of register `a` in part one.
 const EGG_COUNT_ONE: i32 = 7;

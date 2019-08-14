@@ -9,8 +9,8 @@
 //! I am pushing the solution to part one with the part two
 //! boilerplate commented out.
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
-use common::util::Pt;
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::util::Pt;
 
 /// The final destination in the vault
 const VAULT_DEST: Pt<i8> = Pt { x: 3, y: 0 };
@@ -33,7 +33,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 }
 
 mod vault {
-    use common::util::Pt;
+    use crate::common::util::Pt;
     use crypto::md5::Md5;
     use crypto::digest::Digest;
 

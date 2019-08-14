@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 16
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Length of data to generate for part one.
 const DATA_LENGTH_ONE: usize = 272;

@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 02.
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
-use common::util::Pt;
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::util::Pt;
 
 /// The keypad used to determine the passcode during part one.
 const KEYPAD_ONE: [&[char]; 3] = [

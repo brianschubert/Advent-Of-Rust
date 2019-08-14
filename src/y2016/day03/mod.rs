@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 03.
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 #[derive(Debug)]
 struct Triangle(u16, u16, u16);

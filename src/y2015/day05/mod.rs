@@ -1,7 +1,7 @@
 //! Solution for 2015 Day 05
 
 use std::collections::HashSet;
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Vowel bytes.
 const VOWELS: [u8; 5] = [b'a', b'e', b'i', b'o', b'u'];

@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 08.
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 mod screen {
     use std::str::FromStr;

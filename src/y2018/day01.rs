@@ -1,6 +1,6 @@
 //! Solution for Advent of Code [2018 Day 01](https://adventofcode.com/2018/day/1).
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 use std::collections::HashSet;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {

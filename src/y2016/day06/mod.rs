@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 06.
 
 use std::collections::HashMap;
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<_> = pio::fetch_lines(puzzle)?;

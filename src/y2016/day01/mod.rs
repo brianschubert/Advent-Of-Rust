@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 01.
 
-use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
-use common::util::Pt;
+use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::util::Pt;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;

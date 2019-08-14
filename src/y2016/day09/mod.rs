@@ -4,7 +4,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
-    let input = input.trim_right();
+    let input = input.trim_end();
 
     solve_parts! {
         1 => decompress(&input[..]).len(),

@@ -19,7 +19,7 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
-    let input = input.trim_right().parse()?;
+    let input = input.trim_end().parse()?;
 
     solve_parts! {
         1 => part_one(input),
@@ -116,7 +116,7 @@ fn part_two(elf_count: u32) -> u32 {
 /// and time due to shifting/copying elements during each "elf" removal.
 fn part_two_brute_force(elf_count: usize) -> usize {
     debug_assert_ne!(0, elf_count);
-    let mut elves: Vec<usize> = (0..elf_count).into_iter().collect();
+    let mut elves: Vec<usize> = (0..elf_count).collect();
     let mut finger = 0_usize;
 
     while elves.len() != 1 {
@@ -139,8 +139,8 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            1808357,
-            1407007,
+            1_808_357,
+            1_407_007,
             Pz::new(2016, 19)
         )
     }

@@ -33,11 +33,11 @@ impl FromStr for Disc {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(Disc {
             pos: s[54..s.len() - 1]
-                .trim_left()
+                .trim_start()
                 .parse()
                 .map_err(|_| "malformed disc starting position")?,
             range: s[12..14]
-                .trim_right()
+                .trim_end()
                 .parse()
                 .map_err(|_| "malformed disc depth")?,
         })
@@ -53,7 +53,7 @@ fn required_delay(discs: &[Disc]) -> u32 {
             .iter()
             .enumerate()
             .any(|(depth, ref disc)| {
-                (1 + delay + depth as u32 + disc.pos as u32) % disc.range as u32 != 0
+                (1 + delay + depth as u32 + u32::from(disc.pos)) % u32::from(disc.range) != 0
             }) {
             break delay;
         }
@@ -69,8 +69,8 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            122318,
-            3208583,
+            122_318,
+            3_208_583,
             Pz::new(2016, 15)
         )
     }

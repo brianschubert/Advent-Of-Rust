@@ -245,13 +245,13 @@ mod tests {
         let mut loc: Pt<i32> = Pt::origin();
 
         for _ in 0..28 {
-            loc = loc + dir;
+            loc += dir;
         }
 
         dir = dir.rot90r();
 
         for _ in 0..21 {
-            loc = loc + dir;
+            loc += dir;
         }
 
         assert_eq!(Pt { x: 28, y: -21, }, loc);

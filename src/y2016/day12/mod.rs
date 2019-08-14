@@ -44,8 +44,8 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            318009,
-            9227663,
+            318_009,
+            9_227_663,
             Pz::new(2016, 12)
         )
     }

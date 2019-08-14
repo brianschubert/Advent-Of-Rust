@@ -27,7 +27,7 @@ fn find_first_coin(seed: &[u8]) -> (u64, u64) {
         hasher.result(&mut result);
 
         // Check if first 5 chars in hex representation would be 0
-        if result[0] as u16 + result[1] as u16 + (result[2] >> 4) as u16 == 0 {
+        if u16::from(result[0]) + u16::from(result[1]) + u16::from(result[2] >> 4) == 0 {
             if coin_5.is_none() {
                 coin_5 = Some(index);
             }
@@ -53,8 +53,8 @@ mod tests {
     #[test]
     fn solution() {
         assert_solution!(
-            254575,
-            1038736,
+            254_575,
+            1_038_736,
             Pz::new(2015, 4)
         )
     }
@@ -62,7 +62,7 @@ mod tests {
     #[test]
     fn ex1() {
         // Part two causes these to run for ~60s
-        assert_eq!(609043, find_first_coin(b"abcdef").0);
-        assert_eq!(1048970, find_first_coin(b"pqrstuv").0);
+        assert_eq!(609_043, find_first_coin(b"abcdef").0);
+        assert_eq!(1_048_970, find_first_coin(b"pqrstuv").0);
     }
 }

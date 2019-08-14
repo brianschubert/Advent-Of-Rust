@@ -76,7 +76,7 @@ $ cargo test 2016::day02 -- --ignored
 (Don't forget some popcorn!)
 
 ## Copyright & License
-Copyright &copy; 2018 Brian Schubert - available under [MIT License][license].
+Copyright &copy; 2018, 2019 Brian Schubert - available under [MIT License][license].
 
 [adventofcode]: https://adventofcode.com/
 [rust]: https://www.rust-lang.org/en-US/

@@ -8,7 +8,7 @@ use std::collections::HashMap;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
-    let input = input.trim_right().as_bytes();
+    let input = input.trim_end().as_bytes();
 
     solve_parts! {
         1 => generate_pad_keys(&input, 1).get(63).unwrap(),
@@ -158,7 +158,7 @@ mod tests {
 
     #[test]
     fn stretch_md5() {
-        const INPUT: &'static [u8] = b"abc0";
+        const INPUT: &[u8] = b"abc0";
 
         assert_eq!("577571be4de9dcce85a041ba0410f29f", md5_stretch(&INPUT, 1));
         assert_eq!("eec80a0c92dc8a0777c619d9bb51e910", md5_stretch(&INPUT, 2));

@@ -31,19 +31,19 @@ mod screen {
         fn from_str(line: &str) ->  Result<Self, Self::Err> {
             let bytes = line.as_bytes();
             match bytes.len() {
-                len @ 8 ... 10 => { // We caught a rectangle instruction!
+                len @ 8 ..= 10 => { // We caught a rectangle instruction!
                     let div = bytes.iter().enumerate()
                         .find(|&(_, &b)| b == b'x')
                         .map(|pair| pair.0)
                         .ok_or("malformed rect instr")?;
                     let row: usize = str::from_utf8(&bytes[div - 2..div])
                         .unwrap()
-                        .trim_left()
+                        .trim_start()
                         .parse()
                         .map_err(|_| "invalid rect row")?;
                     let col: usize = str::from_utf8(&bytes[div + 1..len])
                         .unwrap()
-                        .trim_left()
+                        .trim_start()
                         .parse()
                         .map_err(|_| "invalid rect col")?;
                     Ok(ScreenInstruction::Rect { x: row, y: col })
@@ -51,12 +51,12 @@ mod screen {
                 len if bytes[7] == b'c' => { // Smells like a column rotation
                     let col: usize = str::from_utf8(&bytes[16..18])
                         .unwrap()
-                        .trim_right()
+                        .trim_end()
                         .parse()
                         .map_err(|_|"invalid col")?;
                     let offset: RotOffset = str::from_utf8(&bytes[21..len])
                         .unwrap()
-                        .trim_left()
+                        .trim_start()
                         .parse()
                         .map_err(|_| "invalid col rot offset")?;
                     Ok(ScreenInstruction::RotCol { col, offset })
@@ -64,12 +64,12 @@ mod screen {
                 len if bytes[7] == b'r' => { // Row rot? Row rot.
                     let row: usize = str::from_utf8(&bytes[13..15])
                         .unwrap()
-                        .trim_right()
+                        .trim_end()
                         .parse()
                         .map_err(|_| "invalid shift row")?;
                     let offset: RotOffset = str::from_utf8(&bytes[18..len])
                         .unwrap()
-                        .trim_left()
+                        .trim_start()
                         .parse()
                         .map_err(|_| "invalid row rot offset")?;
                     Ok(ScreenInstruction::RotRow { row, offset })
@@ -165,7 +165,7 @@ mod screen {
 
     impl fmt::Display for MiniScreen {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-            writeln!(f, "")?;
+            writeln!(f)?;
             for row in self.pixels.iter() {
                 writeln!(
                     f, "\"{}\"",
@@ -209,7 +209,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 mod tests {
     use super::*;
 
-    const PART_TWO_SOLUTION: &'static str = r######"
+    const PART_TWO_SOLUTION: &str = r######"
 " ##  #### ###  #  # ###  #### ###    ## ###   ### "
 "#  # #    #  # #  # #  #    # #  #    # #  # #    "
 "#  # ###  ###  #  # #  #   #  ###     # #  # #    "

@@ -41,7 +41,7 @@ fn triangles_by_row(tri_desc: &[Vec<u16>]) -> Vec<Triangle> {
 }
 
 fn triangles_by_col(tri_desc: &[Vec<u16>]) -> Vec<Triangle> {
-    tri_desc.chunks(3).into_iter().flat_map(|three_tri| {
+    tri_desc.chunks(3).flat_map(|three_tri| {
         three_tri[0].iter()
             .zip(three_tri[1].iter())
             .zip(three_tri[2].iter())

@@ -7,11 +7,11 @@ use regex::Regex;
 use std::collections::{HashMap, BTreeMap};
 
 /// Regex pattern for a bot's pass instruction
-const PATTERN_PASS: &'static str =
+const PATTERN_PASS: &str =
     "^bot (\\d{1,3}) gives low to (bot|output) (\\d{1,3}) and high to (bot|output) (\\d{1,3})$";
 
 /// Regex pattern for a bot initializer instruction
-const PATTERN_INIT: &'static str = "^value (\\d{1,3}) goes to bot (\\d{1,3})$";
+const PATTERN_INIT: &str = "^value (\\d{1,3}) goes to bot (\\d{1,3})$";
 
 /// Chip combination to watch for in part one.
 const WATCHED_CHIPS: (u8, u8) = (17, 61);
@@ -200,7 +200,7 @@ fn pass_chips(
         ),
         outputs
             .range(0..3)
-            .map(|(_, out)| *out.first().unwrap() as u32)
+            .map(|(_, out)| u32::from(*out.first().unwrap()))
             .product()
     )
 }

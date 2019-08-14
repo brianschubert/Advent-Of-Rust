@@ -121,9 +121,9 @@ mod tests {
 
     #[test]
     fn double_pairs() {
-        assert!(check_double_pair("xyxy".as_bytes()));
-        assert!(check_double_pair("qwertaakjjhjppaal".as_bytes()));
-        assert!(check_double_pair("qwertaaakjjhjppaal".as_bytes()));
-        assert!(!check_double_pair("aaa".as_bytes()));
+        assert!(check_double_pair(b"xyxy"));
+        assert!(check_double_pair(b"qwertaakjjhjppaal"));
+        assert!(check_double_pair(b"qwertaaakjjhjppaal"));
+        assert!(!check_double_pair(b"aaa"));
     }
 }

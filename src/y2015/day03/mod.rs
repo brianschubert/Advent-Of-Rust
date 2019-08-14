@@ -80,7 +80,7 @@ mod tests {
             (2, 11, "^v^v^v^v^v")
         ];
 
-        for &(alone, with_robot, input) in test_cases.into_iter() {
+        for &(alone, with_robot, input) in test_cases.iter() {
             let moves = parse_input(input).unwrap();
             assert_eq!(alone, visit_houses(&moves));
             assert_eq!(with_robot, visit_houses_parallel(&moves));

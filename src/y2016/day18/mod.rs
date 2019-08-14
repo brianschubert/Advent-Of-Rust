@@ -11,7 +11,7 @@ const ROWS_TWO: usize = 400_000;
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
 
-    let mut floor: floor::Floor = input.trim_right().parse().unwrap(); // parse cannot fail
+    let mut floor: floor::Floor = input.trim_end().parse().unwrap(); // parse cannot fail
 
     solve_parts! {
         1 => {
@@ -89,7 +89,6 @@ mod floor {
             Ok(TileRow(s.bytes()
                 .map(|b| b == b'^')
                 .collect::<Vec<bool>>()
-                .into()
             ))
         }
     }
@@ -135,7 +134,7 @@ mod tests {
     fn solution() {
         assert_solution!(
             1978,
-            20003246,
+            20_003_246,
             Pz::new(2016, 18)
         )
     }

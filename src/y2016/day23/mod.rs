@@ -61,7 +61,7 @@ mod tests {
     fn solution() {
         assert_solution!(
             11004,
-            479007564,
+            479_007_564,
             Pz::new(2016, 23)
         )
     }

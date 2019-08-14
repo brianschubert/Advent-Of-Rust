@@ -6,13 +6,13 @@ use common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult
 const DATA_LENGTH_ONE: usize = 272;
 
 /// Length of data to generate for part two.
-const DATA_LENGTH_TWO: usize = 35651584;
+const DATA_LENGTH_TWO: usize = 35_651_584;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
 
     let input: Vec<bool> = input
-        .trim_right()
+        .trim_end()
         .bytes()
         .map(|b| b == b'1')
         .collect();
@@ -139,7 +139,7 @@ mod diskfiller {
 
             let mut filler = DiskFiller::new();
 
-            for &(input, expected) in test_cases.into_iter() {
+            for &(input, expected) in test_cases.iter() {
                 filler.input(&input);
                 filler.generate_to_length(expected.len());
 
@@ -151,9 +151,8 @@ mod diskfiller {
         #[test]
         fn filler_checksum() {
             let filler = DiskFiller {
-                data: "110010110100"
-                    .as_bytes()
-                    .into_iter()
+                data: b"110010110100"
+                    .iter()
                     .map(|&b| b == b'1')
                     .collect(),
                 cut: 12,
@@ -181,9 +180,8 @@ mod tests {
     fn ex1() {
         let mut filler = diskfiller::DiskFiller::new();
 
-        filler.input(&"10000"
-            .as_bytes()
-            .into_iter()
+        filler.input(&b"10000"
+            .iter()
             .map(|&b| b == b'1')
             .collect::<Vec<_>>()[..]
         );

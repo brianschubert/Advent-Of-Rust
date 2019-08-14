@@ -25,7 +25,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
     solve_parts! {
         1 => {
-            nav.find_routes(VAULT_START, input.trim_right());
+            nav.find_routes(VAULT_START, input.trim_end());
             nav.shortest_route().unwrap()
         }
         //, 2 => nav.longest_route().unwrap().len()
@@ -241,7 +241,7 @@ mod tests {
             ("ulqzkmiv", Some("DRURDRUDDLLDLUURRDULRLDUUDDDRR"), Some(830)),
         ];
 
-        for &(input, expected_one, _expected_two) in test_cases.into_iter() {
+        for &(input, expected_one, _expected_two) in test_cases.iter() {
             nav.find_routes(VAULT_START, input);
 
             assert_eq!(expected_one, nav.shortest_route().map(String::as_ref));

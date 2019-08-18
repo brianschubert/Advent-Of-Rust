@@ -2,7 +2,7 @@ pub mod puzzle;
 pub mod util;
 
 macro_rules! route_days {
-    ( $( $day:expr => $sol:ident ),+ ) => {
+    ( $( $day:expr => $sol:ident ),+ $(,)?) => {
         use crate::common::puzzle::{Selection as Pz, Result as PuzzleResult, SelectionError};
         pub fn route(puzzle: &Pz) -> PuzzleResult {
             match puzzle.day() {

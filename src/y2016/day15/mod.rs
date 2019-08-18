@@ -1,5 +1,5 @@
 //! Solution for 2016 Day 15
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 use std::str::FromStr;
 
@@ -65,18 +65,14 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            122_318,
-            3_208_583,
-            Pz::new(2016, 15)
-        )
+        assert_solution!(122_318, 3_208_583, Pz::new(2016, 15))
     }
 
     #[test]
     fn ex1() {
         let discs = [
             "Disc #1 has 5 positions; at time=0, it is at position 4.",
-            "Disc #2 has 2 positions; at time=0, it is at position 1."
+            "Disc #2 has 2 positions; at time=0, it is at position 1.",
         ];
 
         let delay = required_delay(

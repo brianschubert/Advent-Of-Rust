@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 02.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use crate::common::util::Pt;
 
 /// The keypad used to determine the passcode during part one.
@@ -75,21 +75,12 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            "99332",
-            "DD483",
-            Pz::new(2016, 2)
-        )
+        assert_solution!("99332", "DD483", Pz::new(2016, 2))
     }
 
     #[test]
     fn ex1() {
-        let instr = [
-            "ULL",
-            "RRDDD",
-            "LURDL",
-            "UUUUD"
-        ];
+        let instr = ["ULL", "RRDDD", "LURDL", "UUUUD"];
 
         assert_eq!(
             "1985",
@@ -99,12 +90,7 @@ mod tests {
 
     #[test]
     fn ex2() {
-        let instr = [
-            "ULL",
-            "RRDDD",
-            "LURDL",
-            "UUUUD"
-        ];
+        let instr = ["ULL", "RRDDD", "LURDL", "UUUUD"];
 
         assert_eq!(
             "5DB3",
@@ -112,4 +98,3 @@ mod tests {
         );
     }
 }
-

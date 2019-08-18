@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 01.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
 use crate::common::util::Pt;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
@@ -33,7 +33,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
         dir = match turn {
             "R" => dir.rot90r(),
             "L" => dir.rot90l(),
-            _ => return Err("Malformed turn direction")
+            _ => return Err("Malformed turn direction"),
         };
 
         for _ in 0..mag.parse().map_err(|_| "malformed move magnitude")? {
@@ -50,7 +50,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
 
     Ok((
         pos.dist_manh(&Pt::origin()),
-        intersect.map(|p| p.dist_manh(&Pt::origin()))
+        intersect.map(|p| p.dist_manh(&Pt::origin())),
     ))
 }
 

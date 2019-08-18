@@ -3,7 +3,7 @@
 //! Part two take a good two-three minute to run due to my reluctance
 //! to optimize out the addition loops in the assembunny input.
 
-use crate::common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 /// Initial value of register `a` in part one.
 const EGG_COUNT_ONE: i32 = 7;
@@ -59,11 +59,7 @@ mod tests {
     #[ignore]
     // Take a bit over two minutes to run; ignored by default
     fn solution() {
-        assert_solution!(
-            11004,
-            479_007_564,
-            Pz::new(2016, 23)
-        )
+        assert_solution!(11004, 479_007_564, Pz::new(2016, 23))
     }
 
     #[test]

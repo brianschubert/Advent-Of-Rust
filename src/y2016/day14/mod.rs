@@ -1,8 +1,8 @@
 //! Solution for 2016 Day 14
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
-use crypto::md5::Md5;
 use crypto::digest::Digest;
+use crypto::md5::Md5;
 
 use std::collections::HashMap;
 
@@ -78,7 +78,9 @@ fn generate_pad_keys(seed: &[u8], stretch_factor: u16) -> Vec<KeyIndex> {
 ///
 /// If no repeating byte is found, None is returned.
 fn find_repeating_byte(s: &str, rep_count: usize) -> Option<u8> {
-    if rep_count < 2 { return None; }
+    if rep_count < 2 {
+        return None;
+    }
     for win in s.as_bytes().windows(rep_count) {
         let first = win.first().unwrap();
         if !win.iter().any(|&b| b != *first) {

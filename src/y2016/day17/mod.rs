@@ -9,7 +9,7 @@
 //! I am pushing the solution to part one with the part two
 //! boilerplate commented out.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use crate::common::util::Pt;
 
 /// The final destination in the vault
@@ -34,8 +34,8 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
 mod vault {
     use crate::common::util::Pt;
-    use crypto::md5::Md5;
     use crypto::digest::Digest;
+    use crypto::md5::Md5;
 
     /// A Position within a vault.
     type VaultPos = Pt<i8>;
@@ -54,7 +54,9 @@ mod vault {
                 Some('D')
             } else if self == Dir::w() {
                 Some('L')
-            } else { None }
+            } else {
+                None
+            }
         }
     }
 
@@ -88,7 +90,9 @@ mod vault {
         /// to this vault's destination based on the specified passcode.
         pub fn find_routes(&mut self, start_pos: VaultPos, passcode: &str) {
             self.reset();
-            if start_pos == self.destination { return; }
+            if start_pos == self.destination {
+                return;
+            }
 
             let mut path_stack = Vec::new();
 
@@ -102,8 +106,7 @@ mod vault {
                     .into_iter()
                     .filter(|&dir| {
                         let next = start_pos + dir;
-                        next.x >= 0 && next.x <= max_pos
-                            && next.y >= 0 && next.y <= max_pos
+                        next.x >= 0 && next.x <= max_pos && next.y >= 0 && next.y <= max_pos
                     })
                     .collect(),
             };
@@ -134,13 +137,14 @@ mod vault {
                                 .into_iter()
                                 .filter(|&dir| {
                                     let next = pos + dir;
-                                    next.x >= 0 && next.x <= max_pos
-                                        && next.y >= 0 && next.y <= max_pos
+                                    next.x >= 0
+                                        && next.x <= max_pos
+                                        && next.y >= 0
+                                        && next.y <= max_pos
                                 })
                                 .collect(),
                             pathcode,
                             pos,
-
                         };
 
                         path_stack.push(current);
@@ -224,10 +228,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            "DDRRULRDRD",
-            Pz::new(2016, 17)
-        )
+        assert_solution!("DDRRULRDRD", Pz::new(2016, 17))
     }
 
     #[test]

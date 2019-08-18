@@ -2,7 +2,7 @@
 
 use std::collections::HashSet;
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<i32> = pio::fetch_lines(puzzle)?
@@ -15,7 +15,6 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
         2 => find_first_repeated_frequency(&input)
     )
 }
-
 
 /// Returns the first frequency that is repeated while applying each of the
 /// freq_changes in sequence.
@@ -40,11 +39,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            518,
-            72889,
-            Pz::new(2018, 1)
-        )
+        assert_solution!(518, 72889, Pz::new(2018, 1))
     }
 
     #[test]
@@ -57,10 +52,7 @@ mod tests {
         ];
 
         for (input, expected) in test_cases.iter() {
-            assert_eq!(
-                find_first_repeated_frequency(&input),
-                *expected,
-            )
+            assert_eq!(find_first_repeated_frequency(&input), *expected,)
         }
     }
 }

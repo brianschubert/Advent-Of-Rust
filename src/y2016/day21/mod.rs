@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 21
 
-use crate::common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 /// Bytes to be scrambled according to the input during part one.
 const BYTES_TO_SCRAMBLE: &[u8; 8] = b"abcdefgh";
@@ -34,8 +34,8 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
 mod scrambler {
     use crate::common::util::RotateSigned;
-    use std::{fmt, str};
     use std::error::Error;
+    use std::{fmt, str};
 
     #[derive(Debug)]
     /// An error that occurs while parsing a scramble rule.
@@ -69,9 +69,10 @@ mod scrambler {
     impl ScrambleRule {
         pub fn is_own_reverse(&self) -> bool {
             match *self {
-                ScrambleRule::SwapPos(..) | ScrambleRule::SwapLet(..)
+                ScrambleRule::SwapPos(..)
+                | ScrambleRule::SwapLet(..)
                 | ScrambleRule::RevRange { .. } => true,
-                _ => false
+                _ => false,
             }
         }
     }
@@ -158,7 +159,7 @@ mod scrambler {
         /// Builds a new word scrambler for the specified word.
         pub fn new(word: &[u8]) -> Self {
             WordScrambler {
-                word_bytes: Vec::from(word)
+                word_bytes: Vec::from(word),
             }
         }
 
@@ -196,18 +197,14 @@ mod scrambler {
 
         /// Reverses prior scrambling to this scrambler's word
         /// according to the specified rule.
-        pub fn reverse_rule(
-            &mut self,
-            rule: &ScrambleRule,
-        ) -> Result<(), &'static str> {
+        pub fn reverse_rule(&mut self, rule: &ScrambleRule) -> Result<(), &'static str> {
             if rule.is_own_reverse() {
                 self.apply_rule(rule)?;
             } else {
                 match *rule {
                     ScrambleRule::RotByPos { mag } => self.rotate(-mag),
                     ScrambleRule::RotByLet { det } => {
-                        let pos = self.index_of(det)
-                            .ok_or("no such letter in word")?;
+                        let pos = self.index_of(det).ok_or("no such letter in word")?;
                         let mag = self.find_prior_let_rot(pos);
                         self.rotate(mag)
                     }
@@ -215,7 +212,7 @@ mod scrambler {
                         let payload = self.word_bytes.remove(dest);
                         self.word_bytes.insert(target, payload);
                     }
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 }
             }
             Ok(())
@@ -230,8 +227,7 @@ mod scrambler {
         /// Converts this scrambler into a string of its underlying
         /// word.
         pub fn into_word(self) -> String {
-            String::from_utf8(self.word_bytes)
-                .expect("invalid utf8 in word bytes ")
+            String::from_utf8(self.word_bytes).expect("invalid utf8 in word bytes ")
         }
 
         /// Returns the index of the specified `byte` in this
@@ -276,7 +272,7 @@ mod scrambler {
                     assert_eq!(7, one);
                     assert_eq!(6, two);
                 }
-                _ => panic!("failed to parse position swap")
+                _ => panic!("failed to parse position swap"),
             }
 
             match "swap letter g with letter f".parse().unwrap() {
@@ -284,28 +280,28 @@ mod scrambler {
                     assert_eq!(b'g', one);
                     assert_eq!(b'f', two);
                 }
-                _ => panic!("failed to parse letter swap")
+                _ => panic!("failed to parse letter swap"),
             }
 
             match "rotate left 2 steps".parse().unwrap() {
                 ScrambleRule::RotByPos { mag } => {
                     assert_eq!(-2, mag);
                 }
-                _ => panic!("failed to parse left rot")
+                _ => panic!("failed to parse left rot"),
             }
 
             match "rotate right 6 steps".parse().unwrap() {
                 ScrambleRule::RotByPos { mag } => {
                     assert_eq!(6, mag);
                 }
-                _ => panic!("failed to parse left rot")
+                _ => panic!("failed to parse left rot"),
             }
 
             match "rotate based on position of letter a".parse().unwrap() {
                 ScrambleRule::RotByLet { det } => {
                     assert_eq!(b'a', det);
                 }
-                _ => panic!("failed to parse left rot")
+                _ => panic!("failed to parse left rot"),
             }
 
             match "reverse positions 3 through 4".parse().unwrap() {
@@ -313,7 +309,7 @@ mod scrambler {
                     assert_eq!(3, start);
                     assert_eq!(4, end);
                 }
-                _ => panic!("failed to parse left rot")
+                _ => panic!("failed to parse left rot"),
             }
 
             match "move position 1 to position 5".parse().unwrap() {
@@ -321,7 +317,7 @@ mod scrambler {
                     assert_eq!(1, target);
                     assert_eq!(5, dest);
                 }
-                _ => panic!("failed to parse left rot")
+                _ => panic!("failed to parse left rot"),
             }
         }
     }
@@ -333,11 +329,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            "fdhbcgea",
-            "egfbcadh",
-            Pz::new(2016, 21)
-        );
+        assert_solution!("fdhbcgea", "egfbcadh", Pz::new(2016, 21));
     }
 
     #[test]

@@ -1,6 +1,6 @@
 //! Solution for 2015 Day 02
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<present::Present> = pio::fetch_lines(puzzle)?
@@ -19,7 +19,7 @@ mod present {
 
     /// A right-rectangular prism present.
     pub struct Present {
-        sides: [u8; 3]
+        sides: [u8; 3],
     }
 
     impl Present {
@@ -50,7 +50,9 @@ mod present {
 
             if 3 == dims.len() {
                 dims.sort();
-                Ok(Present { sides: [dims[0], dims[1], dims[2]] })
+                Ok(Present {
+                    sides: [dims[0], dims[1], dims[2]],
+                })
             } else {
                 Err("present must have three dimensions")
             }
@@ -64,19 +66,12 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            1_588_178,
-            3_783_758,
-            Pz::new(2015, 2)
-        );
+        assert_solution!(1_588_178, 3_783_758, Pz::new(2015, 2));
     }
 
     #[test]
     fn ex_both() {
-        let test_cases: [(u8, u8, &'static str); 2] = [
-            (58, 34, "2x3x4"),
-            (43, 14, "1x1x10"),
-        ];
+        let test_cases: [(u8, u8, &'static str); 2] = [(58, 34, "2x3x4"), (43, 14, "1x1x10")];
 
         for &(paper, ribbon, input) in test_cases.iter() {
             let present: present::Present = input.parse().unwrap();

@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 16
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 /// Length of data to generate for part one.
 const DATA_LENGTH_ONE: usize = 272;
@@ -64,7 +64,9 @@ mod diskfiller {
         /// Generates data of at least the specified length based
         /// the data previously provided.
         pub fn generate_to_length(&mut self, length: usize) {
-            if length <= self.data.len() { return; }
+            if length <= self.data.len() {
+                return;
+            }
 
             self.cut = length;
 
@@ -126,15 +128,15 @@ mod diskfiller {
             let test_cases: [(&'static [bool], &'static str); 4] = [
                 (&[true], "100"),
                 (&[false], "001"),
-                (&[true, true, true, true, true, ], "11111000000"),
+                (&[true, true, true, true, true], "11111000000"),
                 (
                     &[
                         true, true, true, true,
                         false, false, false, false,
                         true, false, true, false
                     ],
-                    "1111000010100101011110000"
-                )
+                    "1111000010100101011110000",
+                ),
             ];
 
             let mut filler = DiskFiller::new();
@@ -169,22 +171,14 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            "11111000111110000",
-            "10111100110110100",
-            Pz::new(2016, 16)
-        )
+        assert_solution!("11111000111110000", "10111100110110100", Pz::new(2016, 16))
     }
 
     #[test]
     fn ex1() {
         let mut filler = diskfiller::DiskFiller::new();
 
-        filler.input(&b"10000"
-            .iter()
-            .map(|&b| b == b'1')
-            .collect::<Vec<_>>()[..]
-        );
+        filler.input(&b"10000".iter().map(|&b| b == b'1').collect::<Vec<_>>()[..]);
 
         filler.generate_to_length(20);
 

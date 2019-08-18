@@ -1,6 +1,6 @@
 //! Solution for 2015 Day 01
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
@@ -47,11 +47,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            74,
-            1795,
-            Pz::new(2015, 1)
-        )
+        assert_solution!(74, 1795, Pz::new(2015, 1))
     }
 
     #[test]
@@ -76,10 +72,7 @@ mod tests {
 
     #[test]
     fn ex2() {
-        let test_cases: [(usize, &'static [u8]); 2] = [
-            (1, b")"),
-            (5, b"()())"),
-        ];
+        let test_cases: [(usize, &'static [u8]); 2] = [(1, b")"), (5, b"()())")];
 
         for &(expected, input) in test_cases.iter() {
             let moves = parse_elevator_offset(input);

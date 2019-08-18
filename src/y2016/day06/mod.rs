@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 06.
 
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
 use std::collections::HashMap;
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input: Vec<_> = pio::fetch_lines(puzzle)?;
@@ -31,7 +31,7 @@ fn repetition_correct(transmissions: &[String]) -> (String, String) {
     }
     (
         String::from_utf8(msg_one).expect("message contains invalid uft8"),
-        String::from_utf8(msg_two).expect("message contains invalid uft8")
+        String::from_utf8(msg_two).expect("message contains invalid uft8"),
     )
 }
 
@@ -41,11 +41,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            "afwlyyyq",
-            "bhkzekao",
-            Pz::new(2016, 6)
-        )
+        assert_solution!("afwlyyyq", "bhkzekao", Pz::new(2016, 6))
     }
 
     #[test]
@@ -66,7 +62,7 @@ mod tests {
             "vntsnd".to_owned(),
             "vrdear".to_owned(),
             "dvrsen".to_owned(),
-            "enarar".to_owned()
+            "enarar".to_owned(),
         ];
 
         let (one, two) = repetition_correct(&transmission);

@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 08.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 mod screen {
     use std::str::FromStr;
@@ -28,7 +28,7 @@ mod screen {
     impl FromStr for ScreenInstruction {
         type Err = &'static str;
 
-        fn from_str(line: &str) ->  Result<Self, Self::Err> {
+        fn from_str(line: &str) -> Result<Self, Self::Err> {
             let bytes = line.as_bytes();
             match bytes.len() {
                 len @ 8 ..= 10 => { // We caught a rectangle instruction!
@@ -53,7 +53,7 @@ mod screen {
                         .unwrap()
                         .trim_end()
                         .parse()
-                        .map_err(|_|"invalid col")?;
+                        .map_err(|_| "invalid col")?;
                     let offset: RotOffset = str::from_utf8(&bytes[21..len])
                         .unwrap()
                         .trim_start()
@@ -74,7 +74,7 @@ mod screen {
                         .map_err(|_| "invalid row rot offset")?;
                     Ok(ScreenInstruction::RotRow { row, offset })
                 }
-                _ => Err("Fishy screen instruction!")
+                _ => Err("Fishy screen instruction!"),
             }
         }
     }
@@ -136,8 +136,8 @@ mod screen {
             let selector = 1_u64 << col_offset;
 
             // Get the state of the pixels in the column
-            let mut col_states: Vec<bool> = self.pixels.iter()
-                .map(|r| (r & selector) != 0).collect();
+            let mut col_states: Vec<bool> =
+                self.pixels.iter().map(|r| (r & selector) != 0).collect();
 
             // Rotate the pixels
             col_states[split..].reverse();
@@ -168,7 +168,8 @@ mod screen {
             writeln!(f)?;
             for row in self.pixels.iter() {
                 writeln!(
-                    f, "\"{}\"",
+                    f,
+                    "\"{}\"",
                     &format!("{:064b}", row)[0..self.dim_x]
                         .replace('0', " ")
                         .replace('1', "#")
@@ -233,7 +234,7 @@ mod tests {
             "rect 3x2",
             "rotate column x=1 by 1",
             "rotate row y=0 by 4",
-            "rotate column x=1 by 1"
+            "rotate column x=1 by 1",
         ];
 
         let mut screen = MiniScreen::new(7, 3);

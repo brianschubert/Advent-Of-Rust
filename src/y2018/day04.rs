@@ -1,6 +1,8 @@
 //! Solution for Advent of Code [2018 Day 04](https://adventofcode.com/2018/day/4).
 
-use crate::common::puzzle::{input as pio, PuzzleResult, PuzzleSelection as Pz, Solution};
+use crate::common::puzzle;
+
+mod guard;
 
 #[cfg(test)]
 const EXAMPLE_INPUT: &[&str] = &[
@@ -23,10 +25,8 @@ const EXAMPLE_INPUT: &[&str] = &[
     "[1518-11-05 00:55] wakes up",
 ];
 
-mod guard;
-
-pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let lines = pio::fetch_lines(puzzle)?;
+pub fn solve(puzzle: &puzzle::Selection) -> puzzle::Result {
+    let lines = puzzle::fetch_lines(puzzle)?;
     let log = guard::GuardLog::parse_lines(&lines)?;
     solve_parts!(
         1 => {
@@ -36,7 +36,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
         2 => {
             let (guard, minute) = log.compute_guard_most_frequently_asleep_same_minute();
             u32::from(guard) * minute as u32
-        }
+        },
 
     )
 }
@@ -47,7 +47,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(95199, 7887, Pz::new(2018, 4))
+        assert_solution!(95199, 7887, puzzle::Selection::new(2018, 4))
     }
 
     #[test]

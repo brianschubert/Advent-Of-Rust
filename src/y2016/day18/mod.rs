@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 18
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 /// The number of rows to generate for part one.
 const ROWS_ONE: usize = 40;
@@ -132,11 +132,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            1978,
-            20_003_246,
-            Pz::new(2016, 18)
-        )
+        assert_solution!(1978, 20_003_246, Pz::new(2016, 18))
     }
 
     #[test]

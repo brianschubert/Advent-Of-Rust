@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 09.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
@@ -103,11 +103,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            74_532_usize,
-            11_558_231_665_usize,
-            Pz::new(2016, 9)
-        )
+        assert_solution!(74_532_usize, 11_558_231_665_usize, Pz::new(2016, 9))
     }
 
     #[test]
@@ -120,16 +116,17 @@ mod tests {
         assert_eq!("X(3x3)ABC(3x3)ABCY", decompress("X(8x2)(3x3)ABCY"));
     }
 
-
     #[test]
     fn ex2() {
         assert_eq!(9, decompressed_len("(3x3)XYZ"));
         assert_eq!(20, decompressed_len("X(8x2)(3x3)ABCY"));
-        assert_eq!(241_920, decompressed_len(
-            "(27x12)(20x12)(13x14)(7x10)(1x12)A"
-        ));
-        assert_eq!(445, decompressed_len(
-            "(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN"
-        ));
+        assert_eq!(
+            241_920,
+            decompressed_len("(27x12)(20x12)(13x14)(7x10)(1x12)A")
+        );
+        assert_eq!(
+            445,
+            decompressed_len("(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN")
+        );
     }
 }

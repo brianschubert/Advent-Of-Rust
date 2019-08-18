@@ -1,9 +1,9 @@
 //! Functions for collecting puzzle input.
 
 use std::fs::File;
-use std::io::{Result as IOResult, Read, BufReader, BufRead};
+use std::io::{BufRead, BufReader, Read, Result as IOResult};
 
-use super::selector::PuzzleSelection as Pz;
+use super::selector::Selection as Pz;
 
 pub fn fetch_string(puzzle: &Pz) -> IOResult<String> {
     let f = File::open(puzzle.path())?;

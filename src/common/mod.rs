@@ -24,6 +24,10 @@ macro_rules! bench_ans {
 }
 
 macro_rules! solve_parts {
+    () => {{
+        use crate::common::puzzle::Solution;
+        Ok(Solution::empty())
+    }};
     ( 1 => $part_one:expr $(,)?) => {{
         use crate::common::puzzle::Solution;
         Ok(Solution(Some(bench_ans!($part_one)), None))

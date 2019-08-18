@@ -1,9 +1,9 @@
 //! Solution for 2016 Day 05.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
 
-use crypto::md5::Md5;
 use crypto::digest::Digest;
+use crypto::md5::Md5;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
@@ -77,11 +77,7 @@ mod tests {
     #[test]
     #[ignore]
     fn solution() {
-        assert_solution!(
-            "801b56a7",
-            "424a0197",
-            Pz::new(2016, 5)
-        )
+        assert_solution!("801b56a7", "424a0197", Pz::new(2016, 5))
     }
 
     #[test]

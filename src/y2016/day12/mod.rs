@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 12
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub mod assembunny;
 
@@ -43,11 +43,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            318_009,
-            9_227_663,
-            Pz::new(2016, 12)
-        )
+        assert_solution!(318_009, 9_227_663, Pz::new(2016, 12))
     }
 
     #[test]

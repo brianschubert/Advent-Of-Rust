@@ -1,14 +1,14 @@
 //! Solution for 2016 Day 07.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_lines(puzzle)?;
 
     solve_parts! {
-        1 => input.iter().filter(supports_snooping).count(),
-        2 => input.iter().filter(supports_listening).count()
-   }
+         1 => input.iter().filter(supports_snooping).count(),
+         2 => input.iter().filter(supports_listening).count()
+    }
 }
 
 /// Checks if an IPv7 string supports "transport-layer snooping"
@@ -27,7 +27,9 @@ fn supports_snooping<S: AsRef<str>>(ipv7: &S) -> bool {
         // Check for "abba" pattern
         // Middle checked first so that the check will end if a bracket is found
         if sec[2] == sec[1] && sec[0] == sec[3] && sec[0] != sec[1] {
-            if in_brackets { return false; }
+            if in_brackets {
+                return false;
+            }
             found_abba = true;
         }
     }
@@ -85,11 +87,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            110,
-            242,
-            Pz::new(2016, 7)
-        );
+        assert_solution!(110, 242, Pz::new(2016, 7));
     }
 
     #[test]
@@ -100,8 +98,12 @@ mod tests {
         assert!(!supports_snooping(&"abcd[bddb]xyyx"));
         assert!(!supports_snooping(&"aaaa[qwer]tyui"));
 
-        assert!(supports_snooping(&"aaaa[qwegrnerngoer]tuiaaaa[qwer]gnyuiaaaa[qwer]tyyt"));
-        assert!(supports_snooping(&"aaaa[qwegrnerngoer]uiiuaaa[qwer]ugnyuiaaaa[qwer]tyui"));
+        assert!(supports_snooping(
+            &"aaaa[qwegrnerngoer]tuiaaaa[qwer]gnyuiaaaa[qwer]tyyt"
+        ));
+        assert!(supports_snooping(
+            &"aaaa[qwegrnerngoer]uiiuaaa[qwer]ugnyuiaaaa[qwer]tyui"
+        ));
         assert!(!supports_snooping(&"abbangggg[abba]abbageghiehgei"));
     }
 

@@ -1,12 +1,12 @@
 //! Solution for Advent of Code [2018 Day 03](https://adventofcode.com/2018/day/3).
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 mod fabric {
+    use crate::common::util::Pt;
+    use std::error::Error;
     use std::fmt;
     use std::str::FromStr;
-    use std::error::Error;
-    use crate::common::util::Pt;
 
     const MAX_FABRIC_DIM: usize = 999;
 
@@ -172,11 +172,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            113576,
-            825,
-            Pz::new(2018,3)
-        )
+        assert_solution!(113576, 825, Pz::new(2018, 3))
     }
 
     #[test]
@@ -191,12 +187,10 @@ mod tests {
         for &claim in claims.iter() {
             fabric.apply_claim(claim);
         }
+        assert_eq!(fabric.cells_with_overlapping_claims(), 4,);
         assert_eq!(
-            fabric.cells_with_overlapping_claims(),
-            4,
-        );
-        assert_eq!(
-            claims.iter()
+            claims
+                .iter()
                 .find(|&&c| !fabric.check_overlapping_claim(c))
                 .map(|&c| c.id())
                 .unwrap(),

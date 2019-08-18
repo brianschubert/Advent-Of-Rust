@@ -1,10 +1,9 @@
 pub mod puzzle;
 pub mod util;
-pub mod prelude;
 
 macro_rules! route_days {
     ( $( $day:expr => $sol:ident ),+ ) => {
-        use crate::common::puzzle::{PuzzleSelection as Pz, PuzzleResult, SelectionError};
+        use crate::common::puzzle::{Selection as Pz, Result as PuzzleResult, SelectionError};
         pub fn route(puzzle: &Pz) -> PuzzleResult {
             match puzzle.day() {
                 $( $day => $sol::solve(puzzle), )*
@@ -25,16 +24,20 @@ macro_rules! bench_ans {
 }
 
 macro_rules! solve_parts {
-    ( 1 => $part_one:expr ) => { Ok(Solution(Some(bench_ans!($part_one)), None)) };
+    ( 1 => $part_one:expr $(,)?) => {{
+        use crate::common::puzzle::Solution;
+        Ok(Solution(Some(bench_ans!($part_one)), None))
+    }};
 
-    ( 1 => $part_one:expr, 2 => $part_two:expr ) => {
+    ( 1 => $part_one:expr, 2 => $part_two:expr $(,)? ) => {{
+        use crate::common::puzzle::Solution;
         Ok(Solution(
             Some(bench_ans!($part_one)),
-            Some(bench_ans!($part_two))
+            Some(bench_ans!($part_two)),
         ))
-    };
+    }};
 
-   ( both => $part_producer:expr ) => {{
+    ( both => $part_producer:expr ) => {{
         use crate::common::puzzle::Answer;
         use std::time::Instant;
 
@@ -44,26 +47,26 @@ macro_rules! solve_parts {
 
         Ok(Solution(
             Some(Answer::with_bench(part_one, Some(bench))),
-            Some(Answer::with_bench(part_two, None))
+            Some(Answer::with_bench(part_two, None)),
         ))
-   }}
+    }};
 }
 
 #[cfg(test)]
 macro_rules! assert_solution {
-    ( $part_one:expr, $puzzle:expr) => {{
-        use crate::common::puzzle::{Solution, Answer};
+    ( $part_one:expr, $puzzle:expr $(,)?) => {{
+        use crate::common::puzzle::{Answer, Solution};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), None),
-            solve($puzzle.as_ref()).unwrap()
+            solve(&$puzzle).unwrap()
         }
     }};
 
-    ( $part_one:expr, $part_two:expr, $puzzle:expr) => {{
-        use crate::common::puzzle::{Solution, Answer};
+    ( $part_one:expr, $part_two:expr, $puzzle:expr $(,)?) => {{
+        use crate::common::puzzle::{Answer, Solution};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), Some(Answer::new($part_two))),
-            solve($puzzle.as_ref()).unwrap()
+            solve(&$puzzle).unwrap()
         }
     }};
 }

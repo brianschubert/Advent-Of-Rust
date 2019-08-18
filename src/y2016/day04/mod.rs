@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 04.
 
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use std::collections::BTreeMap; // Orders chars alphabetically
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// The decrypted room name to be searched for during part two.
 const PART_TWO_NEEDLE: &str = "northpole object storage";
@@ -29,7 +29,9 @@ impl<'a> RoomListing<'a> {
         let mut name_freq = BTreeMap::new();
 
         for letter in name.chars() {
-            if letter == '-' { continue }
+            if letter == '-' {
+                continue;
+            }
             *name_freq.entry(letter).or_insert(0u8) += 1
         }
 
@@ -100,11 +102,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            409_147,
-            991,
-            Pz::new(2016, 4)
-        )
+        assert_solution!(409_147, 991, Pz::new(2016, 4))
     }
 
     #[test]

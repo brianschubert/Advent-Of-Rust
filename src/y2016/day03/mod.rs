@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 03.
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 #[derive(Debug)]
 struct Triangle(u16, u16, u16);
@@ -58,10 +58,6 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            983,
-            1836,
-            Pz::new(2016,3)
-        );
+        assert_solution!(983, 1836, Pz::new(2016, 3));
     }
 }

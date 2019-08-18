@@ -15,7 +15,7 @@
 //!
 //! [josephus]: https://en.wikipedia.org/wiki/Josephus_problem
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
@@ -29,7 +29,9 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 
 /// Returns the greatest power of `base` less than or equal to `cap`.
 fn greatest_power(base: u32, cap: u32) -> u32 {
-    if cap < base { return 0; }
+    if cap < base {
+        return 0;
+    }
     let mut acc = base;
     loop {
         let next = acc * base;
@@ -54,7 +56,9 @@ fn least_power(base: u32, shoe: u32) -> u32 {
 /// Returns the elf who will obtain all the presents in part one.
 fn part_one(elf_count: u32) -> u32 {
     debug_assert_ne!(0, elf_count);
-    if 1 == elf_count { return 1; }
+    if 1 == elf_count {
+        return 1;
+    }
 
     let origin = greatest_power(2, elf_count);
     let offset = elf_count - origin;
@@ -93,7 +97,9 @@ fn part_one(elf_count: u32) -> u32 {
 /// The complete data may be found [here](./relationship_data.txt).
 fn part_two(elf_count: u32) -> u32 {
     debug_assert_ne!(0, elf_count);
-    if 1 == elf_count { return 1; }
+    if 1 == elf_count {
+        return 1;
+    }
 
     let pow_above = least_power(3, elf_count);
     let pow_below = pow_above / 3;
@@ -138,11 +144,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            1_808_357,
-            1_407_007,
-            Pz::new(2016, 19)
-        )
+        assert_solution!(1_808_357, 1_407_007, Pz::new(2016, 19))
     }
 
     #[test]

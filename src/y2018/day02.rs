@@ -1,6 +1,6 @@
 //! Solution for Advent of Code [2018 Day 02](https://adventofcode.com/2018/day/2).
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 
 // The ID of a warehouse box;
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -82,7 +82,8 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 /// of BoxIDs with exactly three repeated digits. Return the product of these
 /// two numbers.
 fn compute_box_list_checksum(box_ids: &[BoxId]) -> u32 {
-    let (two_count, three_count) = box_ids.iter()
+    let (two_count, three_count) = box_ids
+        .iter()
         .map(BoxId::check_repeats)
         .map(|(two, three)| (two as u32, three as u32))
         .fold((0, 0), |acc, value| (acc.0 + value.0, acc.1 + value.1));
@@ -110,18 +111,13 @@ fn find_similar_box_ids(box_ids: &[BoxId]) -> Option<((&BoxId, &BoxId), usize)> 
     None
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn solution() {
-        assert_solution!(
-            6422,
-            "qcslyvphgkrmdawljuefotxbh",
-            Pz::new(2018, 2)
-        )
+        assert_solution!(6422, "qcslyvphgkrmdawljuefotxbh", Pz::new(2018, 2))
     }
 
     #[test]
@@ -141,10 +137,7 @@ mod tests {
         let box_ids: Vec<_> = test_cases.into_iter()
             .map(|(box_id, _)| box_id.clone())
             .collect();
-        assert_eq!(
-            compute_box_list_checksum(&box_ids),
-            12,
-        )
+        assert_eq!(compute_box_list_checksum(&box_ids), 12,)
     }
 
     #[test]

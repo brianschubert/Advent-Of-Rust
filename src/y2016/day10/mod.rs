@@ -1,10 +1,10 @@
 //! Solution for 2016 Day 10
 
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
 
 use regex::Regex;
 
-use std::collections::{HashMap, BTreeMap};
+use std::collections::{BTreeMap, HashMap};
 
 /// Regex pattern for a bot's pass instruction
 const PATTERN_PASS: &str =
@@ -69,7 +69,7 @@ mod bot {
         pub fn take_chips(&mut self) -> (ChipValue, ChipValue) {
             (
                 self.low.take().expect("missing low chip"),
-                self.high.take().expect("missing high chip")
+                self.high.take().expect("missing high chip"),
             )
         }
     }
@@ -86,9 +86,7 @@ pub struct PassDirective {
 }
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
-    let (pass_instr, mut bots) = parse_input(
-        &pio::fetch_lines(puzzle)?
-    );
+    let (pass_instr, mut bots) = parse_input(&pio::fetch_lines(puzzle)?);
 
     solve_parts! {
         both => pass_chips(&pass_instr, &mut bots, WATCHED_CHIPS)
@@ -114,7 +112,7 @@ fn parse_input<T>(lines: &[T]) -> (Vec<PassDirective>, HashMap<u8, Bot>)
                 match pass.get(2).unwrap().as_str() {
                     "output" => ChipDest::Output(id),
                     "bot" => ChipDest::Bot(id),
-                    _ => panic!("unknown low chip destination")
+                    _ => panic!("unknown low chip destination"),
                 }
             };
             let high = {
@@ -122,7 +120,7 @@ fn parse_input<T>(lines: &[T]) -> (Vec<PassDirective>, HashMap<u8, Bot>)
                 match pass.get(4).unwrap().as_str() {
                     "output" => ChipDest::Output(id),
                     "bot" => ChipDest::Bot(id),
-                    _ => panic!("unknown high chip destination")
+                    _ => panic!("unknown high chip destination"),
                 }
             };
             pass_instr.push(PassDirective { bot, low, high });
@@ -201,7 +199,7 @@ fn pass_chips(
         outputs
             .range(0..3)
             .map(|(_, out)| u32::from(*out.first().unwrap()))
-            .product()
+            .product(),
     )
 }
 
@@ -226,7 +224,7 @@ mod tests {
             "value 3 goes to bot 1",
             "bot 1 gives low to output 1 and high to bot 0",
             "bot 0 gives low to output 2 and high to output 0",
-            "value 2 goes to bot 2"
+            "value 2 goes to bot 2",
         ];
 
         let (watched_bot, output_product) = {

@@ -1,7 +1,7 @@
 //! Solution for 2015 Day 05
 
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use std::collections::HashSet;
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
 
 /// Vowel bytes.
 const VOWELS: [u8; 5] = [b'a', b'e', b'i', b'o', b'u'];
@@ -50,8 +50,7 @@ fn check_nice_one<S: AsRef<str>>(s: S) -> bool {
 /// to part two's rule set.
 fn check_nice_two<S: AsRef<str>>(s: S) -> bool {
     let bytes = s.as_ref().as_bytes();
-    check_double_pair(bytes) && bytes.windows(3)
-        .any(|triple| triple[0] == triple[2])
+    check_double_pair(bytes) && bytes.windows(3).any(|triple| triple[0] == triple[2])
 }
 
 /// Returns true if the specified byte slice contains a pair of bytes
@@ -73,14 +72,13 @@ fn check_double_pair(bytes: &[u8]) -> bool {
 
         if !previous_pairs.insert((win[0], win[1])) {
             return true;
-        } else if cap < bytes.len() && bytes[cap] == win[0]
-            && bytes[cap] == win[1] { // ignore overlapping pair
+        } else if cap < bytes.len() && bytes[cap] == win[0] && bytes[cap] == win[1] {
+            // ignore overlapping pair
             skip_next = true
         }
     }
     false
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -88,11 +86,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            236,
-            51,
-            Pz::new(2015, 5)
-        )
+        assert_solution!(236, 51, Pz::new(2015, 5))
     }
 
     #[test]

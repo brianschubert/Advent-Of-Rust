@@ -1,8 +1,8 @@
 //! Solution for 2015 Day 03
 
-use std::collections::HashSet;
-use crate::common::puzzle::{input as pio, PuzzleSelection as Pz, Solution, PuzzleResult};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use crate::common::util::Pt;
+use std::collections::HashSet;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = parse_input(&pio::fetch_string(puzzle)?)?;
@@ -40,7 +40,6 @@ fn visit_houses_parallel(moves: &[Pt<i16>]) -> usize {
         pos_santa += instr[0];
         pos_robot += instr[1]; // panics if input length is odd
 
-
         visited.insert(pos_santa);
         visited.insert(pos_robot);
     }
@@ -65,11 +64,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(
-            2572,
-            2631,
-            Pz::new(2015, 3)
-        )
+        assert_solution!(2572, 2631, Pz::new(2015, 3))
     }
 
     #[test]

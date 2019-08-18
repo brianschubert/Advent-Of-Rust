@@ -12,6 +12,10 @@ v1.23.0 (2015 edition) and have since been migrated to support Rust
 v.136.0 (2018 edition). All solutions for the 2018 event were compiled 
 with Rust v1.36.0 (2018 edition) from the start.
 
+Solutions written for Aoc 2018 are formatted with the standard 
+[rust-fmt](https://github.com/rust-lang/rustfmt) tool. Those for Aoc 
+2015 adn 2016 follow a personal style.
+
 ## Running a Solution
 
 Solutions may be run using cargo with the following format:

@@ -16,7 +16,7 @@ type Counter = u16;
 /// The integer type used to represent a minute..
 type Minute = usize;
 
-/// Type used to counter event occurrences with associated with different guards.
+/// Type used to count occurrences of events associated with different guards.
 type GuardCounter = HashMap<GuardId, Counter>;
 
 #[derive(Debug, Eq, PartialEq)]
@@ -33,7 +33,7 @@ enum GuardAction {
 /// This structure is used as an intermediate representation of the puzzle
 /// input for sorting the log entries by timestamp and resolving which
 /// log entries apply to which guard. After this initial analysis, all
-/// `GuardLogEntry` condensed  into `Shift` instances.
+/// `GuardLogEntry`s are condensed  into `Shift` instances.
 struct GuardLogEntry {
     timestamp: NaiveDateTime,
     action: GuardAction,
@@ -117,7 +117,7 @@ pub struct GuardLog {
     /// Log of the distinct guard shifts that occur.
     shift_log: Vec<Shift>,
     /// Log of how many times each particular guard is asleep during a
-    /// given minute of the hour.
+    /// given minute of the midnight hour.
     ///
     /// Guaranteed to have length 60.
     minute_log: Box<[GuardCounter]>,
@@ -163,17 +163,15 @@ impl GuardLog {
     /// Returns a tuple containing 1) the ID of the guard who slept for the most
     /// minutes and 2) the minute during which that guard slept the most.
     pub fn compute_most_sleepy_guard(&self) -> (GuardId, Minute) {
-        let total_nap_time: HashMap<GuardId, Duration> = self
-            .shift_log
-            .iter()
-            // Compute the duration of time that each guard was asleep
-            .fold(HashMap::new(), |mut acc, shift| {
-                let nap_total = shift.naps.iter().map(Nap::duration).sum();
-                *acc.entry(shift.guard).or_default() += nap_total;
-                acc
-            });
+        let mut guard_nap_time: HashMap<GuardId, Duration> = HashMap::new();
 
-        let (most_sleepy_guard, _) = total_nap_time
+        for shift in self.shift_log.iter() {
+            // Compute the duration of time that each guard was asleep
+            let nap_total = shift.naps.iter().map(Nap::duration).sum();
+            *acc.entry(shift.guard).or_default() += nap_total;
+        }
+
+        let (most_sleepy_guard, _) = guard_nap_time
             .into_iter()
             // Find the guard who was asleep for the greatest duration of time.
             .max_by_key(|pair| pair.1)
@@ -199,7 +197,7 @@ impl GuardLog {
             .enumerate()
             // Map each minute's Guard-to-times-asleep mapping into 1) the
             // zero-based index of the minute and 2) the number of times
-            // that the given guard has slept during that minute.
+            // that the specified guard has slept during that minute.
             //
             // Filter out minutes that the guard did not sleep during.
             .filter_map(|(minute_index, guard_map)| {
@@ -210,8 +208,9 @@ impl GuardLog {
             .max_by_key(|&pair| pair.1)
     }
 
-    /// Returns a tuple contains 1) the guard that is most often asleep during the same
-    /// minute and 2) the minute during which that guard is most often asleep.
+    /// Returns a tuple containing 1) the guard that is most often asleep
+    /// during the same minute and 2) the minute during which that guard
+    /// is most often asleep.
     pub fn compute_guard_most_frequently_asleep_same_minute(&self) -> (GuardId, Minute) {
         self.minute_log
             .iter()
@@ -258,6 +257,8 @@ struct Shift {
 }
 
 impl Shift {
+    /// Attempts to parse a sequence of `GuardLogEntry`s into a shift
+    /// associated with the specified guard.
     fn from_guard_and_entries(
         guard: GuardId,
         log_entries: &[GuardLogEntry],

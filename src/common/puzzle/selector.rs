@@ -77,10 +77,6 @@ impl PuzzleSelection {
     }
 }
 
-impl AsRef<PuzzleSelection> for PuzzleSelection {
-    fn as_ref(&self) -> &Self { self }
-}
-
 /// Returns the default path for a puzzle's input file.
 fn default_input_for(year: Year, day: Day) -> String {
     format!("./resources/y{:4}/day{:02}.txt", year, day)

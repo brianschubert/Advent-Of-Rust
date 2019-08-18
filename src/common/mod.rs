@@ -55,7 +55,7 @@ macro_rules! assert_solution {
         use crate::common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), None),
-            solve($puzzle.as_ref()).unwrap()
+            solve(&$puzzle).unwrap()
         }
     }};
 
@@ -63,7 +63,7 @@ macro_rules! assert_solution {
         use crate::common::puzzle::{Solution, Answer};
         assert_eq! {
             Solution::new(Some(Answer::new($part_one)), Some(Answer::new($part_two))),
-            solve($puzzle.as_ref()).unwrap()
+            solve(&$puzzle).unwrap()
         }
     }};
 }

@@ -61,13 +61,13 @@ mod fabric {
         type Err = ClaimParseError;
 
         fn from_str(s: &str) -> Result<Self, Self::Err> {
-            let location_marker = s.find("@")
+            let location_marker = s.find('@')
                 .ok_or("malformed fabric claim: missing '@'")?;
-            let corner_separator = s.find(",")
+            let corner_separator = s.find(',')
                 .ok_or("malformed fabric claim: missing ',' separator for corner offset")?;
-            let dimension_marker = s.find(":")
+            let dimension_marker = s.find(':')
                 .ok_or("malformed fabric claim: missing ':' marker for claim dimension")?;
-            let dimension_separator = s.find("x")
+            let dimension_separator = s.find('x')
                 .ok_or("malformed fabric claim: missing 'x' separator for dimension")?;
 
             let id = s[1..location_marker - 1].parse()?;
@@ -172,7 +172,7 @@ mod tests {
 
     #[test]
     fn solution() {
-        assert_solution!(113576, 825, Pz::new(2018, 3))
+        assert_solution!(113_576, 825, Pz::new(2018, 3))
     }
 
     #[test]

@@ -168,7 +168,7 @@ impl GuardLog {
         for shift in self.shift_log.iter() {
             // Compute the duration of time that each guard was asleep
             let nap_total = shift.naps.iter().map(Nap::duration).sum();
-            *acc.entry(shift.guard).or_default() += nap_total;
+            *guard_nap_time.entry(shift.guard).or_default() += nap_total;
         }
 
         let (most_sleepy_guard, _) = guard_nap_time

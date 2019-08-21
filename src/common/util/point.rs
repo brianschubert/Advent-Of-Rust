@@ -1,118 +1,149 @@
 //! Handling of two-dimensional points
 
-// Sub,Mul,Div operators elided until required by a solution
-use std::ops::{Add, AddAssign};
 use std::cmp::max;
+use std::ops;
 
-use num_traits::{Signed, NumCast};
 use num_traits as nt;
+use num_traits::{NumCast, Signed};
 
 #[derive(Debug, Eq, PartialEq, Copy, Clone, Hash)]
 /// A cartesian point on a two-dimensional plane.
 ///
-/// This implementation represents an expanded adpaptation of Samuel
-/// Cormier-Iijima (@sciyoshi)'s `Pt` structure from his [`advent-of-rust-2017`](https://github.com/sciyoshi/advent-of-rust-2017)
+/// This implementation was originally inspired by Samuel
+/// Cormier-Iijima (@sciyoshi)'s `Pt` structure from his
+/// [`advent-of-rust-2017`](https://github.com/sciyoshi/advent-of-rust-2017)
 /// crate.
 pub struct Pt<T>
-    where T: Signed + Ord + NumCast + Copy
+where
+    T: Signed + Copy,
 {
     pub x: T,
     pub y: T,
 }
 
-impl<T: Signed + Ord + NumCast + Copy> Pt<T> {
+/// A value-to-point conversion trait.
+pub trait IntoPoint<T>
+where
+    T: Signed + Copy,
+{
+    /// Converts an object into a point.
+    fn into_pt(self) -> Pt<T>;
+}
+
+impl<T: Signed + Copy> Pt<T> {
     /// Builds a point on the origin: 0,0.
     pub fn origin() -> Self {
-        Pt { x: T::zero(), y: T::zero() }
+        Pt {
+            x: T::zero(),
+            y: T::zero(),
+        }
     }
 
     /// Builds a north offset.
     pub fn n() -> Self {
-        Pt { x: T::zero(), y: T::one() }
+        Pt {
+            x: T::zero(),
+            y: T::one(),
+        }
     }
 
     /// Builds a north-east offset.
     pub fn ne() -> Self {
-        Pt { x: T::one(), y: T::one() }
+        Pt {
+            x: T::one(),
+            y: T::one(),
+        }
     }
 
     /// Builds an east offset.
     pub fn e() -> Self {
-        Pt { x: T::one(), y: T::zero() }
+        Pt {
+            x: T::one(),
+            y: T::zero(),
+        }
     }
 
     /// Builds a south-east offset.
     pub fn se() -> Self {
-        Pt { x: T::one(), y: -T::one() }
+        Pt {
+            x: T::one(),
+            y: -T::one(),
+        }
     }
 
     /// Builds a south offset.
     pub fn s() -> Self {
-        Pt { x: T::zero(), y: -T::one() }
+        Pt {
+            x: T::zero(),
+            y: -T::one(),
+        }
     }
 
     /// Builds a south-west offset.
     pub fn sw() -> Self {
-        Pt { x: -T::one(), y: -T::one() }
+        Pt {
+            x: -T::one(),
+            y: -T::one(),
+        }
     }
 
     /// Builds a west offset.
     pub fn w() -> Self {
-        Pt { x: -T::one(), y: T::zero() }
+        Pt {
+            x: -T::one(),
+            y: T::zero(),
+        }
     }
 
     /// Builds a north-west offset.
     pub fn nw() -> Self {
-        Pt { x: -T::one(), y: T::one() }
+        Pt {
+            x: -T::one(),
+            y: T::one(),
+        }
     }
 
     /// Returns this point rotated right about the origin by 90 degrees.
     ///
     /// Note: takes ownership of self.
     pub fn rot90r(self) -> Self {
-        Pt { x: self.y, y: -self.x }
+        Pt {
+            x: self.y,
+            y: -self.x,
+        }
     }
 
     /// Returns this point rotated left about the origin by 90 degrees.
     ///
     /// Note: takes ownership of self.
     pub fn rot90l(self) -> Self {
-        Pt { x: -self.y, y: self.x }
+        Pt {
+            x: -self.y,
+            y: self.x,
+        }
     }
 
     /// Returns this point's manhattan distance from the specified point.
-    pub fn dist_manh(&self, other: &Self) -> T {
+    pub fn dist_manh(self, other: Self) -> T {
         (self.x - other.x).abs() + (self.y - other.y).abs()
-    }
-
-    /// Returns this point's euclidean distance from the specified point.
-    pub fn dist_eucl(&self, other: &Self) -> T {
-        let dx = self.x - other.x;
-        let dy = self.y - other.y;
-        nt::cast(nt::cast::<_, f64>(dx * dx + dy * dy).unwrap().sqrt()).unwrap()
-    }
-
-    /// Returns this point's tile distance from the specified point.
-    pub fn dist_tile(&self, other: &Self) -> T {
-        max((self.x - other.x).abs(), (self.y - other.y).abs())
     }
 
     /// Returns the four points neighboring this point about the cardinal directions.
     ///
     /// i.e. north, south, east, west.
-    pub fn nb_card(&self) -> Vec<Self> {
+    pub fn nb_card(self) -> Vec<Self> {
         vec![
             self + Pt::n(),
             self + Pt::e(),
             self + Pt::s(),
-            self + Pt::w()
+            self + Pt::w(),
         ]
     }
 
     /// Returns the eight points neighboring this point about the ordinal directions.
     ///
     /// e.g. north, north-east, east, south-east, south, etc.
-    pub fn nb_ord(&self) -> Vec<Self> {
+    pub fn nb_ord(self) -> Vec<Self> {
         vec![
             self + Pt::n(),
             self + Pt::ne(),
@@ -126,78 +157,92 @@ impl<T: Signed + Ord + NumCast + Copy> Pt<T> {
     }
 }
 
-// Heterogeneous point operators
+impl<T: Signed + Copy + NumCast> Pt<T> {
+    /// Returns this point's euclidean distance from the specified point.
+    pub fn dist_eucl(self, other: Self) -> T {
+        let dx = self.x - other.x;
+        let dy = self.y - other.y;
+        nt::cast(nt::cast::<_, f64>(dx * dx + dy * dy).unwrap().sqrt()).unwrap()
+    }
+}
 
-// Add Pt<T> + Pt<U>
-//
-// For now, we'll require explicit dereferencing when two
-// different flavors of points are used.
-impl<T, U> Add<Pt<U>> for Pt<T>
-    where T: Signed + Ord + NumCast + Copy,
-          U: Signed + Ord + NumCast + Copy
+impl<T: Signed + Copy + Ord> Pt<T> {
+    /// Returns this point's tile distance from the specified point.
+    pub fn dist_tile(self, other: Self) -> T {
+        max((self.x - other.x).abs(), (self.y - other.y).abs())
+    }
+}
+
+impl<T, U> IntoPoint<U> for Pt<T>
+where
+    T: Signed + NumCast + Copy,
+    U: Signed + NumCast + Copy,
 {
-    type Output = Pt<T>;
-
-    fn add(self, other: Pt<U>) -> Self::Output {
+    fn into_pt(self) -> Pt<U> {
         Pt {
-            x: self.x + nt::cast(other.x).unwrap(),
-            y: self.y + nt::cast(other.y).unwrap(),
+            x: nt::cast(self.x).unwrap(),
+            y: nt::cast(self.y).unwrap(),
         }
     }
 }
 
-// AddAssign for Pt<T> += Pt<U>
-impl<T, U> AddAssign<Pt<U>> for Pt<T>
-    where T: Signed + Ord + NumCast + Copy,
-          U: Signed + Ord + NumCast + Copy
+impl<T> IntoPoint<T> for (T, T)
+where
+    T: Signed + Copy,
 {
-    fn add_assign(&mut self, other: Pt<U>) {
-        self.x = self.x + nt::cast(other.x).unwrap();
-        self.y = self.y + nt::cast(other.y).unwrap();
-    }
-}
-
-// Homogeneous point operators
-
-// Add for Pt + &Pt
-impl<'a, T> Add<&'a Pt<T>> for Pt<T>
-    where T: Signed + Ord + NumCast + Copy
-{
-    type Output = Pt<T>;
-
-    fn add(self, other: &'a Pt<T>) -> Self::Output {
+    fn into_pt(self) -> Pt<T> {
         Pt {
-            x: self.x + other.x,
-            y: self.y + other.y
+            x: self.0,
+            y: self.1,
         }
     }
 }
 
-// Add &Pt + Pt
-impl<'a, T> Add<Pt<T>> for &'a Pt<T>
-    where T: Signed + Ord + NumCast + Copy
+impl<T> ops::Add<Pt<T>> for Pt<T>
+where
+    T: Signed + Copy,
 {
     type Output = Pt<T>;
 
-    fn add(self, other: Pt<T>) -> Self::Output {
+    fn add(self, rhs: Self) -> Self::Output {
         Pt {
-            x: self.x + other.x,
-            y: self.y + other.y
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
         }
     }
 }
 
-// Add for &Pt + &Pt
-impl<'a, T> Add for &'a Pt<T>
-    where T: Signed + Ord + NumCast + Copy
+impl<T> ops::AddAssign<Pt<T>> for Pt<T>
+where
+    T: Signed + Copy,
+{
+    fn add_assign(&mut self, rhs: Pt<T>) {
+        self.x = self.x + rhs.x;
+        self.y = self.y + rhs.y;
+    }
+}
+
+impl<T> ops::Sub<Pt<T>> for Pt<T>
+where
+    T: Signed + Copy,
 {
     type Output = Pt<T>;
 
-    fn add(self, other: &'a Pt<T>) -> Self::Output {
+    fn sub(self, rhs: Pt<T>) -> Self::Output {
         Pt {
-            x: self.x + other.x,
-            y: self.y + other.y
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
         }
+    }
+}
+
+impl<T> ops::SubAssign<Pt<T>> for Pt<T>
+where
+    T: Signed + Copy,
+{
+    fn sub_assign(&mut self, rhs: Pt<T>) {
+        self.x = self.x - rhs.x;
+        self.y = self.x - rhs.y;
     }
 }
 
@@ -245,19 +290,19 @@ mod tests {
         let mut loc: Pt<i32> = Pt::origin();
 
         for _ in 0..28 {
-            loc += dir;
+            loc += dir.into_pt();
         }
 
         dir = dir.rot90r();
 
         for _ in 0..21 {
-            loc += dir;
+            loc += dir.into_pt();
         }
 
-        assert_eq!(Pt { x: 28, y: -21, }, loc);
+        assert_eq!(Pt { x: 28, y: -21 }, loc);
 
-        assert_eq!(35, loc.dist_eucl(&Pt::origin()));
-        assert_eq!(49, loc.dist_manh(&Pt::origin()));
-        assert_eq!(28, loc.dist_tile(&Pt::origin()));
+        assert_eq!(35, loc.dist_eucl(Pt::origin()));
+        assert_eq!(49, loc.dist_manh(Pt::origin()));
+        assert_eq!(28, loc.dist_tile(Pt::origin()));
     }
 }

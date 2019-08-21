@@ -1,7 +1,7 @@
 //! Solution for 2016 Day 01.
 
 use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
-use crate::common::util::Pt;
+use crate::common::util::{IntoPoint, Pt};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {
     let input = pio::fetch_string(puzzle)?;
@@ -40,7 +40,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
             pos += dir;
             if intersect.is_none() {
                 if previous.contains(&pos) {
-                    intersect = Some(pos);
+                    intersect = Some(pos.into_pt());
                 } else {
                     previous.push(pos);
                 }
@@ -49,8 +49,8 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
     }
 
     Ok((
-        pos.dist_manh(&Pt::origin()),
-        intersect.map(|p| p.dist_manh(&Pt::origin())),
+        i16::from(pos.dist_manh(Pt::origin())),
+        intersect.map(|p| p.dist_manh(Pt::origin())),
     ))
 }
 

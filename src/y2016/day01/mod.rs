@@ -22,7 +22,7 @@ pub fn solve(puzzle: &Pz) -> PuzzleResult {
 ///
 /// If the specified walk is malformed, an error string is returned.
 fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
-    let mut pos = Pt::origin();
+    let mut pos: Pt<i16> = Pt::origin();
     let mut dir: Pt<i8> = Pt::n();
 
     let mut previous = Vec::new();
@@ -37,7 +37,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
         };
 
         for _ in 0..mag.parse().map_err(|_| "malformed move magnitude")? {
-            pos += dir;
+            pos += dir.into_pt();
             if intersect.is_none() {
                 if previous.contains(&pos) {
                     intersect = Some(pos.into_pt());
@@ -49,7 +49,7 @@ fn walk_blocks(instr: &str) -> Result<(i16, Option<i16>), &'static str> {
     }
 
     Ok((
-        i16::from(pos.dist_manh(Pt::origin())),
+        pos.dist_manh(Pt::origin()),
         intersect.map(|p| p.dist_manh(Pt::origin())),
     ))
 }

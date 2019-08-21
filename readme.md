@@ -1,4 +1,5 @@
 # Advent of Rust
+[![Build Status](https://travis-ci.com/blueschu/Advent-Of-Rust.svg?branch=master)](https://travis-ci.com/blueschu/Advent-Of-Rust)
 
 My solutions to the [Advent of Code][adventofcode] puzzles, written in [Rust][rust].
 

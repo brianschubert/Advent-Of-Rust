@@ -60,8 +60,8 @@ struct StepSimulator {
     /// set to be completed.
     ///
     /// `None` at position `i` indicates that the step with ID
-    /// `(i + b'A') as char` has already been completed and need
-    /// not be considered when determining the next step to complete.
+    /// `(i + b'A') as char` has already been started or completed
+    /// and need not be considered when determining the next step to complete.
     requirements_map: [Option<HashSet<StepID>>; MAX_STEP_COUNT],
     /// The workers for Part 2.
     workers: Vec<Worker>,

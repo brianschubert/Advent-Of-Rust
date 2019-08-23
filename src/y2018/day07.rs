@@ -12,12 +12,10 @@ const MAX_STEP_COUNT: usize = 26;
 /// For Part 2.
 const WORKER_COUNT: usize = 5;
 
-/// The minimum amount of time each step takes to complete.
-///
-/// May be overridden for testing purpose.
+/// The base amount of time each step takes to complete.
 ///
 /// For Part 2.
-static mut BASE_STEP_DURATION: Second = 60;
+const BASE_STEP_DURATION: Second = 60;
 
 /// Integral type used to represent time in seconds.
 ///
@@ -25,19 +23,18 @@ static mut BASE_STEP_DURATION: Second = 60;
 type Second = u32;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-/// An step identifier.
+/// A step identifier that identifies a step. It's the ID of a step - a Step ID.
 struct StepID(u8);
 
 #[derive(Debug, Copy, Clone)]
-/// A description of a single dependencies between two steps.
+/// A description of a single dependency between two steps.
 struct DependencyEntry {
     target: StepID,
     requires: StepID,
 }
 
 #[derive(Debug, Clone, Copy)]
-/// A worker that is either idle for busy for some
-/// nonzero number of seconds
+/// A worker that can work on a step for a duration of time.
 ///
 /// For Part 2.
 struct Worker {
@@ -46,38 +43,44 @@ struct Worker {
 }
 
 #[derive(Clone)]
-/// Resolves the order in which dependent steps must be completed,
-/// and, optionally, how long those steps would take to complete
-/// with `n` workers completing them simultaneously.
+/// A `StepSimulator` simulates the process of completing a sequence
+/// of dependent steps.
 ///
 /// Solves both parts of the problem.
 struct StepSimulator {
-    /// A letter-ordinal indexed mapping between `StepID`s and their
-    /// unsatisfied dependencies.
+    /// A mapping between `StepID`s and their unsatisfied dependencies.
     ///
     /// `Some(HashSet)` at position `i` indicates that the step with
     /// ID `(i + b'A') as char` is waiting for the steps in the hash
-    /// set to be completed.
+    /// set to be completed before it can be begun.
     ///
     /// `None` at position `i` indicates that the step with ID
     /// `(i + b'A') as char` has already been started or completed
     /// and need not be considered when determining the next step to complete.
     requirements_map: [Option<HashSet<StepID>>; MAX_STEP_COUNT],
-    /// The workers for Part 2.
-    workers: Vec<Worker>,
-    /// The current time in the simulation for Part 2.
-    current_time: Second,
+
     /// The steps that have been completed so far in the simulation.
     ///
     /// Used for both parts.
     completed_steps: Vec<StepID>,
+
+    /// The workers for Part 2.
+    workers: Vec<Worker>,
+
+    /// The current time in the simulation for Part 2.
+    current_time: Second,
+
+    /// The base amount of time each step takes to complete.
+    ///
+    /// For Part 2.
+    base_step_duration: Second,
 }
 
 impl StepID {
     /// Converts the specified ASCII byte into a step ID.
     ///
     /// Panics if the given byte is no an ASCII uppercase letter.
-    fn from_ascii_unsafe(b: u8) -> Self {
+    fn from_ascii_unstable(b: u8) -> Self {
         if !b.is_ascii_uppercase() {
             panic!("StepID must be a valid ASCII uppercase letter");
         }
@@ -111,27 +114,27 @@ impl StepID {
     ///
     /// For Part 2.
     fn duration(self) -> Second {
-        Second::from(self.0) + 1 + unsafe { BASE_STEP_DURATION }
+        Second::from(self.0) + 1
     }
 }
 
 impl FromStr for DependencyEntry {
-    type Err = &'static str;
+    type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         const REQUIREMENT_POS: usize = 5;
         const TARGET_POS: usize = 36;
         let bytes = s.as_bytes();
 
-        let requires = StepID::from_ascii_unsafe(bytes[REQUIREMENT_POS]);
-        let target = StepID::from_ascii_unsafe(bytes[TARGET_POS]);
+        let requires = StepID::from_ascii_unstable(bytes[REQUIREMENT_POS]);
+        let target = StepID::from_ascii_unstable(bytes[TARGET_POS]);
 
         Ok(Self { target, requires })
     }
 }
 
 impl Worker {
-    /// Updates this work to begin working to the specified step.
+    /// Updates this worker to begin working to the specified step.
     fn work_on(&mut self, task: StepID) {
         self.time_left = task.duration();
         self.task.replace(task);
@@ -146,7 +149,8 @@ impl Worker {
     }
 
     #[inline]
-    /// Returns `true` is this work has finished or is not working on a task.
+    /// Returns `true` if this work has finished its step or is not working
+    /// on a task.
     fn is_idle(self) -> bool {
         self.time_left == 0
     }
@@ -171,7 +175,7 @@ impl Default for Worker {
 impl StepSimulator {
     /// Constructs a `StepSimulator` from the given list of step dependencies
     /// with the specified number of workers.
-    fn from_dependencies(steps: &[DependencyEntry], worker_count: usize) -> Self {
+    fn new(steps: &[DependencyEntry], worker_count: usize, base_step_duration: Second) -> Self {
         let mut requirements_map: [Option<HashSet<StepID>>; MAX_STEP_COUNT] = Default::default();
         for &step in steps {
             let req_set = requirements_map[step.target.as_index()].get_or_insert_with(HashSet::new);
@@ -181,9 +185,10 @@ impl StepSimulator {
         }
         Self {
             requirements_map,
+            completed_steps: Vec::new(),
             workers: vec![Default::default(); worker_count],
             current_time: 0,
-            completed_steps: Vec::new(),
+            base_step_duration,
         }
     }
 
@@ -212,6 +217,10 @@ impl StepSimulator {
             let ready_steps: Vec<StepID> = self.ready_steps();
 
             if !ready_steps.is_empty() {
+                // Make a copy of this simulator's base_step_duration, since
+                // we are about to borrow self mutable for the rest of this
+                // branch
+                let base_step_duration = self.base_step_duration;
                 // Check if there is a worker available to begin one of the ready
                 // steps
                 let free_worker: Option<&mut Worker> = self.find_free_worker_mut();
@@ -220,6 +229,7 @@ impl StepSimulator {
                         // A worker is free, and a step is ready to be completed
                         let ready_step = *ready_steps.first().unwrap();
                         worker_ref.work_on(ready_step);
+                        worker_ref.time_left += base_step_duration;
                         self.begin_step(ready_step);
                     }
                     None => {
@@ -329,7 +339,7 @@ pub fn solve(puzzle: &puzzle::Selection) -> puzzle::Result {
     let input = puzzle::fetch_lines(puzzle)?;
     let dependencies: Vec<DependencyEntry> = input.iter().map(|s| s.parse().unwrap()).collect();
 
-    let simulator = StepSimulator::from_dependencies(&dependencies, WORKER_COUNT);
+    let simulator = StepSimulator::new(&dependencies, WORKER_COUNT, BASE_STEP_DURATION);
 
     solve_parts!(
         1 => simulator
@@ -357,6 +367,8 @@ mod tests {
     ];
     const EXAMPLE_WORKER_COUNT: usize = 2;
 
+    const EXAMPLE_STEP_DURATION: Second = 0;
+
     #[test]
     fn solution() {
         assert_solution!(
@@ -373,7 +385,7 @@ mod tests {
             .map(|s| s.parse().unwrap())
             .collect();
         let step_order: String =
-            StepSimulator::from_dependencies(&dependencies, EXAMPLE_WORKER_COUNT)
+            StepSimulator::new(&dependencies, EXAMPLE_WORKER_COUNT, EXAMPLE_STEP_DURATION)
                 .compute_timeless_step_order()
                 .into_iter()
                 .map(StepID::as_char)
@@ -383,16 +395,14 @@ mod tests {
 
     #[test]
     fn ex2() {
-        unsafe {
-            BASE_STEP_DURATION = 0;
-        }
         let dependencies: Vec<DependencyEntry> = EXAMPLE_STEP_DESCRIPTION
             .iter()
             .map(|s| s.parse().unwrap())
             .collect();
-        let completion_time = StepSimulator::from_dependencies(&dependencies, EXAMPLE_WORKER_COUNT)
-            .simulate_tasks_brute_force()
-            .1;
+        let mut simulator =
+            StepSimulator::new(&dependencies, EXAMPLE_WORKER_COUNT, EXAMPLE_STEP_DURATION);
+        simulator.base_step_duration = 0;
+        let completion_time = simulator.simulate_tasks_brute_force().1;
         assert_eq!(completion_time, 15)
     }
 }

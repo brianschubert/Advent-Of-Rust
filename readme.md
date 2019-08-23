@@ -3,19 +3,21 @@
 
 My solutions to the [Advent of Code][adventofcode] puzzles, written in [Rust][rust].
 
-
 As with my [previous attempt][aoc-kotlin] at solving the AoC 2017 
 puzzles in Kotlin, these solutions represent my first endeavors with 
 the Rust programming language. 
 
+## Some Language Details
+
 Solutions for the 2015 and 2016 events were initially compiled with Rust
 v1.23.0 (2015 edition) and have since been migrated to support Rust 
-v.136.0 (2018 edition). All solutions for the 2018 event were compiled 
-with Rust v1.36.0 (2018 edition) from the start.
+v1.36.0 (2018 edition). All solutions that were written for the 2018 
+event were compiled with Rust >= v1.36.0 (2018 edition) from the start.
 
-Solutions written for Aoc 2018 are formatted with the standard 
-[rust-fmt](https://github.com/rust-lang/rustfmt) tool. Those for Aoc 
-2015 adn 2016 follow a personal style.
+Rust written for the AoC 2018 event is formatted with the
+standard [`rust-fmt`](https://github.com/rust-lang/rustfmt) tool. 
+Code from the 2015 and 2016 events follows a personal style that 
+predates `rust-fmt`.
 
 ## Running a Solution
 

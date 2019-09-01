@@ -6,6 +6,8 @@ use std::ops;
 use num_traits as nt;
 use num_traits::{NumCast, Signed};
 
+pub mod grid;
+
 #[derive(Debug, Eq, PartialEq, Copy, Clone, Hash)]
 /// A cartesian point on a two-dimensional plane.
 ///

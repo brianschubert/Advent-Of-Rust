@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 06.
 
-use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use std::collections::HashMap;
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {

@@ -242,7 +242,7 @@ where
 {
     fn sub_assign(&mut self, rhs: Pt<T>) {
         self.x = self.x - rhs.x;
-        self.y = self.x - rhs.y;
+        self.y = self.y - rhs.y;
     }
 }
 

@@ -1,6 +1,6 @@
 //! Solution for 2016 Day 01.
 
-use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz, Solution};
+use crate::common::puzzle::{input as pio, Result as PuzzleResult, Selection as Pz};
 use crate::common::util::{IntoPoint, Pt};
 
 pub fn solve(puzzle: &Pz) -> PuzzleResult {

@@ -42,7 +42,7 @@ macro_rules! solve_parts {
     }};
 
     ( both => $part_producer:expr ) => {{
-        use crate::common::puzzle::Answer;
+        use crate::common::puzzle::{Answer, Solution};
         use std::time::Instant;
 
         let start = Instant::now();

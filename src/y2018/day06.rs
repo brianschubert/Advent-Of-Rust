@@ -1,7 +1,7 @@
 //! Solution for Advent of Code [2018 Day 06](https://adventofcode.com/2018/day/6).
 
 use crate::common::puzzle;
-use crate::common::util::{IntoPoint, Pt};
+use crate::common::util::{Grid, GridIter, Pt};
 use std::i32;
 
 /// The integral type used to represent point coordinates.
@@ -36,16 +36,8 @@ struct NamedPoint {
 /// A grid of points with logical boundaries based on the
 /// most extreme point coordinates.
 struct PointGrid {
-    bottom_left: Point,
-    top_right: Point,
+    grid: Grid<PointScalar>,
     points: Vec<NamedPoint>,
-}
-
-/// An iterator over a rectangular grid of points.
-struct PointGridIter {
-    bottom_left: Point,
-    top_right: Point,
-    next: Option<Point>,
 }
 
 /// An iterator over square rings of increasing radius, centered at
@@ -61,35 +53,8 @@ struct PointRingIter {
 impl PointGrid {
     /// Constructs a new `PointGrid` with the provided points.
     pub fn new(points: Vec<NamedPoint>) -> Self {
-        debug_assert!(points.len() != 0);
-        let bottom_left = points
-            .iter()
-            .fold((i32::MAX, i32::MAX), |(mut min_x, mut min_y), &point| {
-                if point.loc.x < min_x {
-                    min_x = point.loc.x
-                }
-                if point.loc.y < min_y {
-                    min_y = point.loc.y
-                }
-                (min_x, min_y)
-            })
-            .into_pt();
-        let top_right = points
-            .iter()
-            .fold((i32::MIN, i32::MIN), |(mut max_x, mut max_y), &point| {
-                if point.loc.x > max_x {
-                    max_x = point.loc.x
-                }
-                if point.loc.y > max_y {
-                    max_y = point.loc.y
-                }
-                (max_x, max_y)
-            })
-            .into_pt();
-
         Self {
-            bottom_left,
-            top_right,
+            grid: Grid::from_interior_points(&points.iter().map(|&p| p.loc).collect::<Vec<_>>()),
             points,
         }
     }
@@ -98,17 +63,8 @@ impl PointGrid {
     ///
     /// The returned iterator will yield points "left-to-right" and "bottom-
     /// to-top".
-    pub fn iter(&self) -> PointGridIter {
-        let PointGrid {
-            bottom_left,
-            top_right,
-            ..
-        } = *self;
-        PointGridIter {
-            bottom_left,
-            top_right,
-            next: Some(self.bottom_left),
-        }
+    pub fn iter(&self) -> GridIter<PointScalar> {
+        self.grid.iter()
     }
 
     /// Returns the 1) label of the Point that has the greatest finite
@@ -123,7 +79,7 @@ impl PointGrid {
 
         for point in self.iter() {
             let closest_pt = self.closest_pt_index(point);
-            if self.pt_on_edge(point) {
+            if self.grid.pt_on_edge(point) {
                 area_counts[closest_pt] = None;
             } else {
                 area_counts[closest_pt].as_mut().map(|count| *count += 1);
@@ -181,15 +137,6 @@ impl PointGrid {
             .sum()
     }
 
-    /// Returns `true` if the specified point is contained on the edge of
-    /// this grid.
-    fn pt_on_edge(&self, pt: Point) -> bool {
-        pt.x == self.bottom_left.x
-            || pt.x == self.top_right.x
-            || pt.y == self.bottom_left.y
-            || pt.y == self.top_right.y
-    }
-
     /// Returns the index of the point in `self.points` that is nearest to
     /// the specified point.
     ///
@@ -210,32 +157,6 @@ impl PointGrid {
             .iter()
             .map(|&grid_point| grid_point.loc.dist_manh(pt))
             .sum()
-    }
-}
-
-impl Iterator for PointGridIter {
-    type Item = Point;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.next.map(|point| {
-            self.next = if point.x < self.top_right.x {
-                // point is in the middle of a row
-                Some(Pt {
-                    x: point.x + 1,
-                    ..point
-                })
-            } else if point.y < self.top_right.y {
-                // point is at the end of a row that is not the top row
-                Some(Pt {
-                    x: self.bottom_left.x,
-                    y: point.y + 1,
-                })
-            } else {
-                // point is at the top_right point; there is no next point
-                None
-            };
-            point
-        })
     }
 }
 

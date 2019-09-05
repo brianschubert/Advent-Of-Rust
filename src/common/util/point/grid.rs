@@ -59,6 +59,20 @@ where
         }
     }
 
+    /// Creates grid with the given corner points.
+    ///
+    /// Panics if any component of the `bottom_left` point is greater than
+    /// the corresponding component of the `top_right` point.
+    pub fn from_corners(bottom_left: Pt<T>, top_right: Pt<T>) -> Self {
+        if bottom_left.x > top_right.x || bottom_left.y > top_right.y {
+            panic!("bottom-left corner of a grid MUST have components less than or equal to those of the top-right corner")
+        }
+        Grid {
+            bottom_left,
+            top_right,
+        }
+    }
+
     #[inline(always)]
     /// Returns the bottom-left most point in this grid.
     pub fn bottom_left(&self) -> Pt<T> {
@@ -101,6 +115,15 @@ where
             || pt.x == self.top_right.x
             || pt.y == self.bottom_left.y
             || pt.y == self.top_right.y
+    }
+
+    /// Returns `true` if the specified point in contained on or within
+    /// the boundaries of this grid.
+    pub fn contains(&self, pt: Pt<T>) -> bool {
+        pt.x >= self.bottom_left.x
+            && pt.x <= self.top_right.x
+            && pt.y >= self.bottom_left.y
+            && pt.y <= self.top_right.y
     }
 }
 
